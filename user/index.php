@@ -142,7 +142,8 @@ if (!empty($_SESSION['txtdoc'])) {
         aria-expanded="false"
       >
         <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
-  <span><?php echo htmlspecialchars($nombre); ?></span>
+
+  <span><?php echo htmlspecialchars($_SESSION['primer_nombre']); ?></span>
       </a>
       <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
         <div class="dropdown-header">

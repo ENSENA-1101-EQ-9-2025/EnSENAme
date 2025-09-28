@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detector de Lenguaje de Señas Colombiano</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2575fc;
+            margin-bottom: 30px;
+        }
+
+        /* ESTILOS AÑADIDOS/MODIFICADOS PARA DISPOSICIÓN LADO A LADO */
+        .main-content {
+            display: flex; 
+            gap: 20px; 
+            margin-bottom: 20px;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 0; /* Eliminado el margen para que 'main-content' lo maneje */
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            flex: 2; /* El video toma 2/3 del espacio */
+        }
+
+        #video {
+            width: 100%;
+            border-radius: 10px;
+            background-color: #000;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .result {
+            text-align: center;
+            margin-bottom: 0; /* Eliminado el margen para que 'main-content' lo maneje */
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            flex: 1; /* El resultado toma 1/3 del espacio */
+            /* Centrado vertical del contenido dentro del resultado */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #confidenceBar {
+            width: 100%;
+            height: 25px;
+            background-color: #e9ecef;
+            border-radius: 12px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        #confidenceLevel {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+            border-radius: 12px;
+            transition: width 0.5s ease;
+        }
+
+        .training-section {
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .save-section {
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 50px;
+            width: calc(100% - 30px);
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        #exampleCount {
+            font-style: italic;
+            color: #6c757d;
+        }
+
+        .status-message {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .save-options {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .save-btn {
+            background: linear-gradient(to right, #28a745, #20c997);
+        }
+
+        .load-btn {
+            background: linear-gradient(to right, #ffc107, #fd7e14);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            /* CAMBIO CLAVE: Apilar el video y el resultado en pantallas pequeñas */
+            .main-content {
+                flex-direction: column; 
+            }
+            
+            .main-content .video-container,
+            .main-content .result {
+                flex: none; 
+                width: 100%;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Detector de Lenguaje de Señas Colombiano</h1>
+        
+        <div class="main-content">
+            <div class="video-container">
+                <video id="video" autoplay playsinline></video>
+                <canvas id="canvas" style="display: none;"></canvas>
+            </div>
+            
+            <div class="result">
+                <h2>Resultado:</h2>
+                <p id="predictionText">Presiona "Capturar Seña" para comenzar</p>
+                <div id="confidenceBar">
+                    <div id="confidenceLevel"></div>
+                </div>
+                <p id="confidenceValue">0%</p>
+            </div>
+        </div>
+        <div class="controls">
+            <button id="startBtn">Iniciar Cámara</button>
+            <button id="captureBtn" disabled>Capturar Seña</button>
+            <button id="trainBtn" disabled>Entrenar Modelo</button>
+        </div>
+        
+        <div class="training-section">
+            <h2>Entrenar nuevas señas</h2>
+            <input type="text" id="className" placeholder="Nombre de la seña (ej: Hola)">
+            <button id="addExampleBtn" disabled>Agregar ejemplo</button>
+            <p id="exampleCount">0 ejemplos agregados</p>
+        </div>
+
+        <div class="save-section">
+            <h2>Guardar y Cargar Datos de Entrenamiento</h2>
+            <p>Puedes guardar tus datos de entrenamiento para usarlos posteriormente</p>
+            
+            <div class="save-options">
+                <button id="saveLocalBtn" class="save-btn" disabled>Guardar localmente</button>
+                <button id="loadLocalBtn" class="load-btn">Cargar desde dispositivo</button>
+                <button id="saveServerBtn" class="save-btn" disabled>Guardar en servidor</button>
+            </div>
+            
+            <div id="saveStatus"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/knn-classifier@1.2.2"></script>
+    <script>
+        // Variables globales
+        let video;
+        let classifier;
+        let mobilenet;
+        let isModelReady = false;
+        let isVideoReady = false;
+        let examplesAdded = 0;
+        let trainingData = {
+            examples: {},
+            classNames: []
+        };
+
+        // Cuando la página se carga completamente
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar elementos de la interfaz
+            video = document.getElementById('video');
+            const startBtn = document.getElementById('startBtn');
+            const captureBtn = document.getElementById('captureBtn');
+            const trainBtn = document.getElementById('trainBtn');
+            const addExampleBtn = document.getElementById('addExampleBtn');
+            const classNameInput = document.getElementById('className');
+            const predictionText = document.getElementById('predictionText');
+            const confidenceLevel = document.getElementById('confidenceLevel');
+            const confidenceValue = document.getElementById('confidenceValue');
+            const exampleCount = document.getElementById('exampleCount');
+            const saveLocalBtn = document.getElementById('saveLocalBtn');
+            const loadLocalBtn = document.getElementById('loadLocalBtn');
+            const saveServerBtn = document.getElementById('saveServerBtn');
+            const saveStatus = document.getElementById('saveStatus');
+            
+            // Inicializar el clasificador
+            classifier = knnClassifier.create();
+            
+            // Cargar el modelo MobileNet
+            mobilenet = tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json').then(model => {
+                mobilenet = model;
+                isModelReady = true;
+                console.log('Modelo MobileNet cargado');
+                
+                if (isVideoReady) {
+                    captureBtn.disabled = false;
+                    trainBtn.disabled = false;
+                }
+            });
+            
+            // Evento para iniciar la cámara
+            startBtn.addEventListener('click', async () => {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ 
+                        video: { width: 640, height: 480 } 
+                    });
+                    video.srcObject = stream;
+                    video.play();
+                    
+                    isVideoReady = true;
+                    startBtn.disabled = true;
+                    
+                    if (isModelReady) {
+                        captureBtn.disabled = false;
+                        trainBtn.disabled = false;
+                    }
+                    
+                    console.log('Cámara iniciada correctamente');
+                } catch (error) {
+                    console.error('Error al acceder a la cámara:', error);
+                    predictionText.textContent = 'Error: No se pudo acceder a la cámara. Asegúrate de dar los permisos necesarios.';
+                }
+            });
+            
+            // Evento para agregar ejemplos de entrenamiento
+            addExampleBtn.addEventListener('click', () => {
+                const className = classNameInput.value.trim();
+                if (className && isModelReady && isVideoReady) {
+                    addExample(className);
+                    examplesAdded++;
+                    exampleCount.textContent = `${examplesAdded} ejemplos agregados`;
+                    classNameInput.value = '';
+                    
+                    // Habilitar botones de guardado
+                    saveLocalBtn.disabled = false;
+                    saveServerBtn.disabled = false;
+                }
+            });
+            
+            // Habilitar el botón de agregar cuando se escribe un nombre de clase
+            classNameInput.addEventListener('input', () => {
+                addExampleBtn.disabled = !classNameInput.value.trim();
+            });
+            
+            // Evento para entrenar el modelo
+            trainBtn.addEventListener('click', () => {
+                if (classifier.getNumClasses() > 0) {
+                    predictionText.textContent = 'Entrenando modelo...';
+                    setTimeout(predict, 1000); // Empezar a predecir después de entrenar
+                } else {
+                    predictionText.textContent = 'Primero agrega algunos ejemplos para entrenar';
+                }
+            });
+            
+            // Evento para capturar y predecir
+            captureBtn.addEventListener('click', predict);
+            
+            // Evento para guardar datos localmente
+            saveLocalBtn.addEventListener('click', saveTrainingDataLocal);
+            
+            // Evento para cargar datos locales
+            loadLocalBtn.addEventListener('click', loadTrainingDataLocal);
+            
+            // Evento para guardar en servidor
+            saveServerBtn.addEventListener('click', saveTrainingDataToServer);
+            
+            // Función para agregar ejemplos al clasificador
+            async function addExample(className) {
+                // Capturar el frame actual del video
+                const img = tf.browser.fromPixels(video);
+                const processedImg = tf.image.resizeBilinear(img, [224, 224]);
+                const batchedImg = processedImg.expandDims(0);
+                
+                // Obtener las activaciones de MobileNet
+                const activation = mobilenet.predict(batchedImg);
+                
+                // Agregar el ejemplo al clasificador
+                classifier.addExample(activation, className);
+                
+                // Almacenar datos de entrenamiento para posible guardado
+                if (!trainingData.examples[className]) {
+                    trainingData.examples[className] = [];
+                    trainingData.classNames.push(className);
+                }
+                
+                // Convertir tensor a array normal para almacenamiento
+                const activationData = await activation.data();
+                trainingData.examples[className].push(Array.from(activationData));
+                
+                // Liberar memoria
+                img.dispose();
+                processedImg.dispose();
+                batchedImg.dispose();
+                
+                console.log(`Ejemplo agregado para la clase: ${className}`);
+            }
+            
+            // Función para predecir la seña
+            async function predict() {
+                if (classifier.getNumClasses() === 0) {
+                    predictionText.textContent = 'Primero entrena el modelo con algunas señas';
+                    return;
+                }
+                
+                // Capturar el frame actual del video
+                const img = tf.browser.fromPixels(video);
+                const processedImg = tf.image.resizeBilinear(img, [224, 224]);
+                const batchedImg = processedImg.expandDims(0);
+                
+                // Obtener las activaciones de MobileNet
+                const activation = mobilenet.predict(batchedImg);
+                
+                // Predecir la clase
+                const result = await classifier.predictClass(activation);
+                
+                // Mostrar el resultado
+                predictionText.textContent = `Seña: ${result.label}`;
+                const confidence = Math.round(result.confidences[result.label] * 100);
+                confidenceLevel.style.width = `${confidence}%`;
+                confidenceValue.textContent = `${confidence}% de confianza`;
+                
+                // Liberar memoria
+                img.dispose();
+                processedImg.dispose();
+                batchedImg.dispose();
+                
+                // Continuar prediciendo
+                setTimeout(predict, 1000);
+            }
+            
+            // Función para guardar datos de entrenamiento localmente
+            async function saveTrainingDataLocal() {
+                try {
+                    // Crear un blob con los datos de entrenamiento
+                    const dataStr = JSON.stringify(trainingData);
+                    const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                    
+                    // Crear un enlace de descarga
+                    const url = URL.createObjectURL(dataBlob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'datos_entrenamiento_senas.json';
+                    document.body.appendChild(a);
+                    a.click();
+                    
+                    // Limpiar
+                    setTimeout(() => {
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    }, 100);
+                    
+                    showStatus('Datos guardados localmente correctamente', 'success');
+                } catch (error) {
+                    console.error('Error al guardar datos localmente:', error);
+                    showStatus('Error al guardar datos localmente', 'error');
+                }
+            }
+            
+            // Función para cargar datos de entrenamiento locales
+            async function loadTrainingDataLocal() {
+                try {
+                    // Crear un input de tipo file
+                    const input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = '.json';
+                    
+                    input.onchange = async (e) => {
+                        const file = e.target.files[0];
+                        if (!file) return;
+                        
+                        const reader = new FileReader();
+                        reader.onload = async (event) => {
+                            try {
+                                const loadedData = JSON.parse(event.target.result);
+                                
+                                // Restaurar datos
+                                trainingData = loadedData;
+                                
+                                // Reconstruir el clasificador
+                                classifier.clearAllClasses();
+                                
+                                for (const className of trainingData.classNames) {
+                                    for (const exampleData of trainingData.examples[className]) {
+                                        // Recrear el tensor desde los datos guardados
+                                        const tensorData = tf.tensor(exampleData, [1, 1000]);
+                                        classifier.addExample(tensorData, className);
+                                    }
+                                }
+                                
+                                examplesAdded = trainingData.classNames.reduce((total, className) => {
+                                    return total + trainingData.examples[className].length;
+                                }, 0);
+                                
+                                exampleCount.textContent = `${examplesAdded} ejemplos cargados`;
+                                showStatus('Datos cargados correctamente. Ahora entrena el modelo.', 'success');
+                                
+                                // Habilitar botones
+                                trainBtn.disabled = false;
+                                saveLocalBtn.disabled = false;
+                                saveServerBtn.disabled = false;
+                                
+                            } catch (error) {
+                                console.error('Error al procesar el archivo:', error);
+                                showStatus('Error al procesar el archivo de datos', 'error');
+                            }
+                        };
+                        
+                        reader.readAsText(file);
+                    };
+                    
+                    input.click();
+                } catch (error) {
+                    console.error('Error al cargar datos locales:', error);
+                    showStatus('Error al cargar datos locales', 'error');
+                }
+            }
+            
+            // Función para guardar datos en servidor (simulado)
+            async function saveTrainingDataToServer() {
+                try {
+                    // Simular envío a servidor
+                    showStatus('Enviando datos al servidor...', 'warning');
+                    
+                    // En una implementación real, aquí harías una petición fetch a tu servidor
+                    setTimeout(() => {
+                        showStatus('Datos guardados en el servidor correctamente', 'success');
+                    }, 1500);
+                    
+                } catch (error) {
+                    console.error('Error al guardar en servidor:', error);
+                    showStatus('Error al guardar en el servidor', 'error');
+                }
+            }
+            
+            // Función para mostrar estado
+            function showStatus(message, type) {
+                saveStatus.innerHTML = `<div class="status-message ${type}">${message}</div>`;
+                
+                // Limpiar después de 5 segundos
+                setTimeout(() => {
+                    saveStatus.innerHTML = '';
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -170,8 +170,8 @@ if (!empty($_SESSION['txtdoc'])) {
               <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
             </div>
             <div class="flex-grow-1 ms-3">
-              <h6 class="mb-1"><?php echo htmlspecialchars($nombre); ?></h6>
-              <span><?php echo htmlspecialchars($nombre); ?></span>
+              <h6 class="mb-1"><?php echo $_SESSION['primer_nombre']; ?></h6>
+              <span>Admin</span>
             </div>
             
           </div>

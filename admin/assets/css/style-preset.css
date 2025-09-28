@@ -63,8 +63,8 @@ h2 {
 }
 [data-pc-preset=preset-1] .btn-primary {
   --bs-btn-color: #ffffff;
-  --bs-btn-bg: #1890ff;
-  --bs-btn-border-color: #1890ff;
+  --bs-btn-bg: #528bca;
+  --bs-btn-border-color: #528bca;
   --bs-btn-hover-color: #ffffff;
   --bs-btn-hover-bg: #147ad9;
   --bs-btn-hover-border-color: #1373cc;
@@ -267,7 +267,7 @@ h2 {
 }
 [data-pc-preset=preset-2] .btn-primary {
   --bs-btn-color: #ffffff;
-  --bs-btn-bg: #3366ff;
+  --bs-btn-bg: #528bca;
   --bs-btn-border-color: #3366ff;
   --bs-btn-hover-color: #ffffff;
   --bs-btn-hover-bg: #2b57d9;

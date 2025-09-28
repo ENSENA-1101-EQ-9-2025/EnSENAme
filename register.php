@@ -43,9 +43,10 @@
   <div class="auth-main">
     <div class="auth-wrapper v3">
       <div class="auth-form">
-        <div class="auth-header">
-          <a href="index.php"><img src="admin/assets/images/logo-dark.svg" alt="img"></a>
-        </div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white px-4 shadow">
+          <a href="index.php"><img src="admin/assets/images/logoensenamenobg.png" alt="img"></a>
+        </nav>
+        
         <div class="card my-5">
           <div class="card-body"> <form action="codigo.php" method="post" onsubmit="return validarFormulario()">
             <div class="d-flex justify-content-between align-items-end mb-4">
@@ -324,3 +325,13 @@
 <!-- [Body] end -->
 
 </html>
+
+
+
+
+<style>
+  .navbar {
+  width: 100%;
+  border-bottom: 1px solid #eee; 
+}
+</style>

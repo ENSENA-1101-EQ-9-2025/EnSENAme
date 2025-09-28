@@ -79,7 +79,7 @@ if(isset($_POST['btningresar'])){
   <div class="auth-main">    
     <div class="auth-wrapper v3">
       <div class="auth-form">
-        <nav class="navbar navbar-expand-lg navbar-light bg-white px-4">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white px-4 shadow">
           <a href="index.php"><img src="admin/assets/images/logoensenamenobg.png" alt="img"></a>
         </nav>
         <div class="card my-5">

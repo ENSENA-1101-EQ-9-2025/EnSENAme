@@ -34,6 +34,7 @@ $usuarioDestino = isset($_GET['para']) ? intval($_GET['para']) : 5555; // Cambia
   <h2>Chat en vivo</h2>
   <div class="mb-2">
     <span class="fw-bold">Bienvenido, <?php echo isset($_SESSION['primer_nombre']) ? htmlspecialchars($_SESSION['primer_nombre']) : 'Usuario'; ?></span>
+
   </div>
   <div class="mb-3">
     <label for="usuarioDestino" class="form-label">Destino para <?php echo htmlspecialchars($_SESSION['primer_nombre']); ?>:</label>
