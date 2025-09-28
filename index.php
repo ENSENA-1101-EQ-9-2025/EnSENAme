@@ -1,439 +1,537 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>EnSEÑAme</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
-        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styles.css" rel="stylesheet" />
-    </head>
-    <body id="page-top">
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
-            <div class="container">
-                <a class="navbar-brand" href="#page-top"><p><strong>EnSEÑAme</strong></p></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars ms-1"></i>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="#services">¿Quienes Somos?</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#portfolio">Enfoques</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#about">Justificación</a></li>
-                        <li class="nav-item"><a href="register.php">Registrarse</a></li>
-                        <li class="nav-item"><a href="login.php">Iniciar Sesión</a></li>
-                    </ul>
-                </div>
+
+<head>
+  <title>EnSEÑAme</title>
+  <!-- [Meta] -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Mantis is made using Bootstrap 5 design framework. Download the free admin template & use it for your project.">
+  <meta name="keywords" content="Mantis, Dashboard UI Kit, Bootstrap 5, Admin Template, Admin Dashboard, CRM, CMS, Bootstrap Admin Template">
+  <meta name="author" content="CodedThemes">
+
+  <!-- [Favicon] icon -->
+  <link rel="icon" href="admin/assets/images/favisena.png" type="image/x-icon">
+  <!-- [Page specific CSS] start -->
+  <link href="admin/assets/css/plugins/animate.min.css" rel="stylesheet" type="text/css">
+  <!-- [Page specific CSS] end -->
+  <!-- [Google Font] Family -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
+  <!-- [Tabler Icons] https://tablericons.com -->
+  <link rel="stylesheet" href="admin/assets/fonts/tabler-icons.min.css" >
+  <!-- [Feather Icons] https://feathericons.com -->
+  <link rel="stylesheet" href="admin/assets/fonts/feather.css" >
+  <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+  <link rel="stylesheet" href="admin/assets/fonts/fontawesome.css" >
+  <!-- [Material Icons] https://fonts.google.com/icons -->
+  <link rel="stylesheet" href="admin/assets/fonts/material.css" >
+  <!-- [Template CSS Files] -->
+  <link rel="stylesheet" href="admin/assets/css/style.css" id="main-style-link" >
+  <link rel="stylesheet" href="admin/assets/css/style-preset.css" >
+
+  <link rel="stylesheet" href="admin/assets/css/landing.css">
+</head>
+
+<body class="landing-page">
+  <!-- [ Main Content ] start -->
+  <!-- [ Pre-loader ] start -->
+  <div class="loader-bg">
+    <div class="loader-track">
+      <div class="loader-fill"></div>
+    </div>
+  </div>
+  <!-- [ Pre-loader ] End -->
+
+  <!-- [ Header ] start -->
+  <header id="home">
+    <!-- [ Nav ] start -->
+    <nav class="navbar navbar-expand-md navbar-dark top-nav-collapse default">
+      <div class="container">
+        <a class="navbar-brand" href="#">
+          <img src="admin/assets/images/logoensenamenobg.png" alt="logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01"
+          aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">            
+            <li class="nav-item pe-1">
+              <a class="nav-link" href="requerimientos.html">Requerimientos</a>
+            </li>
+            <li class="nav-item pe-1">
+              <a class="nav-link me-2" href="login.php" target="_blank">Iniciar sesión</a>
+            </li>
+            <li class="nav-item">
+              <a class="btn btn-primary" target="_blank" href="register.php">Regístrate</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- [ Nav ] start -->
+    <img src="admin/assets/images/inicioindex1.png" alt="" class=""
+      data-img="admin/assets/images/inicioindex1.png" data-img-type=".png">
+    <div class="container">
+      <div class="row align-items-center justify-content-between">
+        <div class="col-md-6 col-xl-4">
+          <h1 class="mt-sm-3 text-white mb-4 f-w-600 wow fadeInUp" data-wow-delay="0.2s">¿Quienes somos?
+            <span class="text-primary"></span>
+          </h1>
+          <h5 class="mb-4 text-white opacity-75 wow fadeInUp" data-wow-delay="0.4s"> Somos un equipo multidisciplinario que, junto con la comunidad sorda, desarrolla una app que traduce en tiempo real el lenguaje de señas colombiano (LSC) a texto y voz. 
+            Con inteligencia artificial y visión por computadora buscamos derribar barreras comunicativas y fomentar la inclusión en Colombia.</h5>
+          <div class="my-5 wow fadeInUp" data-wow-delay="0.6s">
+            
+          
+          </div>
+          <img src="" alt="" class=""
+            data-wow-delay="0.8s">
+        </div>
+        <div class="col-lg-7">
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- [ Header ] End -->
+  <!-- [ Why Mantis ] start -->
+  <section>
+    <div class="container title">
+      <div class="row justify-content-center text-center wow fadeInUp" data-wow-delay="0.2s">
+        <div class="col-md-10 col-xl-6">
+          <h5 class="text-primary mb-0"></h5>
+          <h2 class="my-3">Enfoques</h2>
+          <p class="mb-0">Lo que queremos lograr y hemos logrado</p>
+          <br>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <div class="col-sm-6 col-lg-4">
+          <div class="card wow fadeInUp" data-wow-delay="0.4s">
+            <div class="card-body">
+              <img src="admin/assets/images/enf1.png" alt="img" class="img-fluid">
+              <h5 class="my-3">Enfoque explicativo</h5>
+              <p class="mb-0 text-muted">La app captura las señas del usuario con la cámara, analiza movimientos y expresiones mediante visión por computadora, 
+                las interpreta con inteligencia artificial entrenada en LSC y genera en tiempo real el texto equivalente en pantalla para facilitar la comunicación.</p>
             </div>
-        </nav>
-        <!-- Masthead con Carrusel-->
-        
-        </header>
-        <!-- Services-->
-        <section class="page-section" id="services">
-            <div class="container">
-                <div class="text-center">
-                    <h2 class="section-heading text-uppercase">¿Quienes Somos?</h2>
-                    <h3 class="section-subheading text-muted">Somos un equipo multidisciplinario comprometido con la inclusión y la accesibilidad.
-       Nuestro objetivo principal es desarrollar una app innovadora que traduzca en tiempo real el lenguaje 
-       de señas colombiano (LSC) a texto y voz, facilitando la comunicación entre personas sordas y oyentes. 
-       Contamos con desarrolladores, diseñadores, lingüistas especializados en LSC y asesores de la comunidad sorda. 
-       Trabajamos con enfoque humano, basados en la empatía y el respeto por la diversidad. 
-       Utilizamos inteligencia artificial y visión por computadora para interpretar con precisión las señas. 
-       Mantenemos una colaboración constante con usuarios reales para validar y mejorar la aplicación. Nuestro sueño es derribar barreras
-        comunicativas en Colombia.
-       Creemos que la tecnología debe estar al servicio de todos.</h3>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+          <div class="card wow fadeInUp" data-wow-delay="0.6s">
+            <div class="card-body">
+              <img src="admin/assets/images/enf2.jpg" alt="img" class="img-fluid">
+              <h5 class="my-3">Enfoque objetivos</h5>
+              <p class="mb-0 text-muted">El proyecto busca desarrollar una app accesible que traduzca en tiempo real el lenguaje de señas colombiano a texto, entrenada con IA precisa y validada con la comunidad sorda. 
+                Su meta es funcionar en entornos reales, facilitar la comunicación sin intérprete y promover conciencia social sobre la diversidad lingüística.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+          <div class="card wow fadeInUp" data-wow-delay="0.8s">
+            <div class="card-body">
+              <img src="admin/assets/images/enf3.png" alt="img" class="img-fluid">
+              <h5 class="my-3">Enfoque necesidades</h5>
+              <p class="mb-0 text-muted">El proyecto busca empoderar a personas sordas con una herramienta autónoma que reduzca barreras en educación, salud, transporte y trabajo, promueva la inclusión laboral, 
+                sensibilice sobre el valor del lenguaje de señas y conecte comunidades a través de la tecnología como puente de comunicación.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- [ Why Mantis ] End -->
+  <!-- [ Complete Combo ] start -->  <
+  <!-- [ Complete Combo ] End -->
+  <!-- [ CTA ] start -->  
+  <!-- [ CTA ] End -->
+  <!-- [ number ] start -->  
+  <!-- [ number ] End -->
+  <!-- [ light/dark ] start -->  
+  <!-- [ light/dark ] End -->
+  <!-- [ webapp ] start -->  
+  <!-- [ webapp ] End -->
+  <!-- [ Why Mantis ] start -->  
+  <!-- [ Why Mantis ] End -->
+
+  <!-- [ Customers Voice ] start -->  
+  <!-- [ Customers Voice ] End -->
+  <!-- [ footer ] start -->
+  <footer class="footer bg-dark text-white">
+    <div class="container">
+      <div class="row">
+          <div class="col my-1">
+            <p class="text-white mb-0">© Hecho por el equipo 9 EnSEÑAme</p>
+          </div>          
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- [ footer ] End -->
+
+  <!-- [ Customize ] start -->  
+  <!-- [ Customize ] End -->
+
+  <!-- [ Main Content ] end -->
+  <!-- Required Js -->
+  <script src="admin/assets/js/plugins/popper.min.js"></script>
+  <script src="admin/assets/js/plugins/simplebar.min.js"></script>
+  <script src="admin/assets/js/plugins/bootstrap.min.js"></script>
+  <script src="admin/assets/js/fonts/custom-font.js"></script>
+  <script src="admin/assets/js/pcoded.js"></script>
+  <script src="admin/assets/js/plugins/feather.min.js"></script>
+
+  
+  
+  
+  
+  <script>layout_change('light');</script>
+  
+  
+  
+  
+  <script>change_box_container('false');</script>
+  
+  
+  
+  <script>layout_rtl_change('false');</script>
+  
+  
+  <script>preset_change("preset-1");</script>
+  
+  
+  <script>font_change("Public-Sans");</script>
+  
+    
+
+  <!-- [Page Specific JS] start -->
+  <script src="admin/assets/js/plugins/wow.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jquery.marquee/1.4.0/jquery.marquee.min.js"></script>
+  <script>
+    // Start [ Menu hide/show on scroll ]
+    let ost = 0;
+    document.addEventListener('scroll', function () {
+      let cOst = document.documentElement.scrollTop;
+      if (cOst == 0) {
+        document.querySelector(".navbar").classList.add("top-nav-collapse");
+      } else if (cOst > ost) {
+        document.querySelector(".navbar").classList.add("top-nav-collapse");
+        document.querySelector(".navbar").classList.remove("default");
+      } else {
+        document.querySelector(".navbar").classList.add("default");
+        document.querySelector(".navbar").classList.remove("top-nav-collapse");
+      }
+
+      if (cOst > 500) {
+        document.querySelector(".pc-landing-custmizer").classList.add("active");
+      } else {
+        document.querySelector(".pc-landing-custmizer").classList.remove("active");
+      }
+      ost = cOst;
+    });
+    // End [ Menu hide/show on scroll ]
+    var wow = new WOW({
+      animateClass: 'animated',
+    });
+    wow.init();
+    // light dark image start
+    function initComparisons() {
+      var x, i;
+      /*find all elements with an "overlay" class:*/
+      x = document.getElementsByClassName("img-comp-overlay");
+      for (i = 0; i < x.length; i++) {
+        /*once for each "overlay" element:
+        pass the "overlay" element as a parameter when executing the compareImages function:*/
+        compareImages(x[i]);
+      }
+      function compareImages(img) {
+        var slider, img, clicked = 0, w, h;
+        /*get the width and height of the img element*/
+        w = img.offsetWidth;
+        h = img.offsetHeight;
+        /*set the width of the img element to 50%:*/
+        img.style.width = (w / 2) + "px";
+        /*create slider:*/
+        slider = document.createElement("DIV");
+        slider.setAttribute("class", "img-comp-slider ti ti-separator-vertical bg-primary");
+        /*insert slider*/
+        img.parentElement.insertBefore(slider, img);
+        /*position the slider in the middle:*/
+        slider.style.top = (h / 2) - (slider.offsetHeight / 2) + "px";
+        slider.style.left = (w / 2) - (slider.offsetWidth / 2) + "px";
+        /*execute a function when the mouse button is pressed:*/
+        slider.addEventListener("mousedown", slideReady);
+        /*and another function when the mouse button is released:*/
+        window.addEventListener("mouseup", slideFinish);
+        /*or touched (for touch screens:*/
+        slider.addEventListener("touchstart", slideReady);
+        /*and released (for touch screens:*/
+        window.addEventListener("touchend", slideFinish);
+        function slideReady(e) {
+          /*prevent any other actions that may occur when moving over the image:*/
+          e.preventDefault();
+          /*the slider is now clicked and ready to move:*/
+          clicked = 1;
+          /*execute a function when the slider is moved:*/
+          window.addEventListener("mousemove", slideMove);
+          window.addEventListener("touchmove", slideMove);
+        }
+        function slideFinish() {
+          /*the slider is no longer clicked:*/
+          clicked = 0;
+        }
+        function slideMove(e) {
+          var pos;
+          /*if the slider is no longer clicked, exit this function:*/
+          if (clicked == 0) return false;
+          /*get the cursor's x position:*/
+          pos = getCursorPos(e)
+          /*prevent the slider from being positioned outside the image:*/
+          if (pos < 0) pos = 0;
+          if (pos > w) pos = w;
+          /*execute a function that will resize the overlay image according to the cursor:*/
+          slide(pos);
+        }
+        function getCursorPos(e) {
+          var a, x = 0;
+          e = (e.changedTouches) ? e.changedTouches[0] : e;
+          /*get the x positions of the image:*/
+          a = img.getBoundingClientRect();
+          /*calculate the cursor's x coordinate, relative to the image:*/
+          x = e.pageX - a.left;
+          /*consider any page scrolling:*/
+          x = x - window.pageXOffset;
+          return x;
+        }
+        function slide(x) {
+          /*resize the image:*/
+          img.style.width = x + "px";
+          /*position the slider:*/
+          slider.style.left = img.offsetWidth - (slider.offsetWidth / 2) + "px";
+        }
+      }
+    }
+    initComparisons();
+    // light dark image end
+    // marquee start
+    $('.marquee').marquee({
+      duration: 500000,
+      pauseOnHover: true,
+      startVisible: true,
+      duplicated: true
+    });
+    $('.marquee-1').marquee({
+      duration: 500000,
+      pauseOnHover: true,
+      startVisible: true,
+      duplicated: true,
+      direction: 'right'
+    });
+    // marquee end
+    // configurations start
+    var elem = document.querySelectorAll('.color-checkbox');
+    for (var j = 0; j < elem.length; j++) {
+      elem[j].addEventListener('click', function (event) {
+        var targetElement = event.target;
+        if (targetElement.tagName == 'INPUT') {
+          targetElement = targetElement.parentNode;
+        }
+        if (targetElement.tagName == 'I') {
+          targetElement = targetElement.parentNode;
+        }
+        var temp = targetElement.children[0].getAttribute('data-pc-value');
+        document.getElementsByTagName('body')[0].setAttribute('data-pc-preset', 'preset-' + temp);
+        var img_elem = document.querySelectorAll('.img-landing');
+        for (var i = 0; i < img_elem.length; i++) {
+          var img_name = img_elem[i].getAttribute('data-img');
+          var img_type = img_elem[i].getAttribute('data-img-type');
+          img_elem[i].setAttribute('src', img_name + temp + img_type);
+        }
+      });
+    }
+    // configurations end
+  </script>
+  <!-- [Page Specific JS] end -->
+  <div class="offcanvas pct-offcanvas offcanvas-end" tabindex="-1" id="offcanvas_pc_layout">
+    <div class="offcanvas-header bg-primary">
+      <h5 class="offcanvas-title text-white">Mantis Customizer</h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="pct-body" style="height: calc(100% - 60px)">
+      <div class="offcanvas-body">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <a class="btn border-0 text-start w-100" data-bs-toggle="collapse" href="#pctcustcollapse1">
+              <div class="d-flex align-items-center">
+                <div class="flex-shrink-0">
+                  <div class="avtar avtar-xs bg-light-primary">
+                    <i class="ti ti-layout-sidebar f-18"></i>
+                  </div>
                 </div>
-                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-  <ol class="carousel-indicators">
-    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></li>
-    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></li>
-    <li data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></li>
-  </ol>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="admin/assets/images/car1.png" style="width:800px; height:400px; object-fit:cover;" class="d-block w-100" alt="Primer slide">
-      <div class="carousel-caption d-none d-md-block">
-        <p>Un ejemplo de una IA de reconocimiento por parte de ultralytics.</p>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <img src="admin/assets/images/logoensename.PNG" style="width:800px; height:400px; object-fit:cover;" class="d-block w-100" alt="Segundo slide">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Logo del proyecto</h5>
-        <p>EnSEÑAme.</p>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <img src="admin/assets/images/car2.png" style="width:800px; height:400px; object-fit:cover;" class="d-block w-100" alt="Tercer slide">
-      <div class="carousel-caption d-none d-md-block">
-        <p>Muestra el impacto social de EnSEÑAme en derribar barreras comunicativas..</p>
+                <div class="flex-grow-1 ms-3">
+                  <h6 class="mb-1">Theme Layout</h6>
+                  <span>Choose your layout</span>
+                </div>
+                <i class="ti ti-chevron-down"></i>
+              </div>
+            </a>
+            <div class="collapse show" id="pctcustcollapse1">
+              <div class="pct-content">
+                <div class="pc-rtl">
+                  <p class="mb-1">Direction</p>
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="layoutmodertl">
+                    <label class="form-check-label" for="layoutmodertl">RTL</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <a class="btn border-0 text-start w-100" data-bs-toggle="collapse" href="#pctcustcollapse2">
+              <div class="d-flex align-items-center">
+                <div class="flex-shrink-0">
+                  <div class="avtar avtar-xs bg-light-primary">
+                    <i class="ti ti-brush f-18"></i>
+                  </div>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <h6 class="mb-1">Theme Mode</h6>
+                  <span>Choose light or dark mode</span>
+                </div>
+                <i class="ti ti-chevron-down"></i>
+              </div>
+            </a>
+            <div class="collapse show" id="pctcustcollapse2">
+              <div class="pct-content">
+                <div class="theme-color themepreset-color theme-layout">
+                  <a href="#!" class="active" onclick="layout_change('light')" data-value="false"
+                    ><span><img src="admin/assets/images/customization/default.svg" alt="img"></span><span>Light</span></a
+                  >
+                  <a href="#!" class="" onclick="layout_change('dark')" data-value="true"
+                    ><span><img src="admin/assets/images/customization/dark.svg" alt="img"></span><span>Dark</span></a
+                  >
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <a class="btn border-0 text-start w-100" data-bs-toggle="collapse" href="#pctcustcollapse3">
+              <div class="d-flex align-items-center">
+                <div class="flex-shrink-0">
+                  <div class="avtar avtar-xs bg-light-primary">
+                    <i class="ti ti-color-swatch f-18"></i>
+                  </div>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <h6 class="mb-1">Color Scheme</h6>
+                  <span>Choose your primary theme color</span>
+                </div>
+                <i class="ti ti-chevron-down"></i>
+              </div>
+            </a>
+            <div class="collapse show" id="pctcustcollapse3">
+              <div class="pct-content">
+                <div class="theme-color preset-color">
+                  <a href="#!" class="active" data-value="preset-1"
+                    ><span><img src="admin/assets/images/customization/theme-color.svg" alt="img"></span><span>Theme 1</span></a
+                  >
+                  <a href="#!" class="" data-value="preset-2"
+                    ><span><img src="admin/assets/images/customization/theme-color.svg" alt="img"></span><span>Theme 2</span></a
+                  >
+                  <a href="#!" class="" data-value="preset-3"
+                    ><span><img src="admin/assets/images/customization/theme-color.svg" alt="img"></span><span>Theme 3</span></a
+                  >
+                  <a href="#!" class="" data-value="preset-4"
+                    ><span><img src="admin/assets/images/customization/theme-color.svg" alt="img"></span><span>Theme 4</span></a
+                  >
+                  <a href="#!" class="" data-value="preset-5"
+                    ><span><img src="admin/assets/images/customization/theme-color.svg" alt="img"></span><span>Theme 5</span></a
+                  >
+                  <a href="#!" class="" data-value="preset-6"
+                    ><span><img src="admin/assets/images/customization/theme-color.svg" alt="img"></span><span>Theme 6</span></a
+                  >
+                  <a href="#!" class="" data-value="preset-7"
+                    ><span><img src="admin/assets/images/customization/theme-color.svg" alt="img"></span><span>Theme 7</span></a
+                  >
+                  <a href="#!" class="" data-value="preset-8"
+                    ><span><img src="admin/assets/images/customization/theme-color.svg" alt="img"></span><span>Theme 8</span></a
+                  >
+                  <a href="#!" class="" data-value="preset-9"
+                    ><span><img src="admin/assets/images/customization/theme-color.svg" alt="img"></span><span>Theme 9</span></a
+                  >
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item pc-boxcontainer">
+            <a class="btn border-0 text-start w-100" data-bs-toggle="collapse" href="#pctcustcollapse4">
+              <div class="d-flex align-items-center">
+                <div class="flex-shrink-0">
+                  <div class="avtar avtar-xs bg-light-primary">
+                    <i class="ti ti-border-inner f-18"></i>
+                  </div>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <h6 class="mb-1">Layout Width</h6>
+                  <span>Choose fluid or container layout</span>
+                </div>
+                <i class="ti ti-chevron-down"></i>
+              </div>
+            </a>
+            <div class="collapse show" id="pctcustcollapse4">
+              <div class="pct-content">
+                <div class="theme-color themepreset-color boxwidthpreset theme-container">
+                  <a href="#!" class="active" onclick="change_box_container('false')" data-value="false"><span><img src="../assets/images/customization/default.svg" alt="img"></span><span>Fluid</span></a>
+                  <a href="#!" class="" onclick="change_box_container('true')" data-value="true"><span><img src="../assets/images/customization/container.svg" alt="img"></span><span>Container</span></a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <a class="btn border-0 text-start w-100" data-bs-toggle="collapse" href="#pctcustcollapse5">
+              <div class="d-flex align-items-center">
+                <div class="flex-shrink-0">
+                  <div class="avtar avtar-xs bg-light-primary">
+                    <i class="ti ti-typography f-18"></i>
+                  </div>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <h6 class="mb-1">Font Family</h6>
+                  <span>Choose your font family.</span>
+                </div>
+                <i class="ti ti-chevron-down"></i>
+              </div>
+            </a>
+            <div class="collapse show" id="pctcustcollapse5">
+              <div class="pct-content">
+                <div class="theme-color fontpreset-color">
+                  <a href="#!" class="active" onclick="font_change('Public-Sans')" data-value="Public-Sans"
+                    ><span>Aa</span><span>Public Sans</span></a
+                  >
+                  <a href="#!" class="" onclick="font_change('Roboto')" data-value="Roboto"><span>Aa</span><span>Roboto</span></a>
+                  <a href="#!" class="" onclick="font_change('Poppins')" data-value="Poppins"><span>Aa</span><span>Poppins</span></a>
+                  <a href="#!" class="" onclick="font_change('Inter')" data-value="Inter"><span>Aa</span><span>Inter</span></a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="list-group-item">
+            <div class="collapse show">
+              <div class="pct-content">
+                <div class="d-grid">
+                  <button class="btn btn-light-danger" id="layoutreset">Reset Layout</button>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
-  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </a>
-</div>
-<br><br>
-                <div class="row text-center">
-                    <div class="col-md-4">
-                        <span class="fa-stack fa-4x">
-                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                            <i class="fas fa-video fa-stack-1x fa-inverse"></i>
-                        </span>
-                        <h4 class="my-3">Diseñar</h4>
-                        <p class="text-muted">Diseñar y entrenar un modelo de reconocimiento de gestos y movimientos asociados al lenguaje de señas.</p>
-                    </div>
-                    <div class="col-md-4">
-                        <span class="fa-stack fa-4x">
-                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                            <i class="fas fa-clipboard fa-stack-1x fa-inverse"></i>
-                        </span>
-                        <h4 class="my-3">Evaluar</h4>
-                        <p class="text-muted">Evaluar la precisión y eficacia del sistema en diversos contextos con diferentes dialectos de lenguaje de señas</p>
-                    </div>
-                    <div class="col-md-4">
-                        <span class="fa-stack fa-4x">
-                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                            <i class="fas fa-hand fa-stack-1x fa-inverse"></i>
-                        </span>
-                        <h4 class="my-3">Analizar</h4>
-                        <p class="text-muted">Analizar e identificar los gestos más comunes del lenguaje de señas</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Portfolio Grid-->
-        <section class="page-section bg-light" id="portfolio">
-            <div class="container">
-                <div class="text-center">
-                    <h2 class="section-heading text-uppercase">Enfoques</h2>
-                    <h3 class="section-subheading text-muted">Lo que queremos lograr y hemos logrado</h3>
-                </div>
-                <div class="row">
-                    <div class="col-lg-4 col-sm-6 mb-4">
-                        <!-- Portfolio item 1-->
-                        <div class="portfolio-item">
-                            <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal1">
-                                <div class="portfolio-hover">
-                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                                </div>
-                                <img class="img-fluid" src="assets/img/sign_language_gesture.jpg" alt="Enfoque Explicativo" />
-                            </a>
-                            <div class="portfolio-caption">
-                                <div class="portfolio-caption-heading">Enfoque</div>
-                                <div class="portfolio-caption-subheading text-muted">Explicativo</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-6 mb-4">
-                        <!-- Portfolio item 2-->
-                        <div class="portfolio-item">
-                            <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal2">
-                                <div class="portfolio-hover">
-                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                                </div>
-                                <img class="img-fluid" src="assets/img/team_goals.jpg" alt="Enfoque Objetivos" />
-                            </a>
-                            <div class="portfolio-caption">
-                                <div class="portfolio-caption-heading">Enfoque</div>
-                                <div class="portfolio-caption-subheading text-muted">Objetivos</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-6 mb-4">
-                        <!-- Portfolio item 3-->
-                        <div class="portfolio-item">
-                            <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal3">
-                                <div class="portfolio-hover">
-                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                                </div>
-                                <img class="img-fluid" src="assets/img/deaf_community.jpg" alt="Enfoque Necesidades" />
-                            </a>
-                            <div class="portfolio-caption">
-                                <div class="portfolio-caption-heading">Enfoque</div>
-                                <div class="portfolio-caption-subheading text-muted">Necesidades</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- About-->
-        <section class="page-section" id="about">
-            <div class="container">
-                <div class="text-center">
-                    <h2 class="section-heading text-uppercase">Justificación</h2>
-                    <h3 class="section-subheading text-muted">¿Por qué es importante desarrollar nuestra app?</h3>
-                </div>
-                <h5><small>En la actualidad, la comunicación efectiva sigue siendo uno de los principales desafíos para las personas con discapacidades auditivas, especialmente aquellas que utilizan el lenguaje de señas como su principal medio de expresión. Esta forma de comunicación, aunque rica y compleja, no es comprendida por la mayoría de la población oyente, lo que genera una barrera significativa para la inclusión social, educativa y laboral de las personas sordas.
-                    <br>
-<br>
-Este proyecto surge de la necesidad urgente de reducir la brecha comunicativa entre personas sordas y oyentes, promoviendo la igualdad de oportunidades y el ejercicio pleno de los derechos de comunicación e interacción. En particular, se busca diseñar una herramienta tecnológica que permita la traducción en tiempo real del lenguaje de señas a texto escrito, facilitando así una interacción más fluida, accesible y comprensible para ambas partes.
-<br>
-<br>
-La implementación de una solución de este tipo tiene un gran potencial transformador en diferentes ámbitos:
-<br>
-En la educación, facilita la participación de estudiantes sordos en entornos inclusivos.
-<br>
-En el entorno laboral, contribuiría a una mayor integración de personas sordas en equipos de trabajo diversos.
-</small></h5>
-        </section>
-        <!-- Team-->
-      
-        <!-- Clients-->
-        
-        <!-- Contact-->
-        
-        <!-- Footer-->
-        <footer class="footer py-4">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-4 text-lg-start">Copyright &copy; EnSEÑAme 2025</div>
-                    <div class="col-lg-4 my-3 my-lg-0">
-                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                    <div class="col-lg-4 text-lg-end">
-                        <a class="link-dark text-decoration-none me-3" href="#!"></a>
-                        <a class="link-dark text-decoration-none" href="#!"></a>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- Portfolio Modals-->
-        <!-- Portfolio item 1 modal popup-->
-        <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div class="modal-body">
-                                    <!-- Project details-->
-                                    <h2 class="text-uppercase">Enfoque explicativo</h2>
-                                    <img class="img-fluid d-block mx-auto" src="assets/img/sign_language_gesture.jpg" alt="Enfoque Explicativo" />
-                                    <p><strong>Captura del gesto:</strong> El usuario realiza señas frente a la cámara del dispositivo móvil. La app detecta y encuadra automáticamente las manos y el rostro, elementos clave para interpretar correctamente el lenguaje de señas.
-<strong>Procesamiento visual:</strong> Mediante algoritmos de visión por computadora, se analizan los movimientos, posiciones y trayectorias de las manos, así como expresiones faciales asociadas al significado del mensaje.
-<strong>Reconocimiento e interpretación:</strong> La inteligencia artificial compara los gestos detectados con un modelo previamente entrenado con cientos de señas, y determina con precisión a qué palabra o frase corresponde.
-<strong>Generación de texto:</strong> Una vez reconocida la seña, la aplicación muestra de forma inmediata el texto equivalente en pantalla. Esto permite que cualquier persona oyente pueda entender el mensaje en tiempo real.</p>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <strong></strong>
-                                        </li>
-                                        <li>
-                                            <strong></strong>
-                                        </li>
-                                    </ul>
-                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                        <i class="fas fa-xmark me-1"></i>
-                                        Cerrar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Portfolio item 2 modal popup-->
-        <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div class="modal-body">
-                                    <!-- Project details-->
-                                    <h2 class="text-uppercase">Enfoque objetivos</h2>
-                                    <img class="img-fluid d-block mx-auto" src="assets/img/team_goals.jpg" alt="Enfoque Objetivos" />
-                                    <p><strong>Desarrollar</strong> una aplicación accesible e intuitiva que pueda traducir en tiempo real el lenguaje de señas colombiano (LSC) a texto escrito, favoreciendo la interacción social sin necesidad de un intérprete humano.
-<strong>Entrenar</strong> un modelo de inteligencia artificial con alta precisión, capaz de reconocer los gestos y expresiones más comunes del LSC, considerando variaciones regionales y contextuales.
-<br><strong>Garantizar</strong> el funcionamiento en entornos reales, como escuelas, hospitales, oficinas públicas y espacios cotidianos, donde la comunicación fluida es fundamental.
-<br><strong>Validar</strong> la aplicación con usuarios sordos reales, trabajando codo a codo con personas de la comunidad para asegurar que sus necesidades, expectativas y formas de comunicación sean respetadas y reflejadas en la herramienta.
-<br><strong>Fomentar</strong> la conciencia social sobre la diversidad lingüística y comunicativa, sensibilizando a la población general sobre la existencia y riqueza del lenguaje de señas.</p>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <strong></strong>
-                                        </li>
-                                        <li>
-                                        </li>
-                                    </ul>
-                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                        <i class="fas fa-xmark me-1"></i>
-                                        Cerrar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Portfolio item 3 modal popup-->
-        <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div class="modal-body">
-                                    <!-- Project details-->
-                                    <h2 class="text-uppercase">Enfoque necesidades</h2>
-                                    <img class="img-fluid d-block mx-auto" src="assets/img/deaf_community.jpg" alt="Enfoque Necesidades" />
-                                    <p><strong>Empoderar</strong> a personas sordas, dándoles una herramienta autónoma para expresarse y ser comprendidas en tiempo real, sin depender de intérpretes en contextos cotidianos.
-<br><strong>Reducir</strong> las barreras en sectores clave como la educación, la salud, el transporte público y los servicios gubernamentales, donde la falta de comunicación puede poner en riesgo la calidad de vida o incluso la seguridad de las personas sordas.
-<br><strong>Promover</strong> la inclusión laboral, al facilitar entrevistas, capacitaciones y reuniones entre empleados sordos y oyentes, generando ambientes más justos y equitativos.
-<br><strong>Sensibilizar</strong> a la población oyente, mostrando que el lenguaje de señas es una lengua completa, válida y hermosa que merece el mismo respeto que cualquier otra.
-<br><strong>Conectar</strong> comunidades, creando un ecosistema más comprensivo donde la tecnología sirva como un puente, no como una barrera.</p>
-                                    <ul class="list-inline">
-                                        <li>
-                                        </li>
-                                    </ul>
-                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                        <i class="fas fa-xmark me-1"></i>
-                                        Cerrar
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Portfolio item 4 modal popup-->
-        <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div class="modal-body">
-                                    <!-- Project details-->
-                                    <h2 class="text-uppercase">Project Name</h2>
-                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/4.jpg" alt="..." />
-                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <strong>Client:</strong>
-                                            Lines
-                                        </li>
-                                        <li>
-                                            <strong>Category:</strong>
-                                            Branding
-                                        </li>
-                                    </ul>
-                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                        <i class="fas fa-xmark me-1"></i>
-                                        Close Project
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Portfolio item 5 modal popup-->
-        <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div class="modal-body">
-                                    <!-- Project details-->
-                                    <h2 class="text-uppercase">Project Name</h2>
-                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/5.jpg" alt="..." />
-                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <strong>Client:</strong>
-                                            Southwest
-                                        </li>
-                                        <li>
-                                            <strong>Category:</strong>
-                                            Website Design
-                                        </li>
-                                    </ul>
-                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                        <i class="fas fa-xmark me-1"></i>
-                                        Close Project
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Portfolio item 6 modal popup-->
-        <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="close-modal" data-bs-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8">
-                                <div class="modal-body">
-                                    <!-- Project details-->
-                                    <h2 class="text-uppercase">Project Name</h2>
-                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
-                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/6.jpg" alt="..." />
-                                    <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <strong>Client:</strong>
-                                            Window
-                                        </li>
-                                        <li>
-                                            <strong>Category:</strong>
-                                            Photography
-                                        </li>
-                                    </ul>
-                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
-                                        <i class="fas fa-xmark me-1"></i>
-                                        Close Project
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <!-- * *                               SB Forms JS                               * *-->
-        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
-    </body>
+</body>
+
 </html>
