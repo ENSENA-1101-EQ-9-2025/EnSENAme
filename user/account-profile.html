@@ -681,8 +681,7 @@
                               <img class="rounded-circle img-fluid wid-70" src="../assets/images/user/avatar-5.jpg"
                                 alt="User image">
                             </div>
-                            <h5 class="mb-0">Anshan H.</h5>
-                            <p class="text-muted text-sm">Project Manager</p>
+                            <h5 class="mb-0"><?php echo $_SESSION['primer_nombre']; ?></h5>
                             <hr class="my-3">
                             <div class="row g-3">
                               <div class="col-4">
@@ -701,22 +700,17 @@
                             <hr class="my-3">
                             <div class="d-inline-flex align-items-center justify-content-between w-100 mb-3">
                               <i class="ti ti-mail"></i>
-                              <p class="mb-0">anshan@gmail.com</p>
+                              <p class="mb-0"><?php echo $_SESSION['correo']; ?></p>
                             </div>
                             <div class="d-inline-flex align-items-center justify-content-between w-100 mb-3">
                               <i class="ti ti-phone"></i>
-                              <p class="mb-0">(+1-876) 8654 239 581</p>
+                              <p class="mb-0"><?php echo $_SESSION['telefono']; ?></p>
                             </div>
                             <div class="d-inline-flex align-items-center justify-content-between w-100 mb-3">
                               <i class="ti ti-map-pin"></i>
-                              <p class="mb-0">New York</p>
+                              <p class="mb-0"><?php echo $_SESSION['direccion']; ?></p>
                             </div>
-                            <div class="d-inline-flex align-items-center justify-content-between w-100">
-                              <i class="ti ti-link"></i>
-                              <a href="#" class="link-primary">
-                                <p class="mb-0">https://anshan.dh.url</p>
-                              </a>
-                            </div>
+                            <!-- Campo de link eliminado -->
                           </div>
                         </div>
                       </div>
@@ -831,31 +825,7 @@
                       </div>
                     </div>
                     <div class="col-lg-8 col-xxl-9">
-                      <div class="card">
-                        <div class="card-header">
-                          <h5>About me</h5>
-                        </div>
-                        <div class="card-body">
-                          <p class="mb-0">Hello, I’m Anshan Handgun Creative Graphic Designer & User Experience Designer
-                            based in Website, I create digital Products a more Beautiful and usable place. Morbid
-                            accusant ipsum. Nam nec tellus at.</p>
-                        </div>
-                      </div>
-                      <div class="card">
-                        <div class="card-header">
-                          <h5>Personal Details</h5>
-                        </div>
-                        <div class="card-body">
-                          <ul class="list-group list-group-flush">
-                            <li class="list-group-item px-0 pt-0">
-                              <div class="row">
-                                <div class="col-md-6">
-                                  <p class="mb-1 text-muted">Full Name</p>
-                                  <p class="mb-0">Anshan Handgun</p>
-                                </div>
-                                <div class="col-md-6">
-                                  <p class="mb-1 text-muted">Father Name</p>
-                                  <p class="mb-0">Mr. Deepen Handgun</p>
+                      <!-- Sección Skills eliminada -->
                                 </div>
                               </div>
                             </li>

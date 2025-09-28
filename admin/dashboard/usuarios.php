@@ -12,7 +12,7 @@
   <meta name="keywords" content="Mantis, Dashboard UI Kit, Bootstrap 5, Admin Template, Admin Dashboard, CRM, CMS, Bootstrap Admin Template">
   <meta name="author" content="CodedThemes">
   <?php
-
+session_start();
 include "../../conexion.php";
 $query = "SELECT * FROM tb_usuarios";
 $result = mysqli_query($conexion, $query);
@@ -159,7 +159,7 @@ $result = mysqli_query($conexion, $query);
         aria-expanded="false"
       >
         <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
-        <span>User</span>
+  <span><?php echo htmlspecialchars($_SESSION['primer_nombre']); ?></span>
       </a>
       <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
         <div class="dropdown-header">
@@ -220,7 +220,7 @@ $result = mysqli_query($conexion, $query);
               <i class="ti ti-wallet"></i>
               <span>Billing</span>
             </a>
-            <a href="#!" class="dropdown-item">
+            <a href="logout.php" class="dropdown-item">
               <i class="ti ti-power"></i>
               <span>Logout</span>
             </a>

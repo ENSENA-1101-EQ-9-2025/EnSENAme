@@ -27,6 +27,7 @@
 <link rel="stylesheet" href="../assets/css/style.css" id="main-style-link" >
 <link rel="stylesheet" href="../assets/css/style-preset.css" >
 <?php
+session_start();
 include '../../conexion.php';
 ?>
 
@@ -161,7 +162,7 @@ include '../../conexion.php';
               <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
             </div>
             <div class="flex-grow-1 ms-3">
-              <h6 class="mb-1">User</h6>
+              <h6 class="mb-1"><?php echo $_SESSION['primer_nombre']; ?></h6>
               <span>Admin</span>
             </div>
             
@@ -197,9 +198,9 @@ include '../../conexion.php';
         </ul>
         <div class="tab-content" id="mysrpTabContent">
           <div class="tab-pane fade show active" id="drp-tab-1" role="tabpanel" aria-labelledby="drp-t1" tabindex="0">
-            <a href="#!" class="dropdown-item">
-              <i class="ti ti-edit-circle"></i>
-              <span>Edit Profile</span>
+            <a href="logout.php" class="dropdown-item">
+              <i class="ti ti-power"></i>
+              <span>Logout</span>
             </a>
             <a href="#!" class="dropdown-item">
               <i class="ti ti-user"></i>

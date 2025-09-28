@@ -1,4 +1,5 @@
 <?php
+session_start();
 if (isset($_POST["btn_registrar"])) {
     include "../../conexion.php"; // Incluye el archivo de conexión
 

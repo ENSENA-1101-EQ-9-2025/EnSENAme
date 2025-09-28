@@ -85,13 +85,23 @@ ALTER TABLE `tb_usuarios`
   ADD KEY `id_rol` (`id_rol`);
 
 --
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `tb_usuarios`
---
 ALTER TABLE `tb_usuarios`
+
+-- --------------------------------------------------------
+-- Estructura de tabla para la tabla `tb_mensajes`
+--
+CREATE TABLE `tb_mensajes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `remitente_id` int(11) NOT NULL,
+  `destinatario_id` int(11) NOT NULL,
+  `mensaje` text NOT NULL,
+  `fecha_envio` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `estado` varchar(20) DEFAULT 'enviado',
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`remitente_id`) REFERENCES `tb_usuarios`(`ID`),
+  FOREIGN KEY (`destinatario_id`) REFERENCES `tb_usuarios`(`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
   ADD CONSTRAINT `tb_usuarios_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `tbl_rol` (`id`);
 COMMIT;
 

@@ -12,6 +12,9 @@
   <meta name="keywords" content="Mantis, Dashboard UI Kit, Bootstrap 5, Admin Template, Admin Dashboard, CRM, CMS, Bootstrap Admin Template">
   <meta name="author" content="CodedThemes">
 
+  <?php
+  session_start();
+  ?>
   <!-- [Favicon] icon -->
   <link rel="icon" href="../assets/images/favisena.png" type="image/x-icon"> <!-- [Google Font] Family -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
@@ -46,7 +49,7 @@
       <a href="../dashboard/index.php" class="b-brand text-primary">
         <!-- ========   Change your logo from here   ============ -->
         <img src="../assets/images/logoensename.png" class="img-fluid" alt="">
-      </a>
+              <span><?php echo isset($_SESSION['primer_nombre']) ? htmlspecialchars($_SESSION['primer_nombre']) : 'Usuario'; ?></span>
     </div>
     <div class="navbar-content">
     <ul class="pc-navbar">
@@ -149,7 +152,7 @@
         aria-expanded="false"
       >
         <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
-        <span>Camilo</span>
+  <span><?php echo isset($_SESSION['primer_nombre']) ? htmlspecialchars($_SESSION['primer_nombre']) : 'Usuario'; ?></span>
       </a>
       <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
         <div class="dropdown-header">
@@ -158,7 +161,7 @@
               <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
             </div>
             <div class="flex-grow-1 ms-3">
-              <h6 class="mb-1">Camilo</h6>
+              <h6 class="mb-1">Usuario</h6>
               <span>Admin</span>
             </div>
             
@@ -194,9 +197,9 @@
         </ul>
         <div class="tab-content" id="mysrpTabContent">
           <div class="tab-pane fade show active" id="drp-tab-1" role="tabpanel" aria-labelledby="drp-t1" tabindex="0">
-            <a href="#!" class="dropdown-item">
-              <i class="ti ti-edit-circle"></i>
-              <span>Edit Profile</span>
+            <a href="logout.php" class="dropdown-item">
+              <i class="ti ti-power"></i>
+              <span>Logout</span>
             </a>
             <a href="#!" class="dropdown-item">
               <i class="ti ti-user"></i>
@@ -255,7 +258,7 @@
       <!-- [ breadcrumb ] end -->
       <!-- [ Main Content ] start -->  
       <h1>Chat interpretativo de señas</h1>
-      <a href="http://localhost/ense%C3%B1ame/admin/dashboard/index.php">Inicio</a>|<a href="http://localhost/ense%C3%B1ame/admin/dashboard/usuarios.php"> Usuario</a> |
+  <a href="http://localhost/ense%C3%B1ame/admin/dashboard/index.php">Inicio</a>|<a href="http://localhost/ense%C3%B1ame/admin/dashboard/usuarios.php"> <?php echo isset($_SESSION['primer_nombre']) ? htmlspecialchars($_SESSION['primer_nombre']) : 'Usuario'; ?></a> |
       <a href="../application/user-list.html">Producto</a> | <a href="../application/servicio.php">Servicio</a>   
         <!-- [ sample-page ] start -->
 
@@ -347,7 +350,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <h2>Chat en vivo</h2>
   <div class="mb-3">
-    <label for="usuarioDestino" class="form-label">Usuario destino:</label>
+    <label for="usuarioDestino" class="form-label">Destino para <?php echo htmlspecialchars($_SESSION['primer_nombre']); ?>:</label>
     <select id="usuarioDestino" class="form-select"></select>
     <div id="errorUsuario" class="text-danger mt-1" style="display:none;"></div>
     <div id="errorSpam" class="text-danger mt-1" style="display:none;"></div>
