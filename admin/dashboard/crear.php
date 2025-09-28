@@ -29,6 +29,14 @@
 <?php
 session_start();
 include '../../conexion.php';
+$nombre = '';
+if (!empty($_SESSION['txtdoc'])) {
+  $doc = mysqli_real_escape_string($conexion, $_SESSION['txtdoc']);
+  $res = mysqli_query($conexion, "SELECT p_nombre FROM tb_usuarios WHERE ID = '$doc' LIMIT 1");
+  if ($row = mysqli_fetch_assoc($res)) {
+    $nombre = $row['p_nombre'];
+  }
+}
 ?>
 
 </head>
@@ -82,7 +90,7 @@ include '../../conexion.php';
 </li>
 
   <li class="pc-item">
-      <a href="producto.html" class="pc-link">
+  <a href="producto.php" class="pc-link">
         <span class="pc-micon"><i class="ti ti-book"></i></span>
         <span class="pc-mtext">Guias</span>
       </a>
@@ -153,7 +161,7 @@ include '../../conexion.php';
         aria-expanded="false"
       >
         <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
-        <span>Usuario</span>
+  <span><?php echo htmlspecialchars($nombre); ?></span>
       </a>
       <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
         <div class="dropdown-header">
@@ -162,8 +170,8 @@ include '../../conexion.php';
               <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
             </div>
             <div class="flex-grow-1 ms-3">
-              <h6 class="mb-1"><?php echo $_SESSION['primer_nombre']; ?></h6>
-              <span>Admin</span>
+              <h6 class="mb-1"><?php echo htmlspecialchars($nombre); ?></h6>
+              <span><?php echo htmlspecialchars($nombre); ?></span>
             </div>
             
           </div>

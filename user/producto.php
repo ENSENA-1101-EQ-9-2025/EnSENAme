@@ -1,3 +1,17 @@
+<?php
+if (session_status() !== PHP_SESSION_ACTIVE) {
+  session_start();
+}
+include '../conexion.php';
+$nombre = '';
+if (!empty($_SESSION['txtdoc'])) {
+  $doc = mysqli_real_escape_string($conexion, $_SESSION['txtdoc']);
+  $res = mysqli_query($conexion, "SELECT p_nombre FROM tb_usuarios WHERE ID = '$doc' LIMIT 1");
+  if ($row = mysqli_fetch_assoc($res)) {
+    $nombre = $row['p_nombre'];
+  }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,13 +23,13 @@
   <meta name="keywords" content="Mantis, Dashboard UI Kit, Bootstrap 5, Admin Template, Admin Dashboard, CRM, CMS, Bootstrap Admin Template">
   <meta name="author" content="CodedThemes">
 
-  <link rel="icon" href="../assets/images/favisena.png" type="image/x-icon"> <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
-<link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css" >
-<link rel="stylesheet" href="../assets/fonts/feather.css" >
-<link rel="stylesheet" href="../assets/fonts/fontawesome.css" >
-<link rel="stylesheet" href="../assets/fonts/material.css" >
-<link rel="stylesheet" href="../assets/css/style.css" id="main-style-link" >
-<link rel="stylesheet" href="../assets/css/style-preset.css" >
+  <link rel="icon" href="../admin/assets/images/favisena.png" type="image/x-icon"> <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
+<link rel="stylesheet" href="../admin/assets/fonts/tabler-icons.min.css" >
+<link rel="stylesheet" href="../admin/assets/fonts/feather.css" >
+<link rel="stylesheet" href="../admin/assets/fonts/fontawesome.css" >
+<link rel="stylesheet" href="../admin/assets/fonts/material.css" >
+<link rel="stylesheet" href="../admin/assets/css/style.css" id="main-style-link" >
+<link rel="stylesheet" href="../admin/assets/css/style-preset.css" >
 
 </head>
 <body data-pc-preset="preset-1" data-pc-direction="ltr" data-pc-theme="light">
@@ -27,31 +41,23 @@
 <nav class="pc-sidebar">
   <div class="navbar-wrapper">
     <div class="m-header">
-      <a href="../dashboard/index.php" class="b-brand text-primary">
-        <img src="../assets/images/logoensename.png" class="img-fluid" alt="">
+      <a href="index.php" class="b-brand text-primary">
+        <img src="../admin/assets/images/logoensename.png" class="img-fluid" alt="">
       </a>
     </div>
     <div class="navbar-content">
     <ul class="pc-navbar">
   <li class="pc-item">
-    <a href="../dashboard/index.php" class="pc-link">
+    <a href="index.php" class="pc-link">
       <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
       <span class="pc-mtext">Inicio</span>
     </a>
   </li>     
-  
   <li class="pc-item">
-    <a href="usuarios.php" class="pc-link">
-      <span class="pc-micon"><i class="ti ti-users"></i></span>
-      <span class="pc-mtext">Usuarios</span>
+  <a href="producto.php" class="pc-link">
+      <span class="pc-micon"><i class="ti ti-book"></i></span>
+      <span class="pc-mtext">Guias</span>
     </a>
-  </li>
-
-  <li class="pc-item">
-      <a href="producto.html" class="pc-link">
-        <span class="pc-micon"><i class="ti ti-book"></i></span>
-        <span class="pc-mtext">Guias</span>
-      </a>
   </li>
   <li class="pc-item">
           <a href="servicio.php" class="pc-link">
@@ -114,18 +120,18 @@
         data-bs-auto-close="outside"
         aria-expanded="false"
       >
-        <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
-        <span>User</span>
+          <img src="../admin/assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
+          <span><?php echo htmlspecialchars($nombre); ?></span>
       </a>
       <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
         <div class="dropdown-header">
           <div class="d-flex mb-1">
             <div class="flex-shrink-0">
-              <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
+              <img src="../admin/assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
             </div>
             <div class="flex-grow-1 ms-3">
-              <h6 class="mb-1">user</h6>
-              <span>Admin</span>
+              <h6 class="mb-1"><?php echo htmlspecialchars($nombre); ?></h6>
+              <span><?php echo htmlspecialchars($nombre); ?></span>
             </div>
             
           </div>
@@ -201,7 +207,7 @@
           <div class="row align-items-center">
             <div class="col-md-12">
               <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="../dashboard/index.php">Home</a></li>
+                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
                 <li class="breadcrumb-item" aria-current="page">Producto</li>
               </ul>
             </div>
@@ -214,9 +220,7 @@
         </div>
       </div>
   
-      <h1>Guías</h1>
-      <a href="http://localhost/ense%C3%B1ame/admin/dashboard/index.php">Inicio</a>|<a href="http://localhost/ense%C3%B1ame/admin/dashboard/usuarios.php"> Usuario</a> |
-      <a href="../application/user-list.html">Producto</a> | <a href="../application/servicio.php">Servicio</a>   
+      <h1>Guías</h1>     
         <div class="card mt-3">
         <div class="card-body">
           <h2>Guías de aprendizaje de LSC</h2>
@@ -332,58 +336,6 @@
   </div>
 
   <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-        </div>
-        <footer class="pc-footer">
-    <div class="footer-wrapper container-fluid">
-      <div class="row">
-        <div class="col-sm my-1">          
-        </div>
-        <div class="col-auto my-1">          
-        </div>
-      </div>
-    </div>
-  </footer>
- 
-
-
-
-
-
-
-  <script src="../assets/js/plugins/apexcharts.min.js"></script>
-  <script src="../assets/js/pages/dashboard-default.js"></script>
-  <script src="../assets/js/plugins/popper.min.js"></script>
-  <script src="../assets/js/plugins/simplebar.min.js"></script>
-  <script src="../assets/js/plugins/bootstrap.min.js"></script>
-  <script src="../assets/js/fonts/custom-font.js"></script>
-  <script src="../assets/js/pcoded.js"></script>
-  <script src="../assets/js/plugins/feather.min.js"></script>
-
-  
-  
-  
-  
-  <script>layout_change('light');</script>
-  
-  
-  
-  
-  <script>change_box_container('false');</script>
-  
-  
-  
-  <script>layout_rtl_change('false');</script>
-  
-  
-  <script>preset_change("preset-1");</script>
-  
-  
-  <script>font_change("Public-Sans");</script>
-  
-    
-
+  <script src="../admin/assets/js/plugins/bootstrap.min.js"></script>
 </body>
 </html>

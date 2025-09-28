@@ -1,3 +1,17 @@
+<?php
+if (session_status() !== PHP_SESSION_ACTIVE) {
+  session_start();
+}
+include '../conexion.php';
+$nombre = '';
+if (!empty($_SESSION['txtdoc'])) {
+  $doc = mysqli_real_escape_string($conexion, $_SESSION['txtdoc']);
+  $res = mysqli_query($conexion, "SELECT p_nombre FROM tb_usuarios WHERE ID = '$doc' LIMIT 1");
+  if ($row = mysqli_fetch_assoc($res)) {
+    $nombre = $row['p_nombre'];
+  }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <!-- [Head] start -->
@@ -58,7 +72,7 @@
   </li>  
   
 <li class="pc-item">
-      <a href="producto.html" class="pc-link">
+  <a href="producto.php" class="pc-link">
         <span class="pc-micon"><i class="ti ti-book"></i></span>
         <span class="pc-mtext">Guias</span>
       </a>
@@ -128,7 +142,7 @@
         aria-expanded="false"
       >
         <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
-  <span><?php echo htmlspecialchars($_SESSION['primer_nombre']); ?></span>
+  <span><?php echo htmlspecialchars($nombre); ?></span>
       </a>
       <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
         <div class="dropdown-header">
@@ -137,8 +151,8 @@
               <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
             </div>
             <div class="flex-grow-1 ms-3">
-              <h6 class="mb-1">Camilo</h6>
-              <span>Admin</span>
+              <h6 class="mb-1"><?php echo htmlspecialchars($nombre); ?></h6>
+              <span><?php echo htmlspecialchars($nombre); ?></span>
             </div>
             
           </div>
@@ -227,10 +241,8 @@
   
       <!-- [ breadcrumb ] end -->
       <!-- [ Main Content ] start -->  
-      <h1>Bienvenido al Sistema</h1>
-      <a href="http://localhost/ense%C3%B1ame/admin/dashboard/index.php">Inicio</a>|<a href="http://localhost/ense%C3%B1ame/admin/dashboard/usuarios.php"> Usuario</a> |
-      <a href="../application/user-list.html">Producto</a> | <a href="../application/servicio.php">Servicio</a>   
-      <br><br>
+        <h1>Bienvenido al Sistema</h1>  
+        <br><br>
 <!-- Carrusel -->
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
   <ol class="carousel-indicators">

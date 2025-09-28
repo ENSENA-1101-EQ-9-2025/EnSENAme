@@ -81,7 +81,7 @@
 </li>
 
  <li class="pc-item">
-      <a href="producto.html" class="pc-link">
+  <a href="producto.php" class="pc-link">
         <span class="pc-micon"><i class="ti ti-book"></i></span>
         <span class="pc-mtext">Guias</span>
       </a>
