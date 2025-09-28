@@ -8,18 +8,23 @@ if(isset($_POST['btningresar'])){
     $clave = $_POST['txtpass'];            
     $pass = md5($clave);                   
 
-    // Consulta para verificar usuario y contraseña
-    $query = "SELECT * FROM tb_usuarios WHERE ID = '$numeroDocumento' AND Clave = '$pass'";
-    $result = mysqli_query($conexion, $query);
+  // Consulta para verificar usuario y contraseña y obtener el rol
+  $query = "SELECT id_rol FROM tb_usuarios WHERE ID = '$numeroDocumento' AND Clave = '$pass'";
+  $result = mysqli_query($conexion, $query);
 
-    if(mysqli_num_rows($result) > 0){
-        $_SESSION['txtdoc'] = $numeroDocumento; // Guardar sesión
-        // Redirigir al dashboard
-        echo "<script>window.location='admin/dashboard/index.php';</script>";
-        exit();
+  if(mysqli_num_rows($result) > 0){
+    $row = mysqli_fetch_assoc($result);
+    $_SESSION['txtdoc'] = $numeroDocumento; // Guardar sesión
+    // Redirigir según el rol
+    if($row['id_rol'] == 1){
+      echo "<script>window.location='admin/dashboard/index.php';</script>";
     } else {
-        $message = "Usuario o contraseña incorrectos"; 
+      echo "<script>window.location='user/index.php';</script>";
     }
+    exit();
+  } else {
+    $message = "Usuario o contraseña incorrectos"; 
+  }
 }
 ?>
 

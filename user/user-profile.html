@@ -10,22 +10,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="description" content="Mantis is made using Bootstrap 5 design framework. Download the free admin template & use it for your project.">
   <meta name="keywords" content="Mantis, Dashboard UI Kit, Bootstrap 5, Admin Template, Admin Dashboard, CRM, CMS, Bootstrap Admin Template">
-  <meta name="author" content="CodedThemes">
+  <meta name="author" content="CodedThemes">  
 
   <!-- [Favicon] icon -->
-  <link rel="icon" href="../assets/images/favicon.svg" type="image/x-icon"> <!-- [Google Font] Family -->
+  <link rel="icon" href="../admin/assets/images/favisena.png" type="image/x-icon"> <!-- [Google Font] Family -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
 <!-- [Tabler Icons] https://tablericons.com -->
-<link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css" >
+<link rel="stylesheet" href="../admin/assets/fonts/tabler-icons.min.css" >
 <!-- [Feather Icons] https://feathericons.com -->
-<link rel="stylesheet" href="../assets/fonts/feather.css" >
+<link rel="stylesheet" href="../admin/assets/fonts/feather.css" >
 <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
-<link rel="stylesheet" href="../assets/fonts/fontawesome.css" >
+<link rel="stylesheet" href="../admin/assets/fonts/fontawesome.css" >
 <!-- [Material Icons] https://fonts.google.com/icons -->
-<link rel="stylesheet" href="../assets/fonts/material.css" >
+<link rel="stylesheet" href="../admin/assets/fonts/material.css" >
 <!-- [Template CSS Files] -->
-<link rel="stylesheet" href="../assets/css/style.css" id="main-style-link" >
-<link rel="stylesheet" href="../assets/css/style-preset.css" >
+<link rel="stylesheet" href="../admin/assets/css/style.css" id="main-style-link" >
+<link rel="stylesheet" href="../admin/assets/css/style-preset.css" >
 
 </head>
 <!-- [Head] end -->
@@ -45,7 +45,7 @@
     <div class="m-header">
       <a href="../dashboard/index.php" class="b-brand text-primary">
         <!-- ========   Change your logo from here   ============ -->
-        <img src="../assets/images/logoensename.png" class="img-fluid" alt="">
+        <img src="../admin/assets/images/logoensename.png" class="img-fluid" alt="">
       </a>
     </div>
     <div class="navbar-content">
@@ -135,14 +135,14 @@
         data-bs-auto-close="outside"
         aria-expanded="false"
       >
-        <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
+        <img src="../admin/assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
         <span>Camilo</span>
       </a>
       <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
         <div class="dropdown-header">
           <div class="d-flex mb-1">
             <div class="flex-shrink-0">
-              <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
+              <img src="../admin/assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
             </div>
             <div class="flex-grow-1 ms-3">
               <h6 class="mb-1">Camilo</h6>
@@ -260,6 +260,16 @@
                         <div class="col-10">
                           <h5>Información personal</h5>
                           <hr class="mb-4">
+                          <?php
+                          if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                            $tipoDocumento = $_POST["tipoDocumento"];
+                            $numeroDocumento = $_POST["numeroDocumento"];
+                            $primerNombre = $_POST["primerNombre"];
+                            $segundoNombre = $_POST["segundoNombre"];
+                            $primerApellido = $_POST["primerApellido"];
+                            $segundoApellido = $_POST["segundoApellido"];
+                          }
+                          ?>
                         <form action="http://localhost/enseñame/admin/dashboard/index.php" method="post"></form>
                         </div>
                         <div class="col-sm-4">
@@ -315,19 +325,7 @@
                             <label for="confirmarClave">CClave:</label>
                             <input type="password" name="confirmarClave" id="confirmarClave" required>
                           </div>
-                        </div>
-                        <div class="col-sm-7">
-                          <div class="form-group">
-                            <label for="idrol">Seleccione su Rol:
-                              <select name="idrol" id="idrol">
-                                <option value="">Seleccione</option>
-                                <option value="1">admin</option>
-                                <option value="2">user</option>
-                                <option value="3">Operator</option>
-                              </select>
-                            </label>
-                          </div>
-                        </div>
+                        </div>                        
                       </div>
                       
                       <button type="submit" name="btn_registrar" id="btn_registrar" class="btn btn-primary">Registrar</button>
@@ -350,88 +348,7 @@
                     }
                   </script>
 
-                </div>
-                <div class="tab-pane fade" id="user-cont-2" role="tabpanel">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5>Payment</h5>
-                      <hr class="mb-4">
-                      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                        <li class="nav-item">
-                          <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#pills-home"
-                            role="tab" aria-controls="pills-home" aria-selected="true">Card</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="#pills-profile"
-                            role="tab" aria-controls="pills-profile" aria-selected="false">Paypal</a>
-                        </li>
-                      </ul>
-                      <div class="tab-content" id="pills-tabContent">
-                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
-                          aria-labelledby="pills-home-tab">
-                          <div class="row mb-2">
-                            <div class="col-lg-6">
-                              <div class="border card p-3">
-                                <div class="form-check">
-                                  <input type="radio" name="radio1" class="form-check-input input-primary"
-                                    id="customCheckdef1">
-                                  <label class="form-check-label d-block" for="customCheckdef1">
-                                    <span class="d-flex align-items-center justify-content-between">
-                                      <span>
-                                        <span class=" mb-2 text-muted d-block">Selena Litten</span>
-                                        <span class="h5 mb-0">**** **** **** 3456</span>
-                                      </span>
-                                      <span class="d-inline-flex align-items-center">
-                                        <span class="mx-3"
-                                          style="background: url('../assets/images/application/card.png'); width: 33px; height: 20px;"></span>
-                                        <a href="#" class="avtar avtar-xs btn-link-danger">
-                                          <i class="ti ti-trash f-18"></i>
-                                        </a>
-                                      </span>
-                                    </span>
-                                  </label>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="col-lg-6">
-                              <div class="border card p-3">
-                                <div class="form-check">
-                                  <input type="radio" name="radio1" class="form-check-input input-primary"
-                                    id="customCheckdef2">
-                                  <label class="form-check-label d-block" for="customCheckdef2">
-                                    <span class="d-flex align-items-center justify-content-between">
-                                      <span>
-                                        <span class=" mb-2 text-muted d-block">Stebin Ben</span>
-                                        <span class="h5 mb-0">**** **** **** 7654</span>
-                                      </span>
-                                      <span class="d-inline-flex align-items-center">
-                                        <span class="mx-3"
-                                          style="background: url('../assets/images/application/card.png'); width: 33px; height: 20px; background-position: right;"></span>
-                                        <a href="#" class="avtar avtar-xs btn-link-danger">
-                                          <i class="ti ti-trash f-18"></i>
-                                        </a>
-                                      </span>
-                                    </span>
-                                  </label>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                          <div class="form-group">
-                            <label class="form-label">Email Address</label>
-                            <input type="email" class="form-control" value="stebin.ben@gmail.com">
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-footer text-end btn-page">
-                      <div class="btn btn-outline-secondary">Cancel</div>
-                      <div class="btn btn-primary">Save</div>
-                    </div>
-                  </div>
-                </div>
+                </div>                
                 <div class="tab-pane fade" id="user-cont-3" role="tabpanel">
                   <div class="card">
                     <div class="card-body">
@@ -481,63 +398,7 @@
                           <hr class="mb-4">
                         </div>
                         <div class="col-sm-12">
-                          <ul class="list-group list-group-flush">
-                            <li class="list-group-item px-0">
-                              <div class="d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center">
-                                  <i class="ti ti-file-invoice me-3 f-36 text-primary"></i>
-                                  <div>
-                                    <h5 class="mb-1">Order Confirmation</h5>
-                                    <p class="text-muted text-sm mb-0">You will be notified when customer order any product</p>
-                                  </div>
-                                </div>
-                                <div class="form-check form-switch p-0">
-                                  <input class="form-check-input h4 position-relative m-0" type="checkbox" role="switch" checked>
-                                </div>
-                              </div>
-                            </li>
-                            <li class="list-group-item px-0">
-                              <div class="d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center">
-                                  <i class="ti ti-mail me-3 f-36 text-primary"></i>
-                                  <div>
-                                    <h5 class="mb-1">Setup Email Notification</h5>
-                                    <p class="text-muted text-sm mb-0">Turn on email notification to get updates through email</p>
-                                  </div>
-                                </div>
-                                <div class="form-check form-switch p-0">
-                                  <input class="form-check-input h4 position-relative m-0" type="checkbox" role="switch">
-                                </div>
-                              </div>
-                            </li>
-                            <li class="list-group-item px-0">
-                              <div class="d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center">
-                                  <i class="ti ti-notification me-3 f-36 text-primary"></i>
-                                  <div>
-                                    <h5 class="mb-1">Update System Notification</h5>
-                                    <p class="text-muted text-sm mb-0">You will be notified when customer order any product</p>
-                                  </div>
-                                </div>
-                                <div class="form-check form-switch p-0">
-                                  <input class="form-check-input h4 position-relative m-0" type="checkbox" role="switch" checked>
-                                </div>
-                              </div>
-                            </li>
-                            <li class="list-group-item px-0">
-                              <div class="d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center">
-                                  <i class="ti ti-writing-sign me-3 f-36 text-primary"></i>
-                                  <div>
-                                    <h5 class="mb-1">Language Change</h5>
-                                    <p class="text-muted text-sm mb-0">You will be notified when customer order any product</p>
-                                  </div>
-                                </div>
-                                <div class="form-check form-switch p-0">
-                                  <input class="form-check-input h4 position-relative m-0" type="checkbox" role="switch" checked>
-                                </div>
-                              </div>
-                            </li>
+                          <ul class="list-group list-group-flush">                                                        
                           </ul>
                         </div>
                       </div>
@@ -573,12 +434,12 @@
       </div>
     </div>
   </footer> <!-- Required Js -->
-<script src="../assets/js/plugins/popper.min.js"></script>
-<script src="../assets/js/plugins/simplebar.min.js"></script>
-<script src="../assets/js/plugins/bootstrap.min.js"></script>
-<script src="../assets/js/fonts/custom-font.js"></script>
-<script src="../assets/js/pcoded.js"></script>
-<script src="../assets/js/plugins/feather.min.js"></script>
+<script src="../admin/assets/js/plugins/popper.min.js"></script>
+<script src="../admin/assets/js/plugins/simplebar.min.js"></script>
+<script src="../admin/assets/js/plugins/bootstrap.min.js"></script>
+<script src="../admin/assets/js/fonts/custom-font.js"></script>
+<script src="../admin/assets/js/pcoded.js"></script>
+<script src="../admin/assets/js/plugins/feather.min.js"></script>
 
 
 

@@ -346,44 +346,94 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body class="container py-4">
 
   <h2>Chat en vivo</h2>
-
+  <div class="mb-3">
+    <label for="usuarioDestino" class="form-label">Usuario destino:</label>
+    <select id="usuarioDestino" class="form-select"></select>
+    <div id="errorUsuario" class="text-danger mt-1" style="display:none;"></div>
+    <div id="errorSpam" class="text-danger mt-1" style="display:none;"></div>
+  </div>
   <div id="chat-box"></div>
-
-  <form id="chat-form" enctype="multipart/form-data" class="mt-3">
+  <form id="chat-form" class="mt-3">
     <div class="input-group">
-      <input type="text" name="message" id="message" class="form-control" placeholder="Escribe un mensaje...">
-      <input type="file" name="media" id="media" class="form-control">
+      <input type="text" name="mensaje" id="mensaje" class="form-control" placeholder="Escribe un mensaje...">
       <button class="btn btn-primary" type="submit">Enviar</button>
     </div>
   </form>
 
   <script>
+    // Suponiendo que el admin tiene el ID 5555, puedes ajustar según tu sistema de login
+    const usuarioActual = 5555;
+    async function cargarUsuarios() {
+      const res = await fetch('../../chat_api.php?get_users=1');
+      const data = await res.json();
+      const select = document.getElementById('usuarioDestino');
+      select.innerHTML = '';
+      data.forEach(u => {
+        const option = document.createElement('option');
+        option.value = u.ID;
+        option.textContent = `${u.p_nombre} ${u.p_apellido} (ID: ${u.ID})`;
+        select.appendChild(option);
+      });
+    }
+
+    function getUsuarioDestino() {
+      return document.getElementById("usuarioDestino").value;
+    }
+    async function validarUsuarioDestino(id) {
+      const res = await fetch(`../../chat_api.php?check_user=1&para=${id}`);
+      const data = await res.json();
+      return data.exists;
+    }
     async function loadChat() {
-      const res = await fetch("chat.json");
+      const usuarioDestino = getUsuarioDestino();
+      if (!await validarUsuarioDestino(usuarioDestino)) {
+        document.getElementById("errorUsuario").style.display = "block";
+        document.getElementById("errorUsuario").textContent = "El usuario destino no existe.";
+        document.getElementById("chat-box").innerHTML = "";
+        return;
+      } else {
+        document.getElementById("errorUsuario").style.display = "none";
+      }
+      const res = await fetch(`../../chat_api.php?para=${usuarioDestino}`);
       if (!res.ok) return;
       const data = await res.json();
       const box = document.getElementById("chat-box");
       box.innerHTML = "";
       data.forEach(msg => {
         const div = document.createElement("div");
-        div.className = "msg me";
-        div.innerHTML = `<strong>${msg.user}:</strong> ${msg.message} <br><small>${msg.time}</small>`;
-        if (msg.media) {
-          if (msg.media.match(/\.(jpg|jpeg|png|gif)$/i)) {
-            div.innerHTML += `<br><img src="${msg.media}">`;
-          } else if (msg.media.match(/\.(mp4|webm|ogg)$/i)) {
-            div.innerHTML += `<br><video src="${msg.media}" controls></video>`;
-          }
-        }
+        div.className = msg.de_usuario == usuarioActual ? "msg me" : "msg other";
+        let etiqueta = msg.mensaje.startsWith('[Admin]') ? '<span class="badge bg-danger">Admin</span> ' : '';
+        div.innerHTML = `${etiqueta}<strong>${msg.de_usuario == usuarioActual ? 'Tú' : 'Otro'}:</strong> ${msg.mensaje.replace('[Admin] ','')} <br><small>${msg.fecha}</small>`;
         box.appendChild(div);
       });
       box.scrollTop = box.scrollHeight;
     }
 
+  document.getElementById("usuarioDestino").addEventListener("change", loadChat);
+  cargarUsuarios();
+
     document.getElementById("chat-form").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const formData = new FormData(e.target);
-      await fetch("servicio.php", { method: "POST", body: formData });
+      document.getElementById("errorSpam").style.display = "none";
+      const usuarioDestino = getUsuarioDestino();
+      if (!await validarUsuarioDestino(usuarioDestino)) {
+        document.getElementById("errorUsuario").style.display = "block";
+        document.getElementById("errorUsuario").textContent = "El usuario destino no existe.";
+        return;
+      }
+      const mensaje = document.getElementById("mensaje").value;
+      if (!mensaje.trim()) return;
+      const res = await fetch(`../../chat_api.php`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `para=${usuarioDestino}&mensaje=${encodeURIComponent(mensaje)}`
+      });
+      const data = await res.json();
+      if (!data.success && data.error) {
+        document.getElementById("errorSpam").style.display = "block";
+        document.getElementById("errorSpam").textContent = data.error;
+        return;
+      }
       e.target.reset();
       loadChat();
     });
