@@ -248,8 +248,8 @@
       <!-- [ breadcrumb ] end -->
       <!-- [ Main Content ] start -->  
       <h1>Bienvenido al Sistema</h1>
-      <a href="http://localhost/ense%C3%B1ame/admin/dashboard/index.php">Inicio</a>|<a href="http://localhost/ense%C3%B1ame/admin/dashboard/usuarios.php"> Usuario</a> |
-      <a href="../application/user-list.html">Producto</a> | <a href="../application/servicio.php">Servicio</a>   
+      <a href="index.php">Inicio</a>|<a href="Usuarios.php"> Usuario</a> |
+      <a href="producto.html">Guias</a> | <a href="servicio.php">Chats</a>   
       <br><br>
 <!-- Carrusel -->
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
