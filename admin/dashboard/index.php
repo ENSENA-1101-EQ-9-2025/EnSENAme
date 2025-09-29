@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <!-- [Head] start -->
+ //comprobación de linkeo
 
 <head>
   <title>EnSEÑAme</title>
@@ -178,7 +179,7 @@
 
               
               <?php
-              $host = '127.0.0.1';
+              $host = 'localhost';
               $kaboom   = 'kaboom';
               $p_nombre = 'p_nombre';
               $Clave = 'Clave';
