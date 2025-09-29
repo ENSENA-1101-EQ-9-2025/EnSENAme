@@ -28,7 +28,7 @@ if(isset($_POST['btningresar'])){
       echo "<script>window.location='user/index.php';</script>";
     exit();
   } else {
-    $message = "Usuario o contraseña incorrectos"; 
+    $message = "Documento o contraseña incorrectos"; 
   }
 }
 ?>
