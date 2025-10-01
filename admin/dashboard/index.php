@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 include '../../conexion.php';
 $nombre = '';
 if (!empty($_SESSION['txtdoc'])) {
@@ -56,16 +58,14 @@ if (!empty($_SESSION['txtdoc'])) {
             </a>
           </li>
           <li class="pc-item pc-hasmenu">
-            <a href="javascript:void(0);" class="pc-link">
+            <a href="#" class="pc-link">
               <span class="pc-micon"><i class="ti ti-users"></i></span>
               <span class="pc-mtext">Usuarios</span>
               <span class="pc-arrow"><i class="ti ti-chevron-down"></i></span>
             </a>
-            <ul class="pc-submenu">
+            <ul class="pc-submenu" style="display: none;">
               <li class="pc-item"><a href="crear.php" class="pc-link"><span class="pc-mtext">Agregar usuario</span></a></li>
               <li class="pc-item"><a href="usuarios.php" class="pc-link"><span class="pc-mtext">Ver usuarios</span></a></li>
-              <li class="pc-item"><a href="editar_usuario.php" class="pc-link"><span class="pc-mtext">Editar usuario</span></a></li>
-              <li class="pc-item"><a href="eliminar_usuario.php" class="pc-link"><span class="pc-mtext">Eliminar usuario</span></a></li>
             </ul>
           </li>
           <li class="pc-item">
