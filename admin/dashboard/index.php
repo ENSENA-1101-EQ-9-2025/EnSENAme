@@ -25,14 +25,37 @@ if (!empty($_SESSION['txtdoc'])) {
   <meta name="description" content="Panel de administración de EnSEÑAme.">
   <meta name="keywords" content="EnSEÑAme, Dashboard, Admin, Inclusión, LSC">
   <meta name="author" content="CodedThemes">
-  <link rel="icon" href="../assets/images/favisena.png" type="image/x-icon">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
-  <link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css" >
-  <link rel="stylesheet" href="../assets/fonts/feather.css" >
-  <link rel="stylesheet" href="../assets/fonts/fontawesome.css" >
-  <link rel="stylesheet" href="../assets/fonts/material.css" >
-  <link rel="stylesheet" href="../assets/css/style.css" id="main-style-link" >
-  <link rel="stylesheet" href="../assets/css/style-preset.css" >
+  <?php
+  session_start();
+  include '../../conexion.php';
+  $nombre = '';
+  if (!empty($_SESSION['txtdoc'])) {
+    $doc = mysqli_real_escape_string($conexion, $_SESSION['txtdoc']);
+    $res = mysqli_query($conexion, "SELECT p_nombre FROM tb_usuarios WHERE ID = '$doc' LIMIT 1");
+    if ($row = mysqli_fetch_assoc($res)) {
+      $nombre = $row['p_nombre'];
+    } else {
+      $nombre = 'Usuario';
+    }
+  } else {
+    $nombre = 'Usuario';
+  }
+  ?>
+  <!-- [Favicon] icon -->
+  <link rel="icon" href="../assets/images/favisena.png" type="image/x-icon"> <!-- [Google Font] Family -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
+<!-- [Tabler Icons] https://tablericons.com -->
+<link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css" >
+<!-- [Feather Icons] https://feathericons.com -->
+<link rel="stylesheet" href="../assets/fonts/feather.css" >
+<!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+<link rel="stylesheet" href="../assets/fonts/fontawesome.css" >
+<!-- [Material Icons] https://fonts.google.com/icons -->
+<link rel="stylesheet" href="../assets/fonts/material.css" >
+<!-- [Template CSS Files] -->
+<link rel="stylesheet" href="../assets/css/style.css" id="main-style-link" >
+<link rel="stylesheet" href="../assets/css/style-preset.css" >
+
 </head>
 <body data-pc-preset="preset-1" data-pc-direction="ltr" data-pc-theme="light">
   <div class="loader-bg">
