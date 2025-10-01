@@ -208,6 +208,47 @@ if (!empty($_SESSION['txtdoc'])) {
       div.className = msg.de_usuario == usuarioActual ? "msg me" : "msg other";
       div.innerHTML = `<strong>${msg.de_usuario == usuarioActual ? 'Tú' : 'Otro'}:</strong> ${msg.mensaje} <br><small>${msg.fecha}</small>`;
       box.appendChild(div);
+<<<<<<< Updated upstream
+=======
+    });
+    box.scrollTop = box.scrollHeight;
+  }
+  document.getElementById("usuarioDestino").addEventListener("change", loadChat);
+  cargarUsuarios();
+  document.getElementById("chat-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    document.getElementById("errorSpam").style.display = "none";
+    const usuarioDestino = getUsuarioDestino();
+    if (!await validarUsuarioDestino(usuarioDestino)) {
+      document.getElementById("errorUsuario").style.display = "block";
+      document.getElementById("errorUsuario").textContent = "El usuario destino no existe.";
+      return;
+    }
+    const mensaje = document.getElementById("mensaje").value;
+    if (!mensaje.trim()) return;
+    const res = await fetch(`../../chat_api.php`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `para=${usuarioDestino}&mensaje=${encodeURIComponent(mensaje)}`
+    });
+    const data = await res.json();
+    if (!data.success && data.error) {
+      document.getElementById("errorSpam").style.display = "block";
+      document.getElementById("errorSpam").textContent = data.error;
+      return;
+    }
+    e.target.reset();
+    loadChat();
+  });
+  setInterval(loadChat, 3000);
+  loadChat();
+</script>
+<script src="../admin/assets/js/plugins/bootstrap.min.js"></script>
+</body>
+</html>
+      e.target.reset();
+      loadChat();
+>>>>>>> Stashed changes
     });
     box.scrollTop = box.scrollHeight;
   }
