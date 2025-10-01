@@ -336,6 +336,6 @@ if (!empty($_SESSION['txtdoc'])) {
   </div>
 
   <!-- Bootstrap JS -->
-  <script src="../admin/assets/js/plugins/bootstrap.min.js"></script>
+  <script src="../js/bootstrap.min.js"></script>
 </body>
 </html>
