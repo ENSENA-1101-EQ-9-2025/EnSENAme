@@ -29,22 +29,6 @@ if (!empty($_SESSION['txtdoc'])) {
   <meta name="description" content="Panel de administración de EnSEÑAme.">
   <meta name="keywords" content="EnSEÑAme, Dashboard, Admin, Inclusión, LSC">
   <meta name="author" content="CodedThemes">
-  <?php
-  session_start();
-  include '../../conexion.php';
-  $nombre = '';
-  if (!empty($_SESSION['txtdoc'])) {
-    $doc = mysqli_real_escape_string($conexion, $_SESSION['txtdoc']);
-    $res = mysqli_query($conexion, "SELECT p_nombre FROM tb_usuarios WHERE ID = '$doc' LIMIT 1");
-    if ($row = mysqli_fetch_assoc($res)) {
-      $nombre = $row['p_nombre'];
-    } else {
-      $nombre = 'Usuario';
-    }
-  } else {
-    $nombre = 'Usuario';
-  }
-  ?>
   <!-- [Favicon] icon -->
   <link rel="icon" href="../assets/images/favisena.png" type="image/x-icon"> <!-- [Google Font] Family -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
