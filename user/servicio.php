@@ -208,8 +208,6 @@ if (!empty($_SESSION['txtdoc'])) {
       div.className = msg.de_usuario == usuarioActual ? "msg me" : "msg other";
       div.innerHTML = `<strong>${msg.de_usuario == usuarioActual ? 'Tú' : 'Otro'}:</strong> ${msg.mensaje} <br><small>${msg.fecha}</small>`;
       box.appendChild(div);
-<<<<<<< Updated upstream
-=======
     });
     box.scrollTop = box.scrollHeight;
   }
@@ -246,9 +244,6 @@ if (!empty($_SESSION['txtdoc'])) {
 <script src="../admin/assets/js/plugins/bootstrap.min.js"></script>
 </body>
 </html>
-      e.target.reset();
-      loadChat();
->>>>>>> Stashed changes
     });
     box.scrollTop = box.scrollHeight;
   }

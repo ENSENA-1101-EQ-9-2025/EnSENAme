@@ -38,11 +38,7 @@ if (!empty($_SESSION['txtdoc'])) {
     <div class="m-header">
       <a href="index.php" class="b-brand text-primary">
         <img src="../assets/images/logoensename.png" class="img-fluid" alt="">
-<<<<<<< Updated upstream
-      </a>
-=======
-              <span><?php echo htmlspecialchars($nombre); ?></span>
->>>>>>> Stashed changes
+  </a>
     </div>
     <div class="navbar-content">
       <ul class="pc-navbar">
