@@ -19,7 +19,6 @@ if (!empty($_SESSION['txtdoc'])) {
 <!DOCTYPE html>
 <html lang="en">
 <!-- [Head] start -->
-
 <head>
   <title>EnSEÑAme</title>
   <!-- [Meta] -->
@@ -29,125 +28,27 @@ if (!empty($_SESSION['txtdoc'])) {
   <meta name="description" content="Mantis is made using Bootstrap 5 design framework. Download the free admin template & use it for your project.">
   <meta name="keywords" content="Mantis, Dashboard UI Kit, Bootstrap 5, Admin Template, Admin Dashboard, CRM, CMS, Bootstrap Admin Template">
   <meta name="author" content="CodedThemes">
-
   <!-- [Favicon] icon -->
-  <link rel="icon" href="../admin/assets/images/favisena.png" type="image/x-icon"> <!-- [Google Font] Family -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
-<!-- [Tabler Icons] https://tablericons.com -->
-<link rel="stylesheet" href="../admin/assets/fonts/tabler-icons.min.css" >
-<!-- [Feather Icons] https://feathericons.com -->
-<link rel="stylesheet" href="../admin/assets/fonts/feather.css" >
-<!-- [Font Awesome Icons] https://fontawesome.com/icons -->
-<link rel="stylesheet" href="../admin/assets/fonts/fontawesome.css" >
-<!-- [Material Icons] https://fonts.google.com/icons -->
-<link rel="stylesheet" href="../admin/assets/fonts/material.css" >
-<!-- [Template CSS Files] -->
-<link rel="stylesheet" href="../admin/assets/css/style.css" id="main-style-link" >
-<link rel="stylesheet" href="../admin/assets/css/style-preset.css" >
-
+  <link rel="icon" href="../admin/assets/images/favisena.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
+  <link rel="stylesheet" href="../admin/assets/fonts/tabler-icons.min.css" >
+  <link rel="stylesheet" href="../admin/assets/fonts/feather.css" >
+  <link rel="stylesheet" href="../admin/assets/fonts/fontawesome.css" >
+  <link rel="stylesheet" href="../admin/assets/fonts/material.css" >
+  <link rel="stylesheet" href="../admin/assets/css/style.css" id="main-style-link" >
+  <link rel="stylesheet" href="../admin/assets/css/style-preset.css" >
 </head>
 <!-- [Head] end -->
 <!-- [Body] Start -->
-
 <body data-pc-preset="preset-1" data-pc-direction="ltr" data-pc-theme="light">
   <!-- [ Pre-loader ] start -->
-<div class="loader-bg">
-  <div class="loader-track">
-    <div class="loader-fill"></div>
-  </div>
-</div>
-<!-- [ Pre-loader ] End -->
- <!-- [ Sidebar Menu ] start -->
-<nav class="pc-sidebar">
-  <div class="navbar-wrapper">
-    <div class="m-header">
-      <a href="../dashboard/index.php" class="b-brand text-primary">
-        <!-- ========   Change your logo from here   ============ -->
-        <img src="../admin/assets/images/logoensename.png" class="img-fluid" alt="">
-      </a>
-    </div>
-    <div class="navbar-content">
-    <ul class="pc-navbar">
-  <li class="pc-item">
-    <a href="index.php" class="pc-link">
-      <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
-      <span class="pc-mtext">Inicio</span>
-    </a>
-  </li>  
-  
-<li class="pc-item">
-  <a href="producto.php" class="pc-link">
-        <span class="pc-micon"><i class="ti ti-book"></i></span>
-        <span class="pc-mtext">Guias</span>
-      </a>
-  </li>
-  <li class="pc-item">
-          <a href="servicio.php" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-message-circle"></i></span>
-            <span class="pc-mtext">Chats</span>
-          </a>
-        </li>
-
-    </div>
-    
-  </div>
-</nav>
-
-<!-- [ Sidebar Menu ] end --> <!-- [ Header Topbar ] start -->
-<header class="pc-header">
-  <div class="header-wrapper"> <!-- [Mobile Media Block] start -->
-<div class="me-auto pc-mob-drp">
-  <?php
-  if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-  }
-  include '../conexion.php';
-  $nombre = '';
-  if (!empty($_SESSION['txtdoc'])) {
-    $doc = mysqli_real_escape_string($conexion, $_SESSION['txtdoc']);
-    $res = mysqli_query($conexion, "SELECT p_nombre FROM tb_usuarios WHERE ID = '$doc' LIMIT 1");
-    if ($row = mysqli_fetch_assoc($res)) {
-      $nombre = $row['p_nombre'];
-    } else {
-      $nombre = 'Usuario';
-    }
-  } else {
-    $nombre = 'Usuario';
-  }
-  ?>
-  <!DOCTYPE html>
-  <html lang="en">
-  <!-- [Head] start -->
-  <head>
-    <title>EnSEÑAme</title>
-    <!-- [Meta] -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Mantis is made using Bootstrap 5 design framework. Download the free admin template & use it for your project.">
-    <meta name="keywords" content="Mantis, Dashboard UI Kit, Bootstrap 5, Admin Template, Admin Dashboard, CRM, CMS, Bootstrap Admin Template">
-    <meta name="author" content="CodedThemes">
-    <!-- [Favicon] icon -->
-    <link rel="icon" href="../admin/assets/images/favisena.png" type="image/x-icon">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
-    <link rel="stylesheet" href="../admin/assets/fonts/tabler-icons.min.css" >
-    <link rel="stylesheet" href="../admin/assets/fonts/feather.css" >
-    <link rel="stylesheet" href="../admin/assets/fonts/fontawesome.css" >
-    <link rel="stylesheet" href="../admin/assets/fonts/material.css" >
-    <link rel="stylesheet" href="../admin/assets/css/style.css" id="main-style-link" >
-    <link rel="stylesheet" href="../admin/assets/css/style-preset.css" >
-  </head>
-  <!-- [Head] end -->
-  <!-- [Body] Start -->
-  <body data-pc-preset="preset-1" data-pc-direction="ltr" data-pc-theme="light">
-    <!-- [ Pre-loader ] start -->
   <div class="loader-bg">
     <div class="loader-track">
       <div class="loader-fill"></div>
     </div>
   </div>
   <!-- [ Pre-loader ] End -->
-   <!-- [ Sidebar Menu ] start -->
+  <!-- [ Sidebar Menu ] start -->
   <nav class="pc-sidebar">
     <div class="navbar-wrapper">
       <div class="m-header">
@@ -412,5 +313,5 @@ if (!empty($_SESSION['txtdoc'])) {
   <script>layout_rtl_change('false');</script>
   <script>preset_change("preset-1");</script>
   <script>font_change("Public-Sans");</script>
-  </body>
-  </html>
+</body>
+</html>
