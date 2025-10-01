@@ -187,9 +187,9 @@ session_start();
               <i class="ti ti-power"></i>
               <span>Logout</span>
             </a>
-            <a href="#!" class="dropdown-item">
-              <i class="ti ti-user"></i>
-              <span>View Profile</span>
+            <a href="logout.php" class="dropdown-item">
+              <i class="ti ti-power"></i>
+              <span>Logout</span>
             </a>
             <a href="#!" class="dropdown-item">
               <i class="ti ti-clipboard-list"></i>

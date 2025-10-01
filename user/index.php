@@ -192,9 +192,9 @@ if (!empty($_SESSION['txtdoc'])) {
               <i class="ti ti-edit-circle"></i>
               <span>Editar Perfil</span>
             </a>
-            <a href="#!" class="dropdown-item">
-              <i class="ti ti-user"></i>
-              <span>Ver Perfil</span>
+            <a href="logout.php" class="dropdown-item">
+              <i class="ti ti-power"></i>
+              <span>Salir</span>
             </a>
             <a href="#!" class="dropdown-item">
               <i class="ti ti-power"></i>

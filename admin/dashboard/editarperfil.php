@@ -1,5 +1,15 @@
 <?php
 session_start();
+require_once '../../conexion.php';
+if (!isset($_SESSION['id_usuario'])) {
+  header('Location: ../../login.php');
+  exit();
+}
+$id_usuario = $_SESSION['id_usuario'];
+// Obtener datos del usuario activo
+$sql = "SELECT * FROM usuarios WHERE id_usuario='$id_usuario'";
+$res = mysqli_query($conexion, $sql);
+$usuario = mysqli_fetch_assoc($res);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -123,8 +133,8 @@ session_start();
     <!-- Perfil -->
     <div class="profile-sidebar">
       <img id="profileImage" src="../assets/images/user/avatar-2.jpg" alt="user-image">
-      <h2>Camilo</h2>
-      <p>Admin</p>
+  <h2><?php echo htmlspecialchars($usuario['primer_nombre']); ?></h2>
+  <p><?php echo htmlspecialchars($usuario['primer_nombre']); ?></p>
       <button class="btn-change" onclick="document.getElementById('fileInput').click();">Cambiar Imagen</button>
       <input type="file" id="fileInput" accept="image/*" onchange="previewImage(event)">
     </div>
@@ -133,45 +143,64 @@ session_start();
     <div class="profile-form">
       <h3>Información Personal</h3>
       
-      <div class="form-group">
-        <label for="tipo-doc">Tipo de Documento:</label>
-        <select id="tipo-doc">
-          <option>Seleccione</option>
-          <option>C.C</option>
-          <option>T.I</option>
-          <option>N.N</option>
-        </select>
-      </div>
+      <form method="post" action="editarperfil.php">
+        <div class="form-group">
+          <label for="tipo-doc">Tipo de Documento:</label>
+          <select id="tipo-doc" name="tipo_doc">
+            <option value="">Seleccione</option>
+            <option value="C.C" <?php if($usuario['tipo_doc']==='C.C') echo 'selected'; ?>>C.C</option>
+            <option value="T.I" <?php if($usuario['tipo_doc']==='T.I') echo 'selected'; ?>>T.I</option>
+            <option value="N.N" <?php if($usuario['tipo_doc']==='N.N') echo 'selected'; ?>>N.N</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="num-doc">Número de Documento:</label>
+          <input type="text" id="num-doc" name="num_doc" value="<?php echo htmlspecialchars($usuario['num_doc']); ?>">
+        </div>
+        <div class="form-group">
+          <label for="primer-nombre">Primer Nombre:</label>
+          <input type="text" id="primer-nombre" name="primer_nombre" value="<?php echo htmlspecialchars($usuario['primer_nombre']); ?>">
+        </div>
+        <div class="form-group">
+          <label for="segundo-nombre">Segundo Nombre:</label>
+          <input type="text" id="segundo-nombre" name="segundo_nombre" value="<?php echo htmlspecialchars($usuario['segundo_nombre']); ?>">
+        </div>
+        <div class="form-group">
+          <label for="primer-apellido">Primer Apellido:</label>
+          <input type="text" id="primer-apellido" name="primer_apellido" value="<?php echo htmlspecialchars($usuario['primer_apellido']); ?>">
+        </div>
+        <div class="form-group">
+          <label for="segundo-apellido">Segundo Apellido:</label>
+          <input type="text" id="segundo-apellido" name="segundo_apellido" value="<?php echo htmlspecialchars($usuario['segundo_apellido']); ?>">
+        </div>
+        <input type="hidden" name="id_usuario" value="<?php echo $id_usuario; ?>">
+        <br>
+        <button type="submit" class="btn-ir">Guardar cambios</button>
+      </form>
+<?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_usuario']) && $_POST['id_usuario'] == $id_usuario) {
+  $tipo_doc = mysqli_real_escape_string($conexion, $_POST['tipo_doc']);
+  $num_doc = mysqli_real_escape_string($conexion, $_POST['num_doc']);
+  $primer_nombre = mysqli_real_escape_string($conexion, $_POST['primer_nombre']);
+  $segundo_nombre = mysqli_real_escape_string($conexion, $_POST['segundo_nombre']);
+  $primer_apellido = mysqli_real_escape_string($conexion, $_POST['primer_apellido']);
+  $segundo_apellido = mysqli_real_escape_string($conexion, $_POST['segundo_apellido']);
 
-      <div class="form-group">
-        <label for="num-doc">Número de Documento:</label>
-        <input type="text" id="num-doc">
-      </div>
-
-      <div class="form-group">
-        <label for="primer-nombre">Primer Nombre:</label>
-        <input type="text" id="primer-nombre">
-      </div>
-
-      <div class="form-group">
-        <label for="segundo-nombre">Segundo Nombre:</label>
-        <input type="text" id="segundo-nombre">
-      </div>
-
-      <div class="form-group">
-        <label for="primer-apellido">Primer Apellido:</label>
-        <input type="text" id="primer-apellido">
-      </div>
-
-      <div class="form-group">
-        <label for="segundo-apellido">Segundo Apellido:</label>
-        <input type="text" id="segundo-apellido">
-      </div>
-<br>
-      <a href="index.php" class="btn-ir">Guardar cambios</a>
-
-
-
+  $sql_update = "UPDATE usuarios SET tipo_doc='$tipo_doc', num_doc='$num_doc', primer_nombre='$primer_nombre', segundo_nombre='$segundo_nombre', primer_apellido='$primer_apellido', segundo_apellido='$segundo_apellido' WHERE id_usuario='$id_usuario'";
+  if (mysqli_query($conexion, $sql_update)) {
+    $_SESSION['primer_nombre'] = $primer_nombre;
+    $_SESSION['segundo_nombre'] = $segundo_nombre;
+    $_SESSION['primer_apellido'] = $primer_apellido;
+    $_SESSION['segundo_apellido'] = $segundo_apellido;
+    echo '<script>alert("Datos actualizados correctamente");window.location.reload();</script>';
+  } else {
+    echo '<script>alert("Error al actualizar los datos");</script>';
+  }
+}
+?>
+    </div>
+    <div style="text-align:center; margin-top:20px;">
+      <a href="logout.php" class="btn-ir" style="background:#dc3545;">Cerrar sesión</a>
     </div>
   </div>
 
