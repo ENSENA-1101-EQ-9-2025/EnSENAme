@@ -27,7 +27,7 @@ if(isset($_POST['btningresar'])){
     } else {
       echo "<script>window.location='user/index.php';</script>";
     exit();
-  } else {
+    }
     $message = "Documento o contraseña incorrectos"; 
   }
 }
@@ -82,7 +82,13 @@ if(isset($_POST['btningresar'])){
           <a href="index.php"><img src="admin/assets/images/logoensenamenobg.png" alt="img"></a>
         </nav>
         <div class="card my-5">
-          <div class="card-body"><form method="post" action="">
+          <div class="card-body">
+          <?php if (!empty($message)): ?>
+            <div class="alert alert-danger" role="alert">
+              <?php echo $message; ?>
+            </div>
+          <?php endif; ?>
+          <form method="post" action="">
             <div class="d-flex justify-content-between align-items-end mb-4">
               <h3 class="mb-0"><b>Iniciar Sesión</b></h3>
               <a href="register.php" class="link-primary">No tienes Cuenta?</a>
