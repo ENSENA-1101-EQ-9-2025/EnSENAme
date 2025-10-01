@@ -30,13 +30,17 @@
 session_start();
 include '../../conexion.php';
 $nombre = '';
-if (!empty($_SESSION['txtdoc'])) {
-  $doc = mysqli_real_escape_string($conexion, $_SESSION['txtdoc']);
-  $res = mysqli_query($conexion, "SELECT p_nombre FROM tb_usuarios WHERE ID = '$doc' LIMIT 1");
-  if ($row = mysqli_fetch_assoc($res)) {
-    $nombre = $row['p_nombre'];
+  if (!empty($_SESSION['txtdoc'])) {
+    $doc = mysqli_real_escape_string($conexion, $_SESSION['txtdoc']);
+    $res = mysqli_query($conexion, "SELECT p_nombre FROM tb_usuarios WHERE ID = '$doc' LIMIT 1");
+    if ($row = mysqli_fetch_assoc($res)) {
+      $nombre = $row['p_nombre'];
+    } else {
+      $nombre = 'Usuario';
+    }
+  } else {
+    $nombre = 'Usuario';
   }
-}
 ?>
 
 </head>
