@@ -14,19 +14,21 @@ if(isset($_POST['btningresar'])){
 //Cambio comprobar
   if(mysqli_num_rows($result) > 0){
     $row = mysqli_fetch_assoc($result);
-    $_SESSION['txtdoc'] = $numeroDocumento; // Guardar sesión
-    // Guardar datos del usuario en la sesión
-    $_SESSION['primer_nombre'] = $row['p_nombre'];
-    $_SESSION['segundo_nombre'] = $row['s_nombre'];
-    $_SESSION['primer_apellido'] = $row['p_apellido'];
-    $_SESSION['segundo_apellido'] = $row['s_apellido'];
-    $_SESSION['id_rol'] = $row['id_rol'];
+  $_SESSION['txtdoc'] = $numeroDocumento; // Guardar sesión
+  // Guardar datos del usuario en la sesión
+  $_SESSION['id_usuario'] = $row['ID'];
+  $_SESSION['primer_nombre'] = $row['p_nombre'];
+  $_SESSION['segundo_nombre'] = $row['s_nombre'];
+  $_SESSION['primer_apellido'] = $row['p_apellido'];
+  $_SESSION['segundo_apellido'] = $row['s_apellido'];
+  $_SESSION['id_rol'] = $row['id_rol'];
     // Redirigir según el rol
     if($row['id_rol'] == 1){
-      echo "<script>window.location='admin/dashboard/index.php';</script>";
+      header("Location: admin/dashboard/index.php");
+      exit();
     } else {
-      echo "<script>window.location='user/index.php';</script>";
-    exit();
+      header("Location: user/index.php");
+      exit();
     }
     $message = "Documento o contraseña incorrectos"; 
   }

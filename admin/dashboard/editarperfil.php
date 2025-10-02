@@ -6,8 +6,8 @@ if (!isset($_SESSION['id_usuario'])) {
   exit();
 }
 $id_usuario = $_SESSION['id_usuario'];
-// Obtener datos del usuario activo
-$sql = "SELECT * FROM usuarios WHERE id_usuario='$id_usuario'";
+// Obtener datos del usuario activo (tabla y campo correctos)
+$sql = "SELECT * FROM tb_usuarios WHERE ID='$id_usuario'";
 $res = mysqli_query($conexion, $sql);
 $usuario = mysqli_fetch_assoc($res);
 ?>
@@ -129,12 +129,27 @@ $usuario = mysqli_fetch_assoc($res);
 </head>
 <body>
 
+  <a href="index.php" style="
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    text-decoration: none;
+    color: #528bca;
+    font-size: 2rem;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: bold;
+  " title="Volver al inicio">
+    <span style="font-size:2.2rem;line-height:1;">&#8592;</span> <span style="font-size:1.1rem;">Inicio</span>
+  </a>
   <div class="profile-container">
     <!-- Perfil -->
     <div class="profile-sidebar">
       <img id="profileImage" src="../assets/images/user/avatar-2.jpg" alt="user-image">
-  <h2><?php echo htmlspecialchars($usuario['primer_nombre']); ?></h2>
-  <p><?php echo htmlspecialchars($usuario['primer_nombre']); ?></p>
+  <h2><?php echo htmlspecialchars($usuario['p_nombre']); ?></h2>
+  <p><?php echo htmlspecialchars($usuario['p_nombre']); ?></p>
       <button class="btn-change" onclick="document.getElementById('fileInput').click();">Cambiar Imagen</button>
       <input type="file" id="fileInput" accept="image/*" onchange="previewImage(event)">
     </div>
@@ -146,32 +161,31 @@ $usuario = mysqli_fetch_assoc($res);
       <form method="post" action="editarperfil.php">
         <div class="form-group">
           <label for="tipo-doc">Tipo de Documento:</label>
-          <select id="tipo-doc" name="tipo_doc">
-            <option value="">Seleccione</option>
-            <option value="C.C" <?php if($usuario['tipo_doc']==='C.C') echo 'selected'; ?>>C.C</option>
-            <option value="T.I" <?php if($usuario['tipo_doc']==='T.I') echo 'selected'; ?>>T.I</option>
-            <option value="N.N" <?php if($usuario['tipo_doc']==='N.N') echo 'selected'; ?>>N.N</option>
+          <select id="tipo-doc" name="tipo_doc" style="pointer-events: none; background: #f1f1f1; cursor: not-allowed;">
+            <option value="1" <?php if($usuario['Tipo_Documento']==1) echo 'selected'; ?>>C.C</option>
+            <option value="2" <?php if($usuario['Tipo_Documento']==2) echo 'selected'; ?>>T.I</option>
+            <option value="3" <?php if($usuario['Tipo_Documento']==3) echo 'selected'; ?>>N.N</option>
           </select>
         </div>
         <div class="form-group">
           <label for="num-doc">Número de Documento:</label>
-          <input type="text" id="num-doc" name="num_doc" value="<?php echo htmlspecialchars($usuario['num_doc']); ?>">
+          <input type="text" id="num-doc" name="num_doc" value="<?php echo htmlspecialchars($usuario['ID']); ?>">
         </div>
         <div class="form-group">
           <label for="primer-nombre">Primer Nombre:</label>
-          <input type="text" id="primer-nombre" name="primer_nombre" value="<?php echo htmlspecialchars($usuario['primer_nombre']); ?>">
+          <input type="text" id="primer-nombre" name="primer_nombre" value="<?php echo htmlspecialchars($usuario['p_nombre']); ?>">
         </div>
         <div class="form-group">
           <label for="segundo-nombre">Segundo Nombre:</label>
-          <input type="text" id="segundo-nombre" name="segundo_nombre" value="<?php echo htmlspecialchars($usuario['segundo_nombre']); ?>">
+          <input type="text" id="segundo-nombre" name="segundo_nombre" value="<?php echo htmlspecialchars($usuario['s_nombre']); ?>">
         </div>
         <div class="form-group">
           <label for="primer-apellido">Primer Apellido:</label>
-          <input type="text" id="primer-apellido" name="primer_apellido" value="<?php echo htmlspecialchars($usuario['primer_apellido']); ?>">
+          <input type="text" id="primer-apellido" name="primer_apellido" value="<?php echo htmlspecialchars($usuario['p_apellido']); ?>">
         </div>
         <div class="form-group">
           <label for="segundo-apellido">Segundo Apellido:</label>
-          <input type="text" id="segundo-apellido" name="segundo_apellido" value="<?php echo htmlspecialchars($usuario['segundo_apellido']); ?>">
+          <input type="text" id="segundo-apellido" name="segundo_apellido" value="<?php echo htmlspecialchars($usuario['s_apellido']); ?>">
         </div>
         <input type="hidden" name="id_usuario" value="<?php echo $id_usuario; ?>">
         <br>
@@ -186,15 +200,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_usuario']) && $_PO
   $primer_apellido = mysqli_real_escape_string($conexion, $_POST['primer_apellido']);
   $segundo_apellido = mysqli_real_escape_string($conexion, $_POST['segundo_apellido']);
 
-  $sql_update = "UPDATE usuarios SET tipo_doc='$tipo_doc', num_doc='$num_doc', primer_nombre='$primer_nombre', segundo_nombre='$segundo_nombre', primer_apellido='$primer_apellido', segundo_apellido='$segundo_apellido' WHERE id_usuario='$id_usuario'";
-  if (mysqli_query($conexion, $sql_update)) {
-    $_SESSION['primer_nombre'] = $primer_nombre;
-    $_SESSION['segundo_nombre'] = $segundo_nombre;
-    $_SESSION['primer_apellido'] = $primer_apellido;
-    $_SESSION['segundo_apellido'] = $segundo_apellido;
-    echo '<script>alert("Datos actualizados correctamente");window.location.reload();</script>';
+  // Comprobar si hay cambios reales
+  $hay_cambios = (
+    $tipo_doc != $usuario['Tipo_Documento'] ||
+    $num_doc != $usuario['ID'] ||
+    $primer_nombre != $usuario['p_nombre'] ||
+    $segundo_nombre != $usuario['s_nombre'] ||
+    $primer_apellido != $usuario['p_apellido'] ||
+    $segundo_apellido != $usuario['s_apellido']
+  );
+
+  if ($hay_cambios) {
+    $sql_update = "UPDATE tb_usuarios SET Tipo_Documento='$tipo_doc', ID='$num_doc', p_nombre='$primer_nombre', s_nombre='$segundo_nombre', p_apellido='$primer_apellido', s_apellido='$segundo_apellido' WHERE ID='$id_usuario'";
+    if (mysqli_query($conexion, $sql_update)) {
+      $_SESSION['p_nombre'] = $primer_nombre;
+      $_SESSION['s_nombre'] = $segundo_nombre;
+      $_SESSION['p_apellido'] = $primer_apellido;
+      $_SESSION['s_apellido'] = $segundo_apellido;
+      echo '<script>alert("Datos actualizados correctamente");window.location.reload();</script>';
+    } else {
+      echo '<script>alert("Error al actualizar los datos");</script>';
+    }
   } else {
-    echo '<script>alert("Error al actualizar los datos");</script>';
+    echo '<script>alert("No se detectaron cambios en los datos.");</script>';
   }
 }
 ?>

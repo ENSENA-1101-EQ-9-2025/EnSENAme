@@ -33,19 +33,19 @@ h2 {
 [data-pc-theme_contrast=true] {
   --bs-body-bg: #ffffff;
   --pc-sidebar-background: transparent;
-  --pc-sidebar-active-color: #1890ff;
+  --pc-sidebar-active-color: #528bca;
   --pc-sidebar-shadow: 1px 0 3px 0px #dee2e6;
   --pc-sidebar-border: none;
   --pc-card-box-shadow: 0px 8px 24px rgba(27, 46, 94, 0.08);
 }
 
 [data-pc-preset=preset-1] {
-  --pc-sidebar-active-color: #1890ff;
-  --bs-blue: #1890ff;
-  --bs-primary: #1890ff;
-  --bs-primary-rgb: 24, 144, 255;
-  --bs-primary-light: #e8f4ff;
-  --bs-link-color: #1890ff;
+  --pc-sidebar-active-color: #528bca;
+  --bs-blue: #528bca;
+  --bs-primary: #528bca;
+  --bs-primary-rgb: 82, 139, 202;
+  --bs-primary-light: #e3eef7;
+  --bs-link-color: #528bca;
   --bs-link-color-rgb: 24, 144, 255;
   --bs-link-hover-color: #1373cc;
   --bs-link-hover-color-rgb: to-rgb(shift-color($pc-primary, $link-shade-percentage));
@@ -53,10 +53,10 @@ h2 {
 }
 [data-pc-preset=preset-1] .bg-light-primary {
   background: #e8f4ff;
-  color: #1890ff;
+  color: #528bca;
 }
 [data-pc-preset=preset-1] .link-primary {
-  color: #1890ff !important;
+  color: #528bca !important;
 }
 [data-pc-preset=preset-1] .link-primary:hover, [data-pc-preset=preset-1] .link-primary:focus {
   color: #1373cc !important;
@@ -74,8 +74,8 @@ h2 {
   --bs-btn-active-border-color: #126cbf;
   --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
   --bs-btn-disabled-color: #ffffff;
-  --bs-btn-disabled-bg: #1890ff;
-  --bs-btn-disabled-border-color: #1890ff;
+  --bs-btn-disabled-bg: #528bca;
+  --bs-btn-disabled-border-color: #528bca;
 }
 [data-pc-preset=preset-1] .btn-link {
   --bs-btn-color: #1890ff;
@@ -125,7 +125,7 @@ h2 {
 }
 [data-pc-preset=preset-1] .form-check .form-check-input.input-primary:checked {
   border-color: #1890ff;
-  background-color: #1890ff;
+  background-color: #528bca;
 }
 [data-pc-preset=preset-1] .form-check .form-check-input.input-light-primary:checked {
   border-color: #e8f4ff;
@@ -139,7 +139,7 @@ h2 {
 }
 [data-pc-preset=preset-1] .form-check .form-check-input.input-primary:focus[type=checkbox], [data-pc-preset=preset-1] .form-check .form-check-input.input-primary:focus[type=radio], [data-pc-preset=preset-1] .form-check .form-check-input.input-light-primary:focus[type=checkbox], [data-pc-preset=preset-1] .form-check .form-check-input.input-light-primary:focus[type=radio] {
   box-shadow: 0 0 0 0.2rem rgba(24, 144, 255, 0.25);
-  border-color: #1890ff;
+  border-color: #528bca;
 }
 [data-pc-preset=preset-1] .form-check.form-switch .form-check-input.input-light-primary:checked {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%231890ff'/%3e%3c/svg%3e");
@@ -245,7 +245,7 @@ h2 {
 
 [data-pc-preset=preset-2] {
   --pc-sidebar-active-color: #3366ff;
-  --bs-blue: #3366ff;
+  --bs-blue: #528bca;
   --bs-primary: #3366ff;
   --bs-primary-rgb: 51, 102, 255;
   --bs-primary-light: #ebf0ff;
@@ -449,7 +449,7 @@ h2 {
 
 [data-pc-preset=preset-3] {
   --pc-sidebar-active-color: #7265e6;
-  --bs-blue: #7265e6;
+  --bs-blue: #528bca;
   --bs-primary: #7265e6;
   --bs-primary-rgb: 114, 101, 230;
   --bs-primary-light: #f1f0fd;
@@ -653,7 +653,7 @@ h2 {
 
 [data-pc-preset=preset-4] {
   --pc-sidebar-active-color: #068e44;
-  --bs-blue: #068e44;
+  --bs-blue: #528bca;
   --bs-primary: #068e44;
   --bs-primary-rgb: 6, 142, 68;
   --bs-primary-light: #e6f4ec;
@@ -857,7 +857,7 @@ h2 {
 
 [data-pc-preset=preset-5] {
   --pc-sidebar-active-color: #3c64d0;
-  --bs-blue: #3c64d0;
+  --bs-blue: #528bca;
   --bs-primary: #3c64d0;
   --bs-primary-rgb: 60, 100, 208;
   --bs-primary-light: #ecf0fa;
@@ -1061,7 +1061,7 @@ h2 {
 
 [data-pc-preset=preset-6] {
   --pc-sidebar-active-color: #f27013;
-  --bs-blue: #f27013;
+  --bs-blue: #528bca;
   --bs-primary: #f27013;
   --bs-primary-rgb: 242, 112, 19;
   --bs-primary-light: #fef1e7;
@@ -1265,7 +1265,7 @@ h2 {
 
 [data-pc-preset=preset-7] {
   --pc-sidebar-active-color: #2aa1af;
-  --bs-blue: #2aa1af;
+  --bs-blue: #528bca;
   --bs-primary: #2aa1af;
   --bs-primary-rgb: 42, 161, 175;
   --bs-primary-light: #eaf6f7;
@@ -1469,7 +1469,7 @@ h2 {
 
 [data-pc-preset=preset-8] {
   --pc-sidebar-active-color: #00a854;
-  --bs-blue: #00a854;
+  --bs-blue: #528bca;
   --bs-primary: #00a854;
   --bs-primary-rgb: 0, 168, 84;
   --bs-primary-light: #e6f6ee;
