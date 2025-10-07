@@ -156,24 +156,6 @@ if (!empty($_SESSION['txtdoc'])) {
         </div>
       </div>
       <h1>Bienvenido al Sistema</h1>
-  <div style="
-    margin-top: 24px;
-    margin-bottom: 24px;
-    text-align: center;
-    border: 1.5px solid #4e8cff;
-    border-radius: 18px;
-    padding: 32px 20px 24px 20px;
-    box-shadow: 0 6px 24px rgba(78,140,255,0.10), 0 1.5px 6px rgba(0,0,0,0.04);
-    background: linear-gradient(135deg, #eaf1fb 60%, #f8faff 100%);
-    max-width: 420px;
-    margin-left: 0;
-    margin-right: auto;
-    margin-left: 40px;
-    transition: box-shadow 0.3s;
-  ">
-  <button class="btn btn-primary" style="font-size: 1.1rem; padding: 10px 32px; border-radius: 8px; box-shadow: 0 2px 8px rgba(78,140,255,0.10);" onclick="window.location.href='../../IA/index.html'">¡Probar IA!</button>
-    <p style="margin-top: 18px; color: #2d3a4a; font-size: 1.08rem; font-weight: 500; letter-spacing: 0.01em;">¡Prueba nuestra IA de reconocimiento de señas!</p>
-  </div>
       <br><br>
       <!-- Carrusel -->
       <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -278,13 +260,13 @@ if (!empty($_SESSION['txtdoc'])) {
                     <h6 class="m-0 font-weight-bold text-primary">% de Progreso de los avances</h6>
                   </div>
                   <div class="card-body">
-                    <div class="mb-1 small">IA traductora <h4>30%</h4></div>
+                    <div class="mb-1 small">IA traductora <h4>25%</h4></div>
                     <div class="progress mb-4">
-                      <div class="progress-bar" role="progressbar" style="width: 30%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                      <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <div class="mb-1 small">Desarrollo general <h4>46%</h4></div>
+                    <div class="mb-1 small">Desarrollo general <h4>42%</h4></div>
                     <div class="progress progress-sm mb-2">
-                      <div class="progress-bar" role="progressbar" style="width: 46%" aria-valuenow="46" aria-valuemin="0" aria-valuemax="100"></div>
+                      <div class="progress-bar" role="progressbar" style="width: 42%" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                   </div>
                 </div>
