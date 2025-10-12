@@ -53,27 +53,44 @@ session_start();
     </div>
     <div class="navbar-content">
     <ul class="pc-navbar">
-  <li class="pc-item">
-    <a href="../dashboard/index.php" class="pc-link">
-      <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
-      <span class="pc-mtext">Dashboard</span>
-    </a>
-  </li>     
-  
-  <li class="pc-item">
-    <a href="../usuarios/index.php" class="pc-link">
-      <span class="pc-micon"><i class="ti ti-users"></i></span>
-      <span class="pc-mtext">Usuarios</span>
-    </a>
-  </li>
-
-  <li class="pc-item">
-    <a href="../application/user-profile.html" class="pc-link">
-      <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
-      <span class="pc-mtext">Crear Usuario</span>
-    </a>
-  </li>
-</ul>
+      <li class="pc-item">
+        <a href="index.php" class="pc-link">
+          <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
+          <span class="pc-mtext">Inicio</span>
+        </a>
+      </li>
+      <li class="pc-item pc-hasmenu">
+        <a href="javascript:void(0);" class="pc-link">
+          <span class="pc-micon"><i class="ti ti-users"></i></span>
+          <span class="pc-mtext">Usuarios</span>
+          <span class="pc-arrow"><i class="ti ti-chevron-down"></i></span>
+        </a>
+        <ul class="pc-submenu">
+          <li class="pc-item">
+            <a href="crear.php" class="pc-link">
+              <span class="pc-mtext">Agregar usuario</span>
+            </a>
+          </li>
+          <li class="pc-item">
+            <a href="usuarios.php" class="pc-link">
+              <span class="pc-mtext">Ver usuarios</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="pc-item">
+        <a href="producto.php" class="pc-link">
+          <span class="pc-micon"><i class="ti ti-book"></i></span>
+          <span class="pc-mtext">Guías</span>
+        </a>
+      </li>
+      <li class="pc-item">
+        <a href="servicio.php" class="pc-link">
+          <span class="pc-micon"><i class="ti ti-message-circle"></i></span>
+          <span class="pc-mtext">Chats</span>
+        </a>
+      </li>
+    </ul>
 
     </div>
     

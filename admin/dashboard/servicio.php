@@ -46,7 +46,7 @@ if (!empty($_SESSION['txtdoc'])) {
       <div class="navbar-content">
         <ul class="pc-navbar">
           <li class="pc-item">
-            <a href="../dashboard/index.php" class="pc-link">
+            <a href="index.php" class="pc-link">
               <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
               <span class="pc-mtext">Inicio</span>
             </a>
@@ -65,7 +65,7 @@ if (!empty($_SESSION['txtdoc'])) {
           <li class="pc-item">
             <a href="producto.php" class="pc-link">
               <span class="pc-micon"><i class="ti ti-book"></i></span>
-              <span class="pc-mtext">Guias</span>
+              <span class="pc-mtext">Guías</span>
             </a>
           </li>
           <li class="pc-item">
@@ -73,6 +73,8 @@ if (!empty($_SESSION['txtdoc'])) {
               <span class="pc-micon"><i class="ti ti-message-circle"></i></span>
               <span class="pc-mtext">Chats</span>
             </a>
+          </li>
+        </ul>
           </li>
         </ul>
       </div>

@@ -99,14 +99,14 @@ if (!empty($_SESSION['txtdoc'])) {
       <ul class="list-unstyled">
         <li class="dropdown pc-h-item header-user-profile">
           <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
-            <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
+            <img src="../admin/assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
           <span><?php echo htmlspecialchars(isset($_SESSION['display_name']) ? $_SESSION['display_name'] : ($nombre !== '' ? $nombre : 'Usuario')); ?></span>
           </a>
           <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
             <div class="dropdown-header">
               <div class="d-flex mb-1">
                 <div class="flex-shrink-0">
-                  <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
+                  <img src="../admin/assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
                 </div>
                 <div class="flex-grow-1 ms-3">
                   <h6 class="mb-1"><?php echo htmlspecialchars(isset($_SESSION['display_name']) ? $_SESSION['display_name'] : ($nombre !== '' ? $nombre : 'Usuario')); ?></h6>
