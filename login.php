@@ -4,34 +4,121 @@ include "conexion.php"; // Archivo con la conexión $conexion
 
 if(isset($_POST['btningresar'])){
 
-    $numeroDocumento = $_POST['txtdoc'];   
-    $clave = $_POST['txtpass'];            
-    $pass = md5($clave);                   
+    $numeroDocumento = isset($_POST['txtdoc']) ? trim($_POST['txtdoc']) : '';
+    $clave = isset($_POST['txtpass']) ? $_POST['txtpass'] : '';
 
-  // Consulta para verificar usuario y contraseña y obtener todos los datos
-  $query = "SELECT * FROM tb_usuarios WHERE ID = '$numeroDocumento' AND Clave = '$pass'";
-  $result = mysqli_query($conexion, $query);
-//Cambio comprobar
-  if(mysqli_num_rows($result) > 0){
-    $row = mysqli_fetch_assoc($result);
-  $_SESSION['txtdoc'] = $numeroDocumento; // Guardar sesión
-  // Guardar datos del usuario en la sesión
-  $_SESSION['id_usuario'] = $row['ID'];
-  $_SESSION['primer_nombre'] = $row['p_nombre'];
-  $_SESSION['segundo_nombre'] = $row['s_nombre'];
-  $_SESSION['primer_apellido'] = $row['p_apellido'];
-  $_SESSION['segundo_apellido'] = $row['s_apellido'];
-  $_SESSION['id_rol'] = $row['id_rol'];
-    // Redirigir según el rol
-    if($row['id_rol'] == 1){
-      header("Location: admin/dashboard/index.php");
-      exit();
+    // Preparar consulta para obtener el usuario por ID
+    $query = "SELECT * FROM tb_usuarios WHERE ID = ? LIMIT 1";
+    if ($stmt = mysqli_prepare($conexion, $query)) {
+        mysqli_stmt_bind_param($stmt, "s", $numeroDocumento);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if ($row = mysqli_fetch_assoc($result)) {
+            $storedHash = $row['Clave'];
+
+            // Seleccionar algoritmo preferente (Argon2id si existe)
+            $preferredAlgo = defined('PASSWORD_ARGON2ID') ? PASSWORD_ARGON2ID : PASSWORD_DEFAULT;
+
+            $ok = false;
+
+            // Primero intentamos password_verify (hash moderno)
+            if (password_verify($clave, $storedHash)) {
+                $ok = true;
+            } else {
+                // Soporte para hashes antiguos con MD5: si coinciden, re-hashear con algoritmo moderno
+                if ($storedHash === md5($clave)) {
+                    $ok = true;
+                    // Re-hashear y actualizar la base de datos
+                    $newHash = password_hash($clave, $preferredAlgo);
+                    $updateQ = "UPDATE tb_usuarios SET Clave = ? WHERE ID = ?";
+                    if ($uStmt = mysqli_prepare($conexion, $updateQ)) {
+                        mysqli_stmt_bind_param($uStmt, "ss", $newHash, $numeroDocumento);
+                        mysqli_stmt_execute($uStmt);
+                        mysqli_stmt_close($uStmt);
+                    }
+                }
+            }
+
+            if ($ok) {
+                // Política mínima de contraseña (coincide con register.php)
+                function password_meets_policy($pw) {
+                  if (!is_string($pw)) return false;
+                  if (strlen($pw) < 10) return false;
+                  if (!preg_match('/[A-Z]/', $pw)) return false;
+                  if (!preg_match('/[a-z]/', $pw)) return false;
+                  if (!preg_match('/[0-9]/', $pw)) return false;
+                    if (!preg_match('/[!@#\$%\^&\*\(\)_\+\-=\[\]{};:"\'|,.<>\/\?]/', $pw)) return false;
+                  return true;
+                }
+
+                // Si la contraseña no cumple la política, marcar para cambiar y redirigir
+                if (!password_meets_policy($clave)) {
+                  // Intentar añadir columna needs_pw_change (si no existe)
+                  try {
+                    $col_check = mysqli_query($conexion, "SHOW COLUMNS FROM tb_usuarios LIKE 'needs_pw_change'");
+                    if (!$col_check || mysqli_num_rows($col_check) == 0) {
+                      mysqli_query($conexion, "ALTER TABLE tb_usuarios ADD needs_pw_change TINYINT(1) DEFAULT 0");
+                    }
+                  } catch (mysqli_sql_exception $e) {
+                    // Si hay un error (por ejemplo permisos), lo ignoramos; no debe bloquear el login
+                  }
+                  // Marcar en la base de datos
+                  $uq = "UPDATE tb_usuarios SET needs_pw_change = 1 WHERE ID = ?";
+                  if ($uStmt2 = mysqli_prepare($conexion, $uq)) {
+                    mysqli_stmt_bind_param($uStmt2, "s", $numeroDocumento);
+                    mysqli_stmt_execute($uStmt2);
+                    mysqli_stmt_close($uStmt2);
+                  }
+                  // Forzar cambio en la sesión y redirigir al formulario
+                  $_SESSION['force_pw_change'] = true;
+                  // Set minimal session info so change_password.php can validate the user
+                  $_SESSION['txtdoc'] = $numeroDocumento;
+                  $_SESSION['id_usuario'] = $row['ID'];
+                  $_SESSION['primer_nombre'] = $row['p_nombre'];
+                  $_SESSION['segundo_nombre'] = $row['s_nombre'];
+                  $_SESSION['primer_apellido'] = $row['p_apellido'];
+                  $_SESSION['segundo_apellido'] = $row['s_apellido'];
+                  // Compose a display name for UI
+                  $parts = array_filter(array($row['p_nombre'], $row['s_nombre'], $row['p_apellido'], $row['s_apellido']));
+                  $_SESSION['display_name'] = implode(' ', $parts);
+                  $_SESSION['id_rol'] = $row['id_rol'];
+                  // Redirect to an absolute path for change password page
+                  header("Location: /enseñame/EnSENAme/admin/dashboard/change_password.php");
+                  exit();
+                }
+                // Setear sesión y redirigir según rol
+                $_SESSION['txtdoc'] = $numeroDocumento;
+                $_SESSION['id_usuario'] = $row['ID'];
+                $_SESSION['primer_nombre'] = $row['p_nombre'];
+                $_SESSION['segundo_nombre'] = $row['s_nombre'];
+                $_SESSION['primer_apellido'] = $row['p_apellido'];
+                $_SESSION['segundo_apellido'] = $row['s_apellido'];
+                // Compose a display name for UI
+                $parts = array_filter(array($row['p_nombre'], $row['s_nombre'], $row['p_apellido'], $row['s_apellido']));
+                $_SESSION['display_name'] = implode(' ', $parts);
+                $_SESSION['id_rol'] = $row['id_rol'];
+
+                $base = '/enseñame/EnSENAme';
+                if($row['id_rol'] == 1){
+                  header("Location: " . $base . "/admin/dashboard/index.php");
+                  exit();
+                } else {
+                  header("Location: " . $base . "/user/index.php");
+                  exit();
+                }
+            } else {
+                $message = "Documento o contraseña incorrectos";
+            }
+        } else {
+            $message = "Documento o contraseña incorrectos";
+        }
+
+        mysqli_stmt_close($stmt);
     } else {
-      header("Location: user/index.php");
-      exit();
+        $message = "Error en el sistema. Intente más tarde.";
     }
-    $message = "Documento o contraseña incorrectos"; 
-  }
+
 }
 ?>
 

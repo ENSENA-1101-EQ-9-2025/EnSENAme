@@ -48,7 +48,7 @@
         </nav>
         
         <div class="card my-5">
-          <div class="card-body"> <form action="codigo.php" method="post" onsubmit="return validarFormulario()">
+          <div class="card-body"> <form action="admin/dashboard/codigo.php" method="post" onsubmit="return validarFormulario()">
             <div class="d-flex justify-content-between align-items-end mb-4">
               <h3 class="mb-0"><b>Registro</b></h3>
               <a href="login.php" class="link-primary">Tienes Cuenta?</a>
@@ -113,6 +113,34 @@
       </div>
     </div>
   </div>
+  
+  <script>
+    // Reglas mínimas para contraseña: longitud >=10, mayúscula, minúscula, número y símbolo
+    function validarPassword(pw) {
+      if (!pw || pw.length < 10) return false;
+      if (!/[A-Z]/.test(pw)) return false;
+      if (!/[a-z]/.test(pw)) return false;
+      if (!/[0-9]/.test(pw)) return false;
+      if (!/[!@#\$%\^&\*\(\)_\+\-=\[\]{};:\"'\\|,.<>\/?]/.test(pw)) return false;
+      return true;
+    }
+
+    function validarFormulario() {
+      const pw = document.getElementById('clave').value;
+      const pw2 = document.getElementById('confirmarClave').value;
+      const mensaje = document.getElementById('mensajeError');
+      mensaje.innerText = '';
+      if (pw !== pw2) {
+        mensaje.innerText = 'Las contraseñas no coinciden.';
+        return false;
+      }
+      if (!validarPassword(pw)) {
+        mensaje.innerText = 'La contraseña debe tener al menos 10 caracteres, incluir mayúscula, minúscula, número y un símbolo.';
+        return false;
+      }
+      return true;
+    }
+  </script>
   <!-- [ Main Content ] end -->
   <!-- Required Js -->
   <script src="admin/assets/js/plugins/popper.min.js"></script>

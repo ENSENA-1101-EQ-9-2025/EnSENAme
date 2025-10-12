@@ -174,7 +174,7 @@ $nombre = '';
               <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
             </div>
             <div class="flex-grow-1 ms-3">
-              <h6 class="mb-1"><?php echo $_SESSION['primer_nombre']; ?></h6>
+              <h6 class="mb-1"><?php echo isset($_SESSION['display_name']) ? htmlspecialchars($_SESSION['display_name']) : (isset($_SESSION['primer_nombre']) ? htmlspecialchars($_SESSION['primer_nombre']) : 'Usuario'); ?></h6>
               <span>Admin</span>
             </div>
             

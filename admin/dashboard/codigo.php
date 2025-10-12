@@ -23,8 +23,19 @@ if (isset($_POST["btn_registrar"])) {
         exit();
     }
 
-    // Encriptar la contraseña con password_hash (más seguro que md5)
-    $pass = password_hash($clave, PASSWORD_DEFAULT);
+    // Encriptar la contraseña con password_hash usando Argon2id cuando esté disponible
+    if (defined('PASSWORD_ARGON2ID')) {
+        // Parámetros recomendados: ajustar según recursos del servidor
+        $options = [
+            'memory_cost' => 1<<17, // 128 MB
+            'time_cost'   => 4,
+            'threads'     => 2,
+        ];
+        $pass = password_hash($clave, PASSWORD_ARGON2ID, $options);
+    } else {
+        // Fallback seguro
+        $pass = password_hash($clave, PASSWORD_DEFAULT);
+    }
 
     // Verificar si el número de documento ya existe (uso de consulta preparada)
     $check_query = "SELECT * FROM tb_usuarios WHERE ID = ?";

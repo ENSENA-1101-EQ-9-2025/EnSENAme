@@ -10,64 +10,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="description" content="Mantis is made using Bootstrap 5 design framework. Download the free admin template & use it for your project.">
   <meta name="keywords" content="Mantis, Dashboard UI Kit, Bootstrap 5, Admin Template, Admin Dashboard, CRM, CMS, Bootstrap Admin Template">
-  <meta name="author" content="CodedThemes">
-  <?php
-  $sessionInclude = __DIR__ . '/../../includes/session.php';
-  if (file_exists($sessionInclude)) require_once $sessionInclude;
-  include "../../conexion.php";
-$nombre = '';
-  // Redirect to login if there's no active session
-  if (empty($_SESSION['txtdoc'])) {
-    header('Location: ../../login.php');
-    exit;
-  }
-  if (!empty($_SESSION['txtdoc'])) {
-    $doc = mysqli_real_escape_string($conexion, $_SESSION['txtdoc']);
-    $res = mysqli_query($conexion, "SELECT p_nombre FROM tb_usuarios WHERE ID = '$doc' LIMIT 1");
-    if ($row = mysqli_fetch_assoc($res)) {
-      // Prefer display_name if set
-      if (!empty($_SESSION['display_name'])) {
-        $nombre = $_SESSION['display_name'];
-      } else {
-        $nombre = $row['p_nombre'];
-      }
-    } else {
-      $nombre = 'Usuario';
-    }
-  } else {
-    $nombre = 'Usuario';
-  }
-$query = "SELECT * FROM tb_usuarios";
-$result = mysqli_query($conexion, $query);
-// Handle flag/unflag requests to mark users for password change
-  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['user_id'])) {
-  $action = $_POST['action'];
-  $user_id = mysqli_real_escape_string($conexion, $_POST['user_id']);
-  if ($action === 'flag') {
-    mysqli_query($conexion, "UPDATE tb_usuarios SET needs_pw_change = 1 WHERE ID = '$user_id'");
-  } elseif ($action === 'unflag') {
-    mysqli_query($conexion, "UPDATE tb_usuarios SET needs_pw_change = 0 WHERE ID = '$user_id'");
-  }
-  // Redirect back to this page using an absolute path to avoid relative URL issues
-  header('Location: /enseñame/EnSENAme/admin/dashboard/usuarios.php');
-  exit;
-}
-?>
+  <meta name="author" content="CodedThemes">  
 
   <!-- [Favicon] icon -->
-  <link rel="icon" href="../assets/images/favisena.png" type="image/x-icon"> <!-- [Google Font] Family -->
+  <link rel="icon" href="../admin/assets/images/favisena.png" type="image/x-icon"> <!-- [Google Font] Family -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
 <!-- [Tabler Icons] https://tablericons.com -->
-<link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css" >
+<link rel="stylesheet" href="../admin/assets/fonts/tabler-icons.min.css" >
 <!-- [Feather Icons] https://feathericons.com -->
-<link rel="stylesheet" href="../assets/fonts/feather.css" >
+<link rel="stylesheet" href="../admin/assets/fonts/feather.css" >
 <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
-<link rel="stylesheet" href="../assets/fonts/fontawesome.css" >
+<link rel="stylesheet" href="../admin/assets/fonts/fontawesome.css" >
 <!-- [Material Icons] https://fonts.google.com/icons -->
-<link rel="stylesheet" href="../assets/fonts/material.css" >
+<link rel="stylesheet" href="../admin/assets/fonts/material.css" >
 <!-- [Template CSS Files] -->
-<link rel="stylesheet" href="../assets/css/style.css" id="main-style-link" >
-<link rel="stylesheet" href="../assets/css/style-preset.css" >
+<link rel="stylesheet" href="../admin/assets/css/style.css" id="main-style-link" >
+<link rel="stylesheet" href="../admin/assets/css/style-preset.css" >
 
 </head>
 <!-- [Head] end -->
@@ -87,7 +45,7 @@ $result = mysqli_query($conexion, $query);
     <div class="m-header">
       <a href="../dashboard/index.php" class="b-brand text-primary">
         <!-- ========   Change your logo from here   ============ -->
-        <img src="../assets/images/logoensename.png" class="img-fluid" alt="">
+        <img src="../admin/assets/images/logoensename.png" class="img-fluid" alt="">
       </a>
     </div>
     <div class="navbar-content">
@@ -99,38 +57,26 @@ $result = mysqli_query($conexion, $query);
     </a>
   </li>     
   
-<li class="pc-item pc-hasmenu">
-  <a href="javascript:void(0);" class="pc-link">
-    <span class="pc-micon"><i class="ti ti-users"></i></span>
-    <span class="pc-mtext">Usuarios</span>
-    <span class="pc-arrow"><i class="ti ti-chevron-down"></i></span>
-  </a>
-  <ul class="pc-submenu">
-    <li class="pc-item">
-      <a href="crear.php" class="pc-link">
-        <span class="pc-mtext">Agregar usuario</span>
-      </a>
-    </li>
-    <li class="pc-item">
-      <a href="usuarios.php" class="pc-link">
-        <span class="pc-mtext">Ver Usuarios</span>
-      </a>
-    </li>
-  </ul>
-</li>
+  <li class="pc-item">
+    <a href="http://localhost/ense%C3%B1ame/admin/application/usuarios.php" class="pc-link">
+      <span class="pc-micon"><i class="ti ti-users"></i></span>
+      <span class="pc-mtext">Usuarios</span>
+    </a>
+  </li>
 
- <li class="pc-item">
-  <a href="producto.php" class="pc-link">
-        <span class="pc-micon"><i class="ti ti-book"></i></span>
-        <span class="pc-mtext">Guias</span>
+  <li class="pc-item">
+      <a href="../application/user-list.html" class="pc-link">
+        <span class="pc-micon"><i class="ti ti-color-swatch"></i></span>
+        <span class="pc-mtext">Producto</span>
       </a>
   </li>
   <li class="pc-item">
-          <a href="servicio.php" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-message-circle"></i></span>
-            <span class="pc-mtext">Chats</span>
+          <a href="../application/servicio.php" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-brand-chrome"></i></span>
+            <span class="pc-mtext">Servicio</span>
           </a>
         </li>
+</ul>
 
     </div>
     
@@ -173,12 +119,7 @@ $result = mysqli_query($conexion, $query);
         </form>
       </div>
     </li>
-    <li class="pc-h-item d-none d-md-inline-flex">
-      <form class="header-search">
-        <i data-feather="search" class="icon-search"></i>
-        <input type="search" class="form-control" placeholder="Search here. . .">
-      </form>
-    </li>
+    
   </ul>
 </div>
 <!-- [Mobile Media Block end] -->
@@ -194,21 +135,20 @@ $result = mysqli_query($conexion, $query);
         data-bs-auto-close="outside"
         aria-expanded="false"
       >
-    <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
-
-  <span><?php echo htmlspecialchars(isset($nombre) && $nombre !== '' ? $nombre : 'Usuario'); ?></span>
+        <img src="../admin/assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
+        <span>Camilo</span>
       </a>
       <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
         <div class="dropdown-header">
           <div class="d-flex mb-1">
             <div class="flex-shrink-0">
-              <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
+              <img src="../admin/assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
             </div>
             <div class="flex-grow-1 ms-3">
-              <h6 class="mb-1"><?php echo htmlspecialchars($nombre); ?></h6>
-              <span><?php echo htmlspecialchars($nombre); ?></span>
+              <h6 class="mb-1">Camilo</h6>
+              <span>Admin</span>
             </div>
-            <a href="#!" class="pc-head-link bg-transparent"><i class="ti ti-power text-danger"></i></a>
+            
           </div>
         </div>
         <ul class="nav drp-tabs nav-fill nav-tabs" id="mydrpTab" role="tablist">
@@ -250,14 +190,6 @@ $result = mysqli_query($conexion, $query);
               <span>View Profile</span>
             </a>
             <a href="#!" class="dropdown-item">
-              <i class="ti ti-clipboard-list"></i>
-              <span>Social Profile</span>
-            </a>
-            <a href="#!" class="dropdown-item">
-              <i class="ti ti-wallet"></i>
-              <span>Billing</span>
-            </a>
-            <a href="logout.php" class="dropdown-item">
               <i class="ti ti-power"></i>
               <span>Logout</span>
             </a>
@@ -272,16 +204,8 @@ $result = mysqli_query($conexion, $query);
               <span>Account Settings</span>
             </a>
             <a href="#!" class="dropdown-item">
-              <i class="ti ti-lock"></i>
-              <span>Privacy Center</span>
-            </a>
-            <a href="#!" class="dropdown-item">
               <i class="ti ti-messages"></i>
               <span>Feedback</span>
-            </a>
-            <a href="#!" class="dropdown-item">
-              <i class="ti ti-list"></i>
-              <span>History</span>
             </a>
           </div>
         </div>
@@ -291,6 +215,10 @@ $result = mysqli_query($conexion, $query);
 </div>
  </div>
 </header>
+<!-- [ Header ] end -->
+
+  <!-- [ Main Content ] start -->
+
 <!-- [ Header ] end -->
 
 
@@ -304,117 +232,186 @@ $result = mysqli_query($conexion, $query);
           <div class="row align-items-center">
             <div class="col-md-12">
               <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="../dashboard/index.php">Home</a></li>
-                <li class="breadcrumb-item" aria-current="page">Usuario</li>
+                <li class="breadcrumb-item"><a href="../dashboard/index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="javascript: void(0)">Users</a></li>
+                <li class="breadcrumb-item" aria-current="page">User Profile</li>
               </ul>
             </div>
             <div class="col-md-12">
               <div class="page-header-title">
-                <h2 class="mb-0">Usuario</h2>
+                <h2 class="mb-0">Registro de perfil de usuario</h2>
               </div>
             </div>
           </div>
         </div>
       </div>
       <!-- [ breadcrumb ] end -->
-
       <!-- [ Main Content ] start -->
-      <div class="container my-5">
-        <h2 class="text-center mb-4">Lista de Usuarios Registrados</h2>
-
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped">
-            <thead class="table-dark">
-                <tr>
-                    <th>#</th>
-                    <th>Tipo de Documento</th>
-              <th>Nombre</th>
-                    <th>Clave (Encriptada)</th>
-                    <th>Rol</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-        <?php
-        // Verificar si hay resultados
-        if (mysqli_num_rows($result) > 0) {
-          while ($row = mysqli_fetch_assoc($result)) {
-            $id = htmlspecialchars($row['ID']);
-            $tipoDoc = htmlspecialchars($row['Tipo_Documento']);
-            // Build full name for display
-            $p_nombre = trim($row['p_nombre']);
-            $s_nombre = trim($row['s_nombre']);
-            $p_apellido = trim($row['p_apellido']);
-            $s_apellido = trim($row['s_apellido']);
-            $nameParts = array_filter([$p_nombre, $s_nombre, $p_apellido, $s_apellido]);
-            $fullName = htmlspecialchars(implode(' ', $nameParts));
-            $clave_raw = $row['Clave'];
-            // Detectar tipo de hash
-            if (preg_match('/^[a-f0-9]{32}$/i', $clave_raw)) {
-              $hash_type = 'MD5';
-              $badge_class = 'bg-danger';
-            } elseif (strpos($clave_raw, '$argon2') === 0) {
-              $hash_type = 'Argon2';
-              $badge_class = 'bg-success';
-            } elseif (strpos($clave_raw, '$2y$') === 0 || strpos($clave_raw, '$2a$') === 0 || strpos($clave_raw, '$2b$') === 0) {
-              $hash_type = 'bcrypt';
-              $badge_class = 'bg-success';
-            } elseif (trim($clave_raw) === '') {
-              $hash_type = 'empty';
-              $badge_class = 'bg-warning';
-            } else {
-              $hash_type = 'other';
-              $badge_class = 'bg-secondary';
-            }
-            $masked = htmlspecialchars(substr($clave_raw, 0, 12)) . '...';
-            $rol = htmlspecialchars($row['id_rol']);
-            $needs = intval($row['needs_pw_change']);
-            ?>
-            <tr>
-              <td><?= $id ?></td>
-              <td><?= $tipoDoc ?></td>
-              <td><?= $fullName ?></td>
-              <td>
-                <span class="badge <?= $badge_class ?> text-white"><?= $hash_type ?></span>
-                <br>
-                <small title="<?= htmlspecialchars($clave_raw) ?>"><?= $masked ?></small>
-              </td>
-              <td><?= $rol ?></td>
-              <td>
-                <a href="/enseñame/EnSENAme/admin/dashboard/editar.php?id=<?= $id ?>" class="btn btn-warning btn-sm">Editar</a>
-                <a href="/enseñame/EnSENAme/admin/dashboard/eliminar.php?id=<?= $id ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este usuario?')">Eliminar</a>
-                <?php if ($needs): ?>
-                  <form method="post" style="display:inline">
-                    <input type="hidden" name="user_id" value="<?= $id ?>">
-                    <input type="hidden" name="action" value="unflag">
-                    <button type="submit" class="btn btn-sm btn-outline-success">Quitar flag</button>
-                  </form>
-                <?php else: ?>
-                  <form method="post" style="display:inline">
-                    <input type="hidden" name="user_id" value="<?= $id ?>">
-                    <input type="hidden" name="action" value="flag">
-                    <button type="submit" class="btn btn-sm btn-outline-danger">Forzar cambio</button>
-                  </form>
-                <?php endif; ?>
-              </td>
-            </tr>
-            <?php
-          }
-        } else {
-          echo "<tr><td colspan='9' class='text-center'>No hay usuarios registrados</td></tr>";
-        }
-        ?>
-            </tbody>
-            </table>
-          </div>
-          </div>
-
-     
-
-
+      <div class="row">
         <!-- [ sample-page ] start -->
-        <div class="col-sm-12">
-        
+        <div class="col-sm-12">          
+            </div>
+            <div class="col-md-8">
+              <div class="tab-content" id="user-set-tabContent">
+                <div class="tab-pane fade show active" id="user-cont-1" role="tabpanel">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-10">
+                          <h5>Información personal</h5>
+                          <hr class="mb-4">
+                          <?php
+                          if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                            $tipoDocumento = $_POST["tipoDocumento"];
+                            $numeroDocumento = $_POST["numeroDocumento"];
+                            $primerNombre = $_POST["primerNombre"];
+                            $segundoNombre = $_POST["segundoNombre"];
+                            $primerApellido = $_POST["primerApellido"];
+                            $segundoApellido = $_POST["segundoApellido"];
+                          }
+                          ?>
+                        <form action="http://localhost/enseñame/admin/dashboard/index.php" method="post"></form>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="tipoDocumento">Tipo de Documento:                       
+                            <select name="tipoDocumento" id="tipoDocumento" required>
+                              <option value="">Seleccione</option>
+                              <option value="1">TI</option>
+                              <option value="2">CC</option>
+                              <option value="3">NN</option>
+                            </select>
+                          </label> 
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="numeroDocumento">Número de Documento:</label>
+                              <input type="text" name="numeroDocumento" id="numeroDocumento" required>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="primerNombre">Primer Nombre:</label>
+                            <input type="text" name="primerNombre" id="primerNombre" required>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="segundoNombre">Segundo Nombre:</label>
+                            <input type="text" name="segundoNombre" id="segundoNombre" requerid>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="primerApellido">Primer Apellido:</label>
+                            <input type="text" name="primerApellido" id="primerApellido" required>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label for="segundoApellido">Segundo Apellido:</label>
+                            <input type="text" name="segundoApellido" id="segundoApellido">
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="clave">Clave:</label>
+                            <input type="password" name="clave" id="clave" required>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label for="confirmarClave">CClave:</label>
+                            <input type="password" name="confirmarClave" id="confirmarClave" required>
+                          </div>
+                        </div>                        
+                      </div>
+                      
+                      <button type="submit" name="btn_registrar" id="btn_registrar" class="btn btn-primary">Registrar</button>
+                    </div>
+                    </form>
+                 </div>
+                   <script>
+                    function validarFormulario() {
+                    const clave = document.getElementById('clave').value;
+                    const confirmarClave = document.getElementById('confirmarClave').value;
+                    const mensajeError = document.getElementById('mensajeError');
+
+                    if (clave !== confirmarClave) {
+                    mensajeError.textContent = "Las claves no coinciden.";
+                    return false;
+                    } else {
+                    mensajeError.textContent = "";
+                    return true;
+                    }
+                    }
+                  </script>
+
+                </div>                
+                <div class="tab-pane fade" id="user-cont-3" role="tabpanel">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-12">
+                          <h5>Change Password</h5>
+                          <hr class="mb-4">
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="form-label">Old Password</label>
+                            <input type="password" class="form-control">
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label">New Password</label>
+                            <input type="password" class="form-control">
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-lg-6">
+                          <h5>New password must contain:</h5>
+                          <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><i class="ti ti-minus me-2"></i> At least 8 characters</li>
+                            <li class="list-group-item"><i class="ti ti-minus me-2"></i> At least 1 lower letter (a-z)</li>
+                            <li class="list-group-item"><i class="ti ti-minus me-2"></i> At least 1 uppercase letter (A-Z)</li>
+                            <li class="list-group-item"><i class="ti ti-minus me-2"></i> At least 1 number (0-9)</li>
+                            <li class="list-group-item"><i class="ti ti-minus me-2"></i> At least 1 special characters</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-footer text-end btn-page">
+                      <div class="btn btn-outline-secondary">Cancel</div>
+                      <div class="btn btn-primary">Save</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="user-cont-4" role="tabpanel">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-12">
+                          <h5>Settings</h5>
+                          <hr class="mb-4">
+                        </div>
+                        <div class="col-sm-12">
+                          <ul class="list-group list-group-flush">                                                        
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-footer text-end btn-page">
+                      <div class="btn btn-outline-secondary">Cancel</div>
+                      <div class="btn btn-primary">Save</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- [ sample-page ] end -->
       </div>
@@ -426,23 +423,23 @@ $result = mysqli_query($conexion, $query);
     <div class="footer-wrapper container-fluid">
       <div class="row">
         <div class="col-sm my-1">
-          <p class="m-0">
-            
+          <p>
+        </p>
         </div>
         <div class="col-auto my-1">
           <ul class="list-inline footer-link mb-0">
-            
+            <li class="list-inline-item"><a href="../dashboard/index.php">Home</a></li>
           </ul>
         </div>
       </div>
     </div>
   </footer> <!-- Required Js -->
-<script src="../assets/js/plugins/popper.min.js"></script>
-<script src="../assets/js/plugins/simplebar.min.js"></script>
-<script src="../assets/js/plugins/bootstrap.min.js"></script>
-<script src="../assets/js/fonts/custom-font.js"></script>
-<script src="../assets/js/pcoded.js"></script>
-<script src="../assets/js/plugins/feather.min.js"></script>
+<script src="../admin/assets/js/plugins/popper.min.js"></script>
+<script src="../admin/assets/js/plugins/simplebar.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../admin/assets/js/fonts/custom-font.js"></script>
+<script src="../admin/assets/js/pcoded.js"></script>
+<script src="../admin/assets/js/plugins/feather.min.js"></script>
 
 
 
@@ -467,15 +464,68 @@ $result = mysqli_query($conexion, $query);
 
     
 
-  <!-- [Page Specific JS] start -->
+  <!-- page js start -->
+  <script src="../assets/js/plugins/apexcharts.min.js"></script>
+  <script src="../assets/js/plugins/choices.min.js"></script>
   <script>
-    // scroll-block
-    var tc = document.querySelectorAll('.scroll-block');
-    for (var t = 0; t < tc.length; t++) {
-      new SimpleBar(tc[t]);
-    }
+    (function () {
+      var options = {
+        series: [30],
+        chart: {
+          height: 150,
+          type: 'radialBar',
+        },
+        plotOptions: {
+          radialBar: {
+            hollow: {
+              margin: 0,
+              size: '60%',
+              background: 'transparent',
+              imageOffsetX: 0,
+              imageOffsetY: 0,
+              position: 'front',
+            },
+            track: {
+              background: '#ffffff50',
+              strokeWidth: '50%',
+            },
+
+            dataLabels: {
+              show: true,
+              name: {
+                show: false,
+              },
+              value: {
+                formatter: function (val) {
+                  return parseInt(val);
+                },
+                offsetY: 7,
+                color: '#153364',
+                fontSize: '20px',
+                fontWeight: '700',
+                show: true,
+              }
+            }
+          }
+        },
+        colors: ['#1890ff'],
+        fill: {
+          type: 'solid',
+        },
+        stroke: {
+          lineCap: 'round'
+        },
+      };
+      var chart = new ApexCharts(document.querySelector("#profile-chart"), options);
+      chart.render();
+    })();
+    new Choices(document.getElementById('pc_product_tag3'), {
+      delimiter: ',',
+      editItems: true,
+      removeItemButton: true
+    });
   </script>
-  <!-- [Page Specific JS] end -->
+  <!-- page js end -->
   <div class="offcanvas pct-offcanvas offcanvas-end" tabindex="-1" id="offcanvas_pc_layout">
     <div class="offcanvas-header bg-primary">
       <h5 class="offcanvas-title text-white">Mantis Customizer</h5>
@@ -654,9 +704,6 @@ $result = mysqli_query($conexion, $query);
     </div>
   </div>
 </body>
-<?php
-mysqli_close($conexion);
-?>
 <!-- [Body] end -->
 
 </html>

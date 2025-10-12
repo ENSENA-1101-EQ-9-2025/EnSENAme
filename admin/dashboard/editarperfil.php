@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once __DIR__ . '/../../includes/session.php';
 require_once '../../conexion.php';
 if (!isset($_SESSION['id_usuario'])) {
   header('Location: ../../login.php');
@@ -148,8 +148,18 @@ $usuario = mysqli_fetch_assoc($res);
     <!-- Perfil -->
     <div class="profile-sidebar">
       <img id="profileImage" src="../assets/images/user/avatar-2.jpg" alt="user-image">
-  <h2><?php echo htmlspecialchars($usuario['p_nombre']); ?></h2>
-  <p><?php echo htmlspecialchars($usuario['p_nombre']); ?></p>
+  <?php
+    // Determine display name: prefer session display_name, else build from DB fields
+    $displayName = '';
+    if (!empty($_SESSION['display_name'])) {
+      $displayName = $_SESSION['display_name'];
+    } else {
+      $parts = array_filter([$usuario['p_nombre'] ?? '', $usuario['s_nombre'] ?? '', $usuario['p_apellido'] ?? '', $usuario['s_apellido'] ?? '']);
+      $displayName = implode(' ', $parts);
+    }
+  ?>
+  <h2><?php echo htmlspecialchars($displayName); ?></h2>
+  <p><?php echo htmlspecialchars($displayName); ?></p>
       <button class="btn-change" onclick="document.getElementById('fileInput').click();">Cambiar Imagen</button>
       <input type="file" id="fileInput" accept="image/*" onchange="previewImage(event)">
     </div>
@@ -213,10 +223,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_usuario']) && $_PO
   if ($hay_cambios) {
     $sql_update = "UPDATE tb_usuarios SET Tipo_Documento='$tipo_doc', ID='$num_doc', p_nombre='$primer_nombre', s_nombre='$segundo_nombre', p_apellido='$primer_apellido', s_apellido='$segundo_apellido' WHERE ID='$id_usuario'";
     if (mysqli_query($conexion, $sql_update)) {
+      // Update session vars in multiple keys for compatibility
       $_SESSION['p_nombre'] = $primer_nombre;
+      $_SESSION['primer_nombre'] = $primer_nombre;
       $_SESSION['s_nombre'] = $segundo_nombre;
+      $_SESSION['segundo_nombre'] = $segundo_nombre;
       $_SESSION['p_apellido'] = $primer_apellido;
+      $_SESSION['primer_apellido'] = $primer_apellido;
       $_SESSION['s_apellido'] = $segundo_apellido;
+      $_SESSION['segundo_apellido'] = $segundo_apellido;
+      // Refresh display_name
+      $parts = array_filter([$primer_nombre, $segundo_nombre, $primer_apellido, $segundo_apellido]);
+      $_SESSION['display_name'] = implode(' ', $parts);
       echo '<script>alert("Datos actualizados correctamente");window.location.reload();</script>';
     } else {
       echo '<script>alert("Error al actualizar los datos");</script>';
