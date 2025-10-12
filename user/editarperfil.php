@@ -1,15 +1,16 @@
 <?php
-session_start();
+require_once __DIR__ . '/../includes/session.php';
 if (!isset($_SESSION['id_usuario'])) {
-    header('Location: ../login.php');
+  header('Location: ../login.php');
+  exit;
 }
 $id_usuario = $_SESSION['id_usuario'];
+include "../conexion.php"; // ensure DB connection
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-    <?php
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfil Usuario</title>
   <link rel="icon" href="../assets/images/favisena.png" type="image/x-icon">
@@ -42,8 +43,8 @@ $id_usuario = $_SESSION['id_usuario'];
     <!-- Perfil -->
     <div class="profile-sidebar">
       <img id="profileImage" src="../assets/images/user/avatar-2.jpg" alt="user-image">
-      <h2><?php echo htmlspecialchars($_SESSION['primer_nombre']); ?></h2>
-    <p><?php echo htmlspecialchars($_SESSION['primer_nombre']); ?></p>
+      <h2><?php echo htmlspecialchars(isset($_SESSION['display_name']) ? $_SESSION['display_name'] : (isset($_SESSION['primer_nombre']) ? $_SESSION['primer_nombre'] : 'Usuario')); ?></h2>
+    <p><?php echo htmlspecialchars(isset($_SESSION['display_name']) ? $_SESSION['display_name'] : (isset($_SESSION['primer_nombre']) ? $_SESSION['primer_nombre'] : 'Usuario')); ?></p>
       <button class="btn-change" onclick="document.getElementById('fileInput').click();">Cambiar Imagen</button>
       <input type="file" id="fileInput" accept="image/*" onchange="previewImage(event)">
     </div>
@@ -66,19 +67,19 @@ $id_usuario = $_SESSION['id_usuario'];
         </div>
         <div class="form-group">
           <label for="primer-nombre">Primer Nombre:</label>
-          <input type="text" id="primer-nombre" name="primer_nombre" value="<?php echo htmlspecialchars($_SESSION['primer_nombre']); ?>">
+          <input type="text" id="primer-nombre" name="primer_nombre" value="<?php echo htmlspecialchars(isset($_SESSION['primer_nombre']) ? $_SESSION['primer_nombre'] : ''); ?>">
         </div>
         <div class="form-group">
           <label for="segundo-nombre">Segundo Nombre:</label>
-          <input type="text" id="segundo-nombre" name="segundo_nombre" value="<?php echo htmlspecialchars($_SESSION['segundo_nombre']); ?>">
+          <input type="text" id="segundo-nombre" name="segundo_nombre" value="<?php echo htmlspecialchars(isset($_SESSION['segundo_nombre']) ? $_SESSION['segundo_nombre'] : ''); ?>">
         </div>
         <div class="form-group">
           <label for="primer-apellido">Primer Apellido:</label>
-          <input type="text" id="primer-apellido" name="primer_apellido" value="<?php echo htmlspecialchars($_SESSION['primer_apellido']); ?>">
+          <input type="text" id="primer-apellido" name="primer_apellido" value="<?php echo htmlspecialchars(isset($_SESSION['primer_apellido']) ? $_SESSION['primer_apellido'] : ''); ?>">
         </div>
         <div class="form-group">
           <label for="segundo-apellido">Segundo Apellido:</label>
-          <input type="text" id="segundo-apellido" name="segundo_apellido" value="<?php echo htmlspecialchars($_SESSION['segundo_apellido']); ?>">
+          <input type="text" id="segundo-apellido" name="segundo_apellido" value="<?php echo htmlspecialchars(isset($_SESSION['segundo_apellido']) ? $_SESSION['segundo_apellido'] : ''); ?>">
         </div>
   <input type="hidden" name="id_rol" value="2">
   <br>
@@ -112,15 +113,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $primer_apellido = mysqli_real_escape_string($conexion, $_POST['primer_apellido']);
   $segundo_apellido = mysqli_real_escape_string($conexion, $_POST['segundo_apellido']);
 
-  $sql = "UPDATE usuarios SET tipo_doc='$tipo_doc', num_doc='$num_doc', primer_nombre='$primer_nombre', segundo_nombre='$segundo_nombre', primer_apellido='$primer_apellido', segundo_apellido='$segundo_apellido' WHERE id_usuario='$id_usuario'";
+  // Use tb_usuarios if that's the app table; fall back to usuarios
+  $table = 'tb_usuarios';
+  // Try an update with tb_usuarios; if it fails, try usuarios
+  $sql = "UPDATE $table SET Tipo_Documento='$tipo_doc', ID='$num_doc', p_nombre='$primer_nombre', s_nombre='$segundo_nombre', p_apellido='$primer_apellido', s_apellido='$segundo_apellido' WHERE ID='$id_usuario'";
   if (mysqli_query($conexion, $sql)) {
+    // Update session pieces
     $_SESSION['primer_nombre'] = $primer_nombre;
     $_SESSION['segundo_nombre'] = $segundo_nombre;
     $_SESSION['primer_apellido'] = $primer_apellido;
     $_SESSION['segundo_apellido'] = $segundo_apellido;
+    // Update display_name too
+    $parts = array_filter([$primer_nombre, $segundo_nombre, $primer_apellido, $segundo_apellido]);
+    $_SESSION['display_name'] = implode(' ', $parts);
     echo '<script>alert("Datos actualizados correctamente");</script>';
   } else {
-    echo '<script>alert("Error al actualizar los datos");</script>';
+    // Fallback table name
+    $table2 = 'usuarios';
+    $sql2 = "UPDATE $table2 SET tipo_doc='$tipo_doc', num_doc='$num_doc', primer_nombre='$primer_nombre', segundo_nombre='$segundo_nombre', primer_apellido='$primer_apellido', segundo_apellido='$segundo_apellido' WHERE id_usuario='$id_usuario'";
+    if (mysqli_query($conexion, $sql2)) {
+      $_SESSION['primer_nombre'] = $primer_nombre;
+      $_SESSION['segundo_nombre'] = $segundo_nombre;
+      $_SESSION['primer_apellido'] = $primer_apellido;
+      $_SESSION['segundo_apellido'] = $segundo_apellido;
+      $parts = array_filter([$primer_nombre, $segundo_nombre, $primer_apellido, $segundo_apellido]);
+      $_SESSION['display_name'] = implode(' ', $parts);
+      echo '<script>alert("Datos actualizados correctamente");</script>';
+    } else {
+      echo '<script>alert("Error al actualizar los datos");</script>';
+    }
   }
 }
 ?>
