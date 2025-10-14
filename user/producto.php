@@ -1,4 +1,5 @@
-<?php
+$php_open = '<?php';
+
 require_once __DIR__ . '/../includes/session.php';
 include '../conexion.php';
 $nombre = '';
