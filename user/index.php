@@ -209,6 +209,31 @@ if (!empty($_SESSION['txtdoc'])) {
       </div>
       <br><br>
       <!-- Fin Carrusel-->
+      
+      <!-- Botón de acceso a IA -->
+      <div class="row justify-content-center mb-5">
+        <div class="col-md-6 text-center">
+          <div class="card border-primary shadow-lg">
+            <div class="card-body py-4">
+              <div class="mb-3">
+                <i class="ti ti-brain text-primary" style="font-size: 3rem;"></i>
+              </div>
+              <h4 class="card-title text-primary mb-3">
+                <strong>Inteligencia Artificial</strong>
+              </h4>
+              <p class="card-text text-muted mb-4">
+                Experimenta nuestro sistema de reconocimiento de lenguaje de señas colombiano (LSC) 
+                powered by AI. Traduce señas en tiempo real.
+              </p>
+              <a href="../IA/index.html" class="btn btn-primary btn-lg px-4 py-2">
+                <i class="ti ti-robot me-2"></i>
+                Ingresa a la IA
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       <section class="page-section" id="services">
         <div class="container">
           <div class="text-center">

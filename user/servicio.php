@@ -1,23 +1,11 @@
 <?php
 require_once __DIR__ . '/../includes/session.php';
 include '../conexion.php';
+
+// Obtener usuario actual
+$usuarioActual = $_SESSION['txtdoc'] ?? null;
 $nombre = '';
-if (!empty($_SESSION['txtdoc'])) {
-  $doc = mysqli_real_escape_string($conexion, $_SESSION['txtdoc']);
-  $res = mysqli_query($conexion, "SELECT p_nombre FROM tb_usuarios WHERE ID = '$doc' LIMIT 1");
-  if ($row = mysqli_fetch_assoc($res)) {
-    $nombre = $row['p_nombre'];
-  } else {
-    $nombre = 'Usuario';
-  }
-} else {
-  $nombre = 'Usuario';
-}
-if (session_status() !== PHP_SESSION_ACTIVE) {
-  session_start();
-}
-include '../conexion.php';
-$nombre = '';
+
 if (!empty($_SESSION['txtdoc'])) {
   $doc = mysqli_real_escape_string($conexion, $_SESSION['txtdoc']);
   $res = mysqli_query($conexion, "SELECT p_nombre FROM tb_usuarios WHERE ID = '$doc' LIMIT 1");
@@ -52,7 +40,7 @@ if (!empty($_SESSION['txtdoc'])) {
   <div class="navbar-wrapper">
     <div class="m-header">
       <a href="index.php" class="b-brand text-primary">
-        <img src="../admin/assets/images/logoensename.png" class="img-fluid" alt="">
+        <img src="../admin/assets/images/logoensename.PNG" class="img-fluid" alt="">
       </a>
     </div>
     <div class="navbar-content">
@@ -256,43 +244,5 @@ if (!empty($_SESSION['txtdoc'])) {
   loadChat();
 </script>
 <script src="../admin/assets/js/plugins/bootstrap.min.js"></script>
-</body>
-</html>
-    });
-    box.scrollTop = box.scrollHeight;
-  }
-  document.getElementById("usuarioDestino").addEventListener("change", loadChat);
-  cargarUsuarios();
-  document.getElementById("chat-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    document.getElementById("errorSpam").style.display = "none";
-    const usuarioDestino = getUsuarioDestino();
-    if (!await validarUsuarioDestino(usuarioDestino)) {
-      document.getElementById("errorUsuario").style.display = "block";
-      document.getElementById("errorUsuario").textContent = "El usuario destino no existe.";
-      return;
-    }
-    const mensaje = document.getElementById("mensaje").value;
-    if (!mensaje.trim()) return;
-    const res = await fetch(`../../chat_api.php`, {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `para=${usuarioDestino}&mensaje=${encodeURIComponent(mensaje)}`
-    });
-    const data = await res.json();
-    if (!data.success && data.error) {
-      document.getElementById("errorSpam").style.display = "block";
-      document.getElementById("errorSpam").textContent = data.error;
-      return;
-    }
-    e.target.reset();
-    loadChat();
-  });
-  setInterval(loadChat, 3000);
-  loadChat();
-</script>
-<script src="../admin/assets/js/plugins/bootstrap.min.js"></script>
-</body>
-</html>
 </body>
 </html>

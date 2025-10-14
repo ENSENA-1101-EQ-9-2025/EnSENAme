@@ -3,35 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detector de Lenguaje de Señas Colombiano</title>
+    <title>EnSEÑAme - IA Detector de LSC</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="../admin/assets/images/favisena.png" type="image/x-icon">
+    
+    <!-- Fonts y estilos de la plantilla -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../admin/assets/fonts/tabler-icons.min.css">
+    <link rel="stylesheet" href="../admin/assets/fonts/feather.css">
+    <link rel="stylesheet" href="../admin/assets/fonts/fontawesome.css">
+    <link rel="stylesheet" href="../admin/assets/fonts/material.css">
+    <link rel="stylesheet" href="../admin/assets/css/style.css" id="main-style-link">
+    <link rel="stylesheet" href="../admin/assets/css/style-preset.css">
+    
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Public Sans', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            background-color: #f8f9fa;
             color: #333;
             min-height: 100vh;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        .header {
+            background: linear-gradient(135deg, #1890ff 0%, #40a9ff 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        h1 {
+        .header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
             text-align: center;
-            color: #2575fc;
-            margin-bottom: 30px;
+            color: #1890ff;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: #f8fafc;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            color: #374151;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 1.5rem;
         }
 
         /* ESTILOS AÑADIDOS/MODIFICADOS PARA DISPOSICIÓN LADO A LADO */
         .main-content {
-            display: flex; 
+            display: grid; 
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 20px; 
             margin-bottom: 20px;
         }
@@ -39,17 +127,54 @@
         .video-container {
             position: relative;
             width: 100%;
-            margin-bottom: 0; /* Eliminado el margen para que 'main-content' lo maneje */
-            border-radius: 10px;
+            margin-bottom: 0;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            flex: 2; /* El video toma 2/3 del espacio */
+            background: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            grid-column: 1;
         }
 
         #video {
             width: 100%;
-            border-radius: 10px;
+            border-radius: 12px;
             background-color: #000;
+            min-height: 280px;
+            max-height: 320px;
+            object-fit: cover;
+        }
+
+        .result {
+            text-align: center;
+            margin-bottom: 0;
+            padding: 1.5rem;
+            border-radius: 12px;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border: 1px solid #e5e7eb;
+            grid-column: 2;
+        }
+
+        .training-quick {
+            padding: 1.5rem;
+            border-radius: 12px;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            grid-column: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .training-quick h3 {
+            margin: 0 0 1rem 0;
+            color: #374151;
+            font-weight: 600;
+            font-size: 1.1rem;
         }
 
         .controls {
@@ -60,49 +185,132 @@
             flex-wrap: wrap;
         }
 
-        button {
-            padding: 12px 25px;
+        .btn {
+            padding: 10px 20px;
             border: none;
-            border-radius: 50px;
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            color: white;
-            font-weight: bold;
+            border-radius: 8px;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            min-height: 38px;
         }
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 12px;
+            min-height: 34px;
         }
 
-        button:disabled {
-            background: #cccccc;
+        .btn-primary {
+            background: #1890ff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #096dd9;
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+        .btn-warning {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+            transform: translateY(-1px);
+        }
+
+        .btn:disabled {
+            background: #9ca3af;
             cursor: not-allowed;
             transform: none;
-            box-shadow: none;
         }
 
-        .result {
-            text-align: center;
-            margin-bottom: 0; /* Eliminado el margen para que 'main-content' lo maneje */
-            padding: 20px;
-            border-radius: 10px;
-            background-color: #f8f9fa;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            flex: 1; /* El resultado toma 1/3 del espacio */
-            /* Centrado vertical del contenido dentro del resultado */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 15px;
+            }
+
+            .video-container {
+                grid-column: 1;
+                max-height: 240px;
+                min-height: 200px;
+            }
+
+            .results-container {
+                grid-column: 1;
+                margin-top: 0;
+            }
+
+            .training-quick {
+                grid-column: 1;
+                padding: 1rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .btn {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .header-title {
+                font-size: 1.5rem;
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .main-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+
+            .training-quick {
+                grid-column: 2;
+            }
+        }
+
+        .result h2 {
+            color: #374151;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        #predictionText {
+            font-size: 1.1rem;
+            color: #1890ff;
+            font-weight: 500;
+            margin-bottom: 1rem;
         }
 
         #confidenceBar {
             width: 100%;
-            height: 25px;
-            background-color: #e9ecef;
-            border-radius: 12px;
+            height: 8px;
+            background-color: #e5e7eb;
+            border-radius: 4px;
             margin: 15px 0;
             overflow: hidden;
         }
@@ -110,61 +318,68 @@
         #confidenceLevel {
             height: 100%;
             width: 0%;
-            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
-            border-radius: 12px;
+            background: linear-gradient(to right, #1890ff, #40a9ff);
+            border-radius: 4px;
             transition: width 0.5s ease;
         }
 
-        .training-section {
-            padding: 20px;
-            border-radius: 10px;
-            background-color: #f8f9fa;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            margin-bottom: 20px;
+        #confidenceValue {
+            color: #6b7280;
+            font-weight: 500;
         }
 
-        .save-section {
-            padding: 20px;
-            border-radius: 10px;
-            background-color: #f8f9fa;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            margin-bottom: 20px;
-        }
-
-        input[type="text"] {
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 50px;
-            width: calc(100% - 30px);
-            margin: 10px 0;
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
             font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #1890ff;
+            box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.1);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 500;
         }
 
         #exampleCount {
             font-style: italic;
-            color: #6c757d;
+            color: #6b7280;
+            margin-top: 10px;
         }
 
         .status-message {
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px 0;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin: 15px 0;
             text-align: center;
+            font-weight: 500;
         }
 
         .success {
-            background-color: #d4edda;
-            color: #155724;
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
         }
 
         .error {
-            background-color: #f8d7da;
-            color: #721c24;
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
         }
 
         .warning {
-            background-color: #fff3cd;
-            color: #856404;
+            background-color: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fde68a;
         }
 
         .save-options {
@@ -175,20 +390,29 @@
             margin-top: 15px;
         }
 
-        .save-btn {
-            background: linear-gradient(to right, #28a745, #20c997);
+        .text-muted {
+            color: #6b7280;
+            margin-bottom: 1rem;
         }
 
-        .load-btn {
-            background: linear-gradient(to right, #ffc107, #fd7e14);
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border: 1px solid transparent;
+        }
+
+        .alert-info {
+            background-color: #e6f7ff;
+            border-color: #91d5ff;
+            color: #0050b3;
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 15px;
+            .main-container {
+                padding: 0 15px;
             }
 
-            /* CAMBIO CLAVE: Apilar el video y el resultado en pantallas pequeñas */
             .main-content {
                 flex-direction: column; 
             }
@@ -204,57 +428,154 @@
                 align-items: center;
             }
             
-            button {
+            .btn {
                 width: 100%;
                 max-width: 300px;
+                justify-content: center;
+            }
+
+            .save-options {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .header .container {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
             }
         }
-
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Detector de Lenguaje de Señas Colombiano</h1>
+    <!-- Header -->
+    <div class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="../admin/assets/images/logoensename.PNG" alt="EnSEÑAme">
+                <span class="logo-text">EnSEÑAme IA</span>
+            </div>
+            <a href="../user/index.php" class="back-btn">
+                <i class="ti ti-arrow-left"></i>
+                Volver al Inicio
+            </a>
+        </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="main-container">
+        <!-- Alerta informativa -->
+        <div class="alert alert-info">
+            <i class="ti ti-info-circle"></i>
+            <strong>¡Bienvenido al Detector de Lenguaje de Señas Colombiano!</strong> 
+            Esta herramienta utiliza inteligencia artificial para reconocer señas en tiempo real.
+        </div>
+
+        <h1 class="page-title">
+            <i class="ti ti-brain"></i>
+            Detector de Lenguaje de Señas Colombiano
+        </h1>
         
         <div class="main-content">
-            <div class="video-container">
-                <video id="video" autoplay playsinline></video>
-                <canvas id="canvas" style="display: none;"></canvas>
+            <div class="card video-container">
+                <div class="card-header">
+                    <h3><i class="ti ti-video"></i> Cámara en Vivo</h3>
+                </div>
+                <div class="card-body" style="padding: 0;">
+                    <video id="video" autoplay playsinline></video>
+                    <canvas id="canvas" style="display: none;"></canvas>
+                </div>
             </div>
             
             <div class="result">
-                <h2>Resultado:</h2>
+                <h2><i class="ti ti-eye"></i> Resultado:</h2>
                 <p id="predictionText">Presiona "Capturar Seña" para comenzar</p>
                 <div id="confidenceBar">
                     <div id="confidenceLevel"></div>
                 </div>
                 <p id="confidenceValue">0%</p>
             </div>
-        </div>
-        <div class="controls">
-            <button id="startBtn">Iniciar Cámara</button>
-            <button id="captureBtn" disabled>Capturar Seña</button>
-            <button id="trainBtn" disabled>Entrenar Modelo</button>
-        </div>
-        
-        <div class="training-section">
-            <h2>Entrenar nuevas señas</h2>
-            <input type="text" id="className" placeholder="Nombre de la seña (ej: Hola)">
-            <button id="addExampleBtn" disabled>Agregar ejemplo</button>
-            <p id="exampleCount">0 ejemplos agregados</p>
+
+            <div class="training-quick">
+                <h3>Entrenamiento Rápido</h3>
+                <div class="controls">
+                    <button type="button" class="btn btn-primary btn-sm" onclick="train()">
+                        <i class="fas fa-plus"></i> Agregar Ejemplo
+                    </button>
+                    <button type="button" class="btn btn-success btn-sm" onclick="save()">
+                        <i class="fas fa-save"></i> Guardar Modelo
+                    </button>
+                    <button type="button" class="btn btn-warning btn-sm" onclick="load()">
+                        <i class="fas fa-upload"></i> Cargar Modelo
+                    </button>
+                </div>
+                <p style="font-size: 0.9rem; color: #6b7280; margin: 0; text-align: center;">
+                    Agrega ejemplos de señas para entrenar el modelo
+                </p>
+            </div>
         </div>
 
-        <div class="save-section">
-            <h2>Guardar y Cargar Datos de Entrenamiento</h2>
-            <p>Puedes guardar tus datos de entrenamiento para usarlos posteriormente</p>
-            
-            <div class="save-options">
-                <button id="saveLocalBtn" class="save-btn" disabled>Guardar localmente</button>
-                <button id="loadLocalBtn" class="load-btn">Cargar desde dispositivo</button>
-                <button id="saveServerBtn" class="save-btn" disabled>Guardar en servidor</button>
+        <div class="card">
+            <div class="card-body">
+                <div class="controls">
+                    <button id="startBtn" class="btn btn-primary">
+                        <i class="ti ti-camera"></i>
+                        Iniciar Cámara
+                    </button>
+                    <button id="captureBtn" class="btn btn-primary" disabled>
+                        <i class="ti ti-capture"></i>
+                        Capturar Seña
+                    </button>
+                    <button id="trainBtn" class="btn btn-success" disabled>
+                        <i class="ti ti-brain"></i>
+                        Entrenar Modelo
+                    </button>
+                </div>
             </div>
-            
-            <div id="saveStatus"></div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="ti ti-school"></i> Entrenar nuevas señas</h3>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">Agrega ejemplos para entrenar el modelo con nuevas señas</p>
+                <div class="mb-3">
+                    <label for="className" class="form-label">Nombre de la seña</label>
+                    <input type="text" id="className" class="form-control" placeholder="Ej: Hola, Gracias, Por favor...">
+                </div>
+                <button id="addExampleBtn" class="btn btn-warning" disabled>
+                    <i class="ti ti-plus"></i>
+                    Agregar ejemplo
+                </button>
+                <p id="exampleCount">0 ejemplos agregados</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="ti ti-database"></i> Guardar y Cargar Datos de Entrenamiento</h3>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">Puedes guardar tus datos de entrenamiento para usarlos posteriormente</p>
+                
+                <div class="save-options">
+                    <button id="saveLocalBtn" class="btn btn-success" disabled>
+                        <i class="ti ti-download"></i>
+                        Guardar localmente
+                    </button>
+                    <button id="loadLocalBtn" class="btn btn-warning">
+                        <i class="ti ti-upload"></i>
+                        Cargar desde dispositivo
+                    </button>
+                    <button id="saveServerBtn" class="btn btn-success" disabled>
+                        <i class="ti ti-cloud"></i>
+                        Guardar en servidor
+                    </button>
+                </div>
+                
+                <div id="saveStatus"></div>
+            </div>
         </div>
     </div>
 
@@ -549,7 +870,48 @@
                     saveStatus.innerHTML = '';
                 }, 5000);
             }
+
+            // Funciones para botones de entrenamiento rápido
+            function train() {
+                const labelInput = document.getElementById('exampleLabel');
+                if (labelInput && labelInput.value.trim()) {
+                    // Simular click en el botón de entrenamiento principal
+                    const trainBtn = document.getElementById('trainBtn');
+                    if (trainBtn && !trainBtn.disabled) {
+                        trainBtn.click();
+                    } else {
+                        showStatus('Primero inicia la cámara y captura una seña', 'warning');
+                    }
+                } else {
+                    showStatus('Por favor ingresa una etiqueta para el ejemplo', 'warning');
+                }
+            }
+
+            function save() {
+                // Activar el guardado local
+                const saveLocalBtn = document.getElementById('saveLocalBtn');
+                if (saveLocalBtn && !saveLocalBtn.disabled) {
+                    saveLocalBtn.click();
+                } else {
+                    showStatus('No hay datos para guardar. Primero entrena el modelo.', 'warning');
+                }
+            }
+
+            function load() {
+                // Activar la carga de datos locales
+                const loadBtn = document.getElementById('loadLocalBtn');
+                if (loadBtn) {
+                    loadBtn.click();
+                } else {
+                    showStatus('Función de carga no disponible', 'warning');
+                }
+            }
         });
     </script>
+
+    <!-- Scripts de la plantilla -->
+    <script src="../admin/assets/js/plugins/popper.min.js"></script>
+    <script src="../admin/assets/js/plugins/simplebar.min.js"></script>
+    <script src="../admin/assets/js/plugins/feather.min.js"></script>
 </body>
 </html>
