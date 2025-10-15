@@ -116,17 +116,8 @@ if(isset($_POST['btningresar'])){
 
         mysqli_stmt_close($stmt);
     } else {
-
+        $message = "Error en la consulta a la base de datos";
     }
-
-
-      echo "<script>window.location='user/index.php';</script>";
-    exit();
-  } else {
-    $message = "Usuario o contraseña incorrectos"; 
-  }
-
-
 }
 ?>
 
@@ -158,7 +149,6 @@ if(isset($_POST['btningresar'])){
 <!-- [Template CSS Files] -->
 <link rel="stylesheet" href="admin/assets/css/style.css" id="main-style-link" >
 <link rel="stylesheet" href="admin/assets/css/style-preset.css" >
-<link rel="stylesheet" href="admin/assets/image" >
 </head>
 <!-- [Head] end -->
 <!-- [Body] Start -->
@@ -206,9 +196,9 @@ if(isset($_POST['btningresar'])){
             </div>
             <div class="d-grid mt-4">
               <button type="submit" name="btningresar" class="btn btn-primary">Iniciar Sesión</button>
-            </div>           
+            </div>
+          </form>           
           </div>
-          </form>
         </div>
         <div class="auth-footer row">           
       
@@ -246,26 +236,12 @@ if(isset($_POST['btningresar'])){
   
   <script>font_change("Public-Sans");</script>
   
-    
- 
+  <style>
+    .navbar {
+      width: 100%;
+      border-bottom: 1px solid #eee; /* línea sutil abajo */
+    }
+  </style>
 </body>
 <!-- [Body] end -->
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-<style>
-  .navbar {
-  width: 100%;
-  border-bottom: 1px solid #eee; /* línea sutil abajo */
-}
-</style>

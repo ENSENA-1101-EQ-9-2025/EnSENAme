@@ -277,7 +277,13 @@ if (!empty($_SESSION['txtdoc'])) {
                 <div class="card-body d-flex flex-column">
                   <div class="text-center mb-3">
                     <div class="bg-success-light rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                      <i class="ti ti-abc text-success fs-3"></i>
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 6H20M4 12H20M4 18H11" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="16" cy="18" r="2" stroke="#10b981" stroke-width="2" fill="none"/>
+                        <path d="M18 16L20 20" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+                        <text x="2" y="8" font-family="Arial, sans-serif" font-size="3" fill="#10b981" font-weight="bold">ABC</text>
+                        <text x="16" y="8" font-family="Arial, sans-serif" font-size="3" fill="#10b981" font-weight="bold">123</text>
+                      </svg>
                     </div>
                   </div>
                   <h5 class="card-title text-center">2. Abecedario y números en LSC</h5>
@@ -302,7 +308,11 @@ if (!empty($_SESSION['txtdoc'])) {
                 <div class="card-body d-flex flex-column">
                   <div class="text-center mb-3">
                     <div class="bg-warning-light rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                      <i class="ti ti-message-circle text-warning fs-3"></i>
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 12H16M8 8H16M8 16H13M7 4V2C7 1.44772 7.44772 1 8 1H16C16.5523 1 17 1.44772 17 2V4H19C19.5523 4 20 4.44772 20 5V19C20 19.5523 19.5523 20 19 20H17V22C17 22.5523 16.5523 23 16 23H8C7.44772 23 7 22.5523 7 22V20H5C4.44772 20 4 19.5523 4 19V5C4 4.44772 4.44772 4 5 4H7Z" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="6" cy="18" r="1" fill="#d97706"/>
+                        <circle cx="18" cy="6" r="1" fill="#d97706"/>
+                      </svg>
                     </div>
                   </div>
                   <h5 class="card-title text-center">3. Verbos y conversaciones cotidianas</h5>
@@ -417,7 +427,7 @@ if (!empty($_SESSION['txtdoc'])) {
                 <p class="text-muted">Conceptos básicos e historia del Lenguaje de Señas Colombiano</p>
               </div>
               <iframe width="100%" height="400"
-                src="https://www.youtube.com/embed/VIDEO_ID1"
+                src="https://www.youtube.com/embed/Sq7aNz5kHOo"
                 title="Introducción a la LSC" frameborder="0"
                 allowfullscreen></iframe>
             </div>
@@ -444,7 +454,7 @@ if (!empty($_SESSION['txtdoc'])) {
                 <p class="text-muted">Aprende el abecedario dactilológico y números básicos</p>
               </div>
               <iframe width="100%" height="400"
-                src="https://www.youtube.com/embed/VIDEO_ID2"
+                src="https://www.youtube.com/embed/2FYzN7WMl7k"
                 title="Abecedario y números en LSC" frameborder="0"
                 allowfullscreen></iframe>
             </div>
@@ -471,7 +481,7 @@ if (!empty($_SESSION['txtdoc'])) {
                 <p class="text-muted">Aprende verbos esenciales y mantén conversaciones básicas en LSC</p>
               </div>
               <iframe width="100%" height="400"
-                src="https://www.youtube.com/embed/VIDEO_ID3"
+                src="https://www.youtube.com/embed/mXtzV2OQ7M8"
                 title="Verbos y conversaciones cotidianas" frameborder="0"
                 allowfullscreen></iframe>
             </div>
@@ -498,7 +508,7 @@ if (!empty($_SESSION['txtdoc'])) {
                 <p class="text-muted">Señas para familia, relaciones y descripciones de personas</p>
               </div>
               <iframe width="100%" height="400"
-                src="https://www.youtube.com/embed/VIDEO_ID4"
+                src="https://www.youtube.com/embed/l8wl6WCGgMo"
                 title="Familia y Relaciones en LSC" frameborder="0"
                 allowfullscreen></iframe>
             </div>
@@ -525,7 +535,7 @@ if (!empty($_SESSION['txtdoc'])) {
                 <p class="text-muted">Expresa emociones y sentimientos en LSC</p>
               </div>
               <iframe width="100%" height="400"
-                src="https://www.youtube.com/embed/VIDEO_ID5"
+                src="https://www.youtube.com/embed/dZSKBaFpW6Y"
                 title="Emociones y Sentimientos en LSC" frameborder="0"
                 allowfullscreen></iframe>
             </div>
@@ -552,7 +562,7 @@ if (!empty($_SESSION['txtdoc'])) {
                 <p class="text-muted">Aprende señas para tiempo, fechas y expresiones temporales</p>
               </div>
               <iframe width="100%" height="400"
-                src="https://www.youtube.com/embed/VIDEO_ID6"
+                src="https://www.youtube.com/embed/v4NdZczn_wY"
                 title="Tiempo y Fechas en LSC" frameborder="0"
                 allowfullscreen></iframe>
             </div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-05-2025 a las 04:51:26
+-- Tiempo de generación: 15-10-2025 a las 04:44:07
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -55,17 +55,19 @@ CREATE TABLE `tb_usuarios` (
   `p_apellido` tinytext NOT NULL,
   `s_apellido` tinytext NOT NULL,
   `Clave` varchar(101) NOT NULL,
-  `id_rol` int(11) NOT NULL
+  `id_rol` int(11) NOT NULL,
+  `needs_pw_change` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `tb_usuarios`
 --
 
-INSERT INTO `tb_usuarios` (`ID`, `Tipo_Documento`, `p_nombre`, `s_nombre`, `p_apellido`, `s_apellido`, `Clave`, `id_rol`) VALUES
-(5555, 1, 'Juan', 'Sebastian', 'Ceballos', 'A', '827ccb0eea8a706c4c34a16891f84e7b', 1),
-(12345, 1, 'nombre', 'snombre', 'papellido', 'sapellido', '12345', 1),
-(44444, 2, 'qa', 'ugfug', 'ouhgob', 'ugvfug', 'e10adc3949ba59abbe56e057f20f883e', 2);
+INSERT INTO `tb_usuarios` (`ID`, `Tipo_Documento`, `p_nombre`, `s_nombre`, `p_apellido`, `s_apellido`, `Clave`, `id_rol`, `needs_pw_change`) VALUES
+(123456789, 2, 'Morita', 'Moringa', 'Chica ', 'Tapasco', '$argon2id$v=19$m=131072,t=4,p=2$YktsTE93T3pBb2dYaC9WdQ$PbqWYS3KXSnax8yPsos22q7XRyotCoHooVClUbZvLAI', 1, 0),
+(1015189816, 1, 'Jeremy', '', 'Chica', 'Tapasco', '$argon2id$v=19$m=131072,t=4,p=2$QUV1Z1RqeUpodTlGdGRVdQ$w40s656NARBSjyXJiS+z8aEsHNE2L3KI/ymdDIGBZ9M', 1, 1),
+(1015196766, 1, 'Jacob', 'rafael', 'Rojas', 'Chica', '$2y$10$yB21eoCgcAWmZFTaPbDZ.OD9gUk8KwKzncInlLq0/1oVcnNcuEc6e', 2, 1),
+(1017136002, 2, 'Ana', 'Milena', 'Chica', 'Tapasco', '$argon2id$v=19$m=131072,t=4,p=2$a1U3Slcub0pRWEpianJRRg$EsnBTeMvWu5CdSEqFrmBuLTADum+dTjRUAbfAp8dmNo', 2, 0);
 
 --
 -- Índices para tablas volcadas
@@ -85,23 +87,13 @@ ALTER TABLE `tb_usuarios`
   ADD KEY `id_rol` (`id_rol`);
 
 --
-ALTER TABLE `tb_usuarios`
-
--- --------------------------------------------------------
--- Estructura de tabla para la tabla `tb_mensajes`
+-- Restricciones para tablas volcadas
 --
-CREATE TABLE `tb_mensajes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `remitente_id` int(11) NOT NULL,
-  `destinatario_id` int(11) NOT NULL,
-  `mensaje` text NOT NULL,
-  `fecha_envio` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `estado` varchar(20) DEFAULT 'enviado',
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`remitente_id`) REFERENCES `tb_usuarios`(`ID`),
-  FOREIGN KEY (`destinatario_id`) REFERENCES `tb_usuarios`(`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
+--
+-- Filtros para la tabla `tb_usuarios`
+--
+ALTER TABLE `tb_usuarios`
   ADD CONSTRAINT `tb_usuarios_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `tbl_rol` (`id`);
 COMMIT;
 
