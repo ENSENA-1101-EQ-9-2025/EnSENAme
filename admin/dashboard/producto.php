@@ -2,371 +2,75 @@
 session_start();
 include '../../conexion.php';
 $nombre = '';
-if (!empty($_SESSION['txtdoc'])) {
-  $doc = mysqli_real_escape_string($conexion, $_SESSION['txtdoc']);
-  $res = mysqli_query($conexion, "SELECT p_nombre FROM tb_usuarios WHERE ID = '$doc' LIMIT 1");
-  if ($row = mysqli_fetch_assoc($res)) {
-    $nombre = $row['p_nombre'];
+  if (!empty($_SESSION['txtdoc'])) {
+    $doc = mysqli_real_escape_string($conexion, $_SESSION['txtdoc']);
+    $res = mysqli_query($conexion, "SELECT p_nombre FROM tb_usuarios WHERE ID = '$doc' LIMIT 1");
+    if ($row = mysqli_fetch_assoc($res)) {
+      $nombre = $row['p_nombre'];
+    } else {
+      $nombre = 'Usuario';
+    }
   } else {
     $nombre = 'Usuario';
   }
-} else {
-  $nombre = 'Usuario';
-}
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
+  <title>EnSEÑAme - Admin Guías LSC</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>EnSEÑAme - Guías LSC</title>
-  <link rel="icon" href="../assets/images/favisena.png" type="image/x-icon">
-  <link rel="stylesheet" href="../assets/css/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Panel de administración para gestionar las guías de Lenguaje de Señas Colombiano. Contenido educativo especializado para la comunidad sorda.">
+  <meta name="keywords" content="LSC, Lenguaje de Señas Colombiano, Admin, Gestión, Guías, Educación, Comunidad Sorda, EnSEÑAme">
+  <meta name="author" content="EnSEÑAme Team">
+
+  <link rel="icon" href="../assets/images/favisena.png" type="image/x-icon"> <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
+<link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css" >
+<link rel="stylesheet" href="../assets/fonts/feather.css" >
+<link rel="stylesheet" href="../assets/fonts/fontawesome.css" >
+<link rel="stylesheet" href="../assets/fonts/material.css" >
+<link rel="stylesheet" href="../assets/css/style.css" id="main-style-link" >
+<link rel="stylesheet" href="../assets/css/style-preset.css" >
+
 </head>
-<body>
-
-  <header>
-    <h1>Gestión de Guías LSC</h1>
-    <p>Usuario: <?php echo htmlspecialchars($nombre); ?></p>
-  </header>
-
-  <main class="container">
-    <section class="cards">
-      <article class="card">
-        <h3>1. Introducción a la LSC</h3>
-        <p>Conceptos básicos e historia del Lenguaje de Señas Colombiano</p>
-        <button type="button" data-bs-toggle="modal" data-bs-target="#guia1">Ver guía</button>
-      </article>
-      <article class="card">
-        <h3>2. Abecedario y números en LSC</h3>
-        <button type="button" data-bs-toggle="modal" data-bs-target="#guia2">Ver guía</button>
-      </article>
-    </section>
-
-    <!-- Modales (ejemplo) -->
-    <div class="modal fade" id="guia1" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Guía 1: Introducción a la LSC</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body text-center">
-            <video width="100%" height="400" controls>
-              <source src="../admin/assets/videos/VideoGuia1.mp4" type="video/mp4">
-            </video>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </main>
-
-  <footer>
-    <div class="container">EnSEÑAme © 2025</div>
-  </footer>
-
-  <!-- Scripts (single block) -->
-  <script src="../assets/js/plugins/popper.min.js"></script>
-  <script src="../assets/js/plugins/bootstrap.min.js"></script>
-  <script src="../assets/js/plugins/apexcharts.min.js"></script>
-  <script src="../assets/js/pages/dashboard-default.js"></script>
-  <script src="../assets/js/plugins/feather.min.js"></script>
-
-  <script>
-    // Initialize theme helpers safely if available
-    try {
-      if (typeof layout_change === 'function') layout_change('light');
-      if (typeof change_box_container === 'function') change_box_container(false);
-      if (typeof layout_rtl_change === 'function') layout_rtl_change(false);
-      if (typeof preset_change === 'function') preset_change('preset-1');
-      if (typeof font_change === 'function') font_change('Public-Sans');
-    } catch (e) {
-      console.warn('Theme init skipped:', e);
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-      const cards = document.querySelectorAll('.card');
-      cards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-          card.style.transition = 'all 0.5s ease';
-          card.style.opacity = '1';
-          card.style.transform = 'translateY(0)';
-        }, index * 100);
-      });
-    });
-  </script>
-
-</body>
-</html>
-<header class="pc-header">
-  <div class="header-wrapper"> <div class="me-auto pc-mob-drp">
-  <ul class="list-unstyled">
-    <li class="pc-h-item pc-sidebar-collapse">
-      <a href="#" class="pc-head-link ms-0" id="sidebar-hide">
-        <i class="ti ti-menu-2"></i>
-      </a>
-    </li>
-    <li class="pc-h-item pc-sidebar-popup">
-      <a href="#" class="pc-head-link ms-0" id="mobile-collapse">
-        <i class="ti ti-menu-2"></i>
-      </a>
-    </li>
-    <li class="dropdown pc-h-item d-inline-flex d-md-none">
-      <a
-        class="pc-head-link dropdown-toggle arrow-none m-0"
-        data-bs-toggle="dropdown"
-        href="#"
-        role="button"
-        aria-haspopup="false"
-        aria-expanded="false"
-      >
-        <i class="ti ti-search"></i>
-      </a>
-      <div class="dropdown-menu pc-h-dropdown drp-search">
-        <form class="px-3">
-          <div class="form-group mb-0 d-flex align-items-center">
-            <i data-feather="search"></i>
-            <input type="search" class="form-control border-0 shadow-none" placeholder="Search here. . .">
-          </div>
-        </form>
-      </div>
-    </li>
-  
-  </ul>
-</div>
-<div class="ms-auto">
-  <ul class="list-unstyled">
-    <li class="dropdown pc-h-item header-user-profile">
-      <a
-        class="pc-head-link dropdown-toggle arrow-none me-0"
-        data-bs-toggle="dropdown"
-        href="#"
-        role="button"
-        aria-haspopup="false"
-        data-bs-auto-close="outside"
-        aria-expanded="false"
-      >
-        <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
-  <span><?php echo htmlspecialchars($nombre); ?></span>
-      </a>
-      <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
-        <div class="dropdown-header">
-          <div class="d-flex mb-1">
-            <div class="flex-shrink-0">
-              <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
-            </div>
-            <div class="flex-grow-1 ms-3">
-              <h6 class="mb-1"><?php echo htmlspecialchars($nombre); ?></h6>
-              <span><?php echo htmlspecialchars($nombre); ?></span>
-            </div>
-          </div>
-        </div>
-        <ul class="nav drp-tabs nav-fill nav-tabs" id="mydrpTab" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button
-              class="nav-link active"
-              id="drp-t1"
-              data-bs-toggle="tab"
-              data-bs-target="#drp-tab-1"
-              type="button"
-              role="tab"
-              aria-controls="drp-tab-1"
-              aria-selected="true"
-              ><i class="ti ti-user"></i> Perfil</button
-            >
-          </li>
-          <li class="nav-item" role="presentation">
-            <button
-              class="nav-link"
-              id="drp-t2"
-              data-bs-toggle="tab"
-              data-bs-target="#drp-tab-2"
-              type="button"
-              role="tab"
-              aria-controls="drp-tab-2"
-              aria-selected="false"
-              ><i class="ti ti-settings"></i> Configuración</button
-            >
-          </li>
-        </ul>
-        <div class="tab-content" id="mysrpTabContent">
-          <div class="tab-pane fade show active" id="drp-tab-1" role="tabpanel" aria-labelledby="drp-t1" tabindex="0">
-            <a href="#!" class="dropdown-item">
-              <i class="ti ti-edit-circle"></i>
-              <span>Edit Profile</span>
-            </a>
-            <a href="#!" class="dropdown-item">
-              <i class="ti ti-user"></i>
-              <span>View Profile</span>
-            </a>
-            <a href="#!" class="dropdown-item">
-              <i class="ti ti-power"></i>
-              <span>Logout</span>
-            </a>
-          </div>
-          <div class="tab-pane fade" id="drp-tab-2" role="tabpanel" aria-labelledby="drp-t2" tabindex="0">
-            <a href="#!" class="dropdown-item">
-              <i class="ti ti-help"></i>
-              <span>Support</span>
-            </a>
-            <a href="#!" class="dropdown-item">
-              <i class="ti ti-user"></i>
-              <span>Account Settings</span>
-            </a>
-            <a href="#!" class="dropdown-item">
-              <i class="ti ti-messages"></i>
-              <span>Feedback</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </li>
-  </ul>
-</div>
- </div>
-</header>
-<div class="pc-container">
-    <div class="pc-content">
-      <div class="page-header">
-        <div class="page-block">
-          <div class="row align-items-center">
-            <div class="col-md-12">
-              <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.php">Inicio</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Gestión de Guías LSC</li>
-              </ul>
-            </div>
-            <div class="col-md-12">
-              <div class="page-header-title">
-              
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row mb-4">
-        <div class="col-12">
-          <div class="alert alert-info" role="alert">
-            <i class="ti ti-info-circle me-2"></i>
-            <strong>¡Panel de administración de guías LSC!</strong> Gestiona el contenido educativo especializado para el aprendizaje de Lenguaje de Señas Colombiano.
-          </div>
-        </div>
-      </div>
-
-      <h1 class="mb-4">
-        <i class="ti ti-book me-2 text-primary"></i>
-        Gestión de Guías LSC
-      </h1>
-      
-        <div class="card mt-3">
-        <div class="card-header">
-          <h2 class="mb-0">
-            <i class="ti ti-video me-2"></i>
-            Contenido Educativo Disponible
-          </h2>
-          <p class="text-muted mb-0">Administra las guías de Lenguaje de Señas Colombiano disponibles para los usuarios</p>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <!-- Guía cards (kept concise) -->
-            <div class="col-lg-4 col-md-6 mb-4">
-              <div class="card h-100 shadow-sm">
-                <div class="card-body d-flex flex-column">
-                  <div class="text-center mb-3">
-                    <div class="bg-primary-light rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
-                      <i class="ti ti-school text-primary fs-3"></i>
-                    </div>
-                  </div>
-                  <h5 class="card-title text-center">1. Introducción a la LSC</h5>
-                  <p class="card-text flex-grow-1">Aprende los conceptos básicos del Lenguaje de Señas Colombiano (LSC), incluyendo su historia, estructura y la importancia de la comunicación visual en la comunidad sorda.</p>
-                  <div class="mt-auto">
-                    <div class="d-grid">
-                      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#guia1"><i class="ti ti-play me-2"></i>Ver guía</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Additional cards omitted for brevity; original content preserved in repo history -->
-          </div>
-        </div>
-      </div>
-
-      <!-- MODALES CON VIDEOS -->
-      <!-- Example modal -->
-      <div class="modal fade" id="guia1" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-              <h5 class="modal-title"><i class="ti ti-school me-2"></i>Guía 1: Introducción a la LSC</h5>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body text-center">
-              <p class="text-muted">Conceptos básicos e historia del Lenguaje de Señas Colombiano</p>
-              <video width="100%" height="400" controls preload="metadata">
-                <source src="../admin/assets/videos/VideoGuia1.mp4" type="video/mp4">
-                Tu navegador no soporta la reproducción de video. Puedes abrirlo en una nueva pestaña <a href="../admin/assets/videos/VideoGuia1.mp4" target="_blank">aquí</a>.
-              </video>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+<body data-pc-preset="preset-1" data-pc-direction="ltr" data-pc-theme="light">
+  <div class="loader-bg">
+  <div class="loader-track">
+    <div class="loader-fill"></div>
   </div>
-
-  <footer class="pc-footer">
-    <div class="footer-wrapper container-fluid">
-      <div class="row">
-        <div class="col-sm my-1"></div>
-        <div class="col-auto my-1"></div>
-      </div>
+</div>
+<nav class="pc-sidebar">
+  <div class="navbar-wrapper">
+    <div class="m-header">
+      <a href="../dashboard/index.php" class="b-brand text-primary">
+        <img src="../assets/images/logoensenamenobg.png" class="img-fluid logo-lg" alt="EnSEÑAme" style="max-height: 40px;">
+      </a>
     </div>
-  </footer>
-
-  <script src="../assets/js/plugins/apexcharts.min.js"></script>
-  <script src="../assets/js/pages/dashboard-default.js"></script>
-  <script src="../assets/js/plugins/popper.min.js"></script>
-  <script src="../assets/js/plugins/simplebar.min.js"></script>
-  <script src="../assets/js/plugins/bootstrap.min.js"></script>
-  <script src="../assets/js/fonts/custom-font.js"></script>
-  <script src="../assets/js/pcoded.js"></script>
-  <script src="../assets/js/plugins/feather.min.js"></script>
-
-  <script>
-    // Configuración del tema
-    layout_change('light');
-    change_box_container('false');
-    layout_rtl_change('false');
-    preset_change("preset-1");
-    font_change("Public-Sans");
-
-    // Animación para las tarjetas
-    document.addEventListener('DOMContentLoaded', function() {
-      const cards = document.querySelectorAll('.card');
-      cards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-          card.style.transition = 'all 0.5s ease';
-          card.style.opacity = '1';
-          card.style.transform = 'translateY(0)';
-        }, index * 100);
-      });
-    });
-  </script>
-</body>
-</html>
+    <div class="navbar-content">
+    <ul class="pc-navbar">
+      <li class="pc-item">
+        <a href="index.php" class="pc-link">
+          <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
+          <span class="pc-mtext">Inicio</span>
+        </a>
+      </li>
+      <li class="pc-item pc-hasmenu">
+        <a href="javascript:void(0);" class="pc-link">
+          <span class="pc-micon"><i class="ti ti-users"></i></span>
+          <span class="pc-mtext">Usuarios</span>
+          <span class="pc-arrow"><i class="ti ti-chevron-down"></i></span>
+        </a>
+        <ul class="pc-submenu" style="display: none;">
+          <li class="pc-item">
+            <a href="crear.php" class="pc-link">
+              <span class="pc-mtext">Agregar usuario</span>
+            </a>
+          </li>
+          <li class="pc-item">
+            <a href="usuarios.php" class="pc-link">
+              <span class="pc-mtext">Ver usuarios</span>
+            </a>
           </li>
         </ul>
       </li>
