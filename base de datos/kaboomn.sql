@@ -23,6 +23,23 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
+-- --------------------------------------------------------
+
+-- Estructura de tabla para la tabla `tb_models`
+
+CREATE TABLE `tb_models` (
+  `id` int(11) NOT NULL,
+  `name` varchar(150) NOT NULL,
+  `model_json` longtext NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- Volcado de datos para la tabla `tb_models`
+
+INSERT INTO `tb_models` (`id`, `name`, `model_json`, `created_at`) VALUES
+(1, 'modelo_default', '{"classNames": [], "examples": {}}', current_timestamp());
+
+
 --
 -- Estructura de tabla para la tabla `tbl_rol`
 --

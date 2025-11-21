@@ -192,6 +192,7 @@ $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !=
     // Fuentes remotas opcionales
     const REMOTE_CANDIDATES = [
       ...(PARAM_MODEL_URL ? [PARAM_MODEL_URL] : []),
+      '../IA/get_model.php?id=1',
       'https://raw.githubusercontent.com/DanielPedraza023/InterpretacionLSC/main/datos_entrenamiento_senas.json',
       'https://raw.githubusercontent.com/DanielPedraza023/InterpretacionLSC/main/base%20de%20datos/datos_entrenamiento_senas%20(3).json'
     ];
