@@ -44,7 +44,7 @@ $nombre = '';
   <div class="navbar-wrapper">
     <div class="m-header">
       <a href="../dashboard/index.php" class="b-brand text-primary">
-        <img src="../assets/images/logoensenamenobg.png" alt="EnSEÑAme Logo" class="img-fluid" />
+        <img src="../assets/images/logo-dark.svg" class="img-fluid logo-lg" alt="EnSEÑAme" style="max-height: 40px;">
       </a>
     </div>
     <div class="navbar-content">
