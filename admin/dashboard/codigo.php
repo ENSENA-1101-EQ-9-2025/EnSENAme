@@ -14,11 +14,15 @@ if (isset($_POST["btn_registrar"])) {
     $segundoApellido = $_POST['segundoApellido'];
     $idrol = $_POST['idrol'];
 
+    // Determinar destino de redirección según origen (form público vs admin)
+    $is_public = isset($_POST['public_register']) && $_POST['public_register'] == '1';
+    $redirect_back = $is_public ? '../../login.php' : 'crear.php';
+
     // Verificar si las contraseñas coinciden
     if ($clave !== $clave2) {
         echo "<script>
                 alert('Las contraseñas no coinciden.');
-                window.location='crear.php';
+                window.location='{$redirect_back}';
               </script>";
         exit();
     }
@@ -46,10 +50,10 @@ if (isset($_POST["btn_registrar"])) {
 
         if (mysqli_num_rows($result) > 0) {
             // Si el número de documento ya existe, mostrar el popup
-            echo "<script>
-                    alert('El usuario con este número de documento ya está registrado en el sistema.');
-                    window.location='crear.php'; // Redirigir de nuevo a la página de registro
-                  </script>";
+                        echo "<script>
+                                        alert('El usuario con este número de documento ya está registrado en el sistema.');
+                                        window.location='{$redirect_back}'; // Redirigir de nuevo a la página de registro
+                                    </script>";
             exit();
         }
         mysqli_stmt_close($stmt); // Cerrar el statement
@@ -71,29 +75,29 @@ if (isset($_POST["btn_registrar"])) {
         $insert_result = mysqli_stmt_execute($stmt);
 
         if ($insert_result) {
-            echo "<script>
-                    alert('Usuario registrado correctamente.');
-                    window.location='crear.php'; // Redirigir al formulario después de un registro exitoso
-                  </script>";
+                    echo "<script>
+                                            alert('Usuario registrado correctamente.');
+                                            window.location='{$redirect_back}'; // Redirigir al destino según origen del formulario
+                                        </script>";
         } else {
-            echo "<script>
-                    alert('Hubo un error al registrar al usuario.');
-                    window.location='crear.php';
-                  </script>";
+                        echo "<script>
+                                        alert('Hubo un error al registrar al usuario.');
+                                        window.location='{$redirect_back}';
+                                    </script>";
         }
         mysqli_stmt_close($stmt); // Cerrar el statement
     } else {
         // Si hubo un error al preparar la consulta
-        echo "<script>
-                alert('Error al intentar registrar el usuario.');
-                window.location='crear.php';
-              </script>";
+    echo "<script>
+        alert('Error al intentar registrar el usuario.');
+        window.location='{$redirect_back}';
+          </script>";
     }
 } else {
-    echo "<script>
-            alert('Error en el envío del formulario.');
-            window.location='crear.php';
-          </script>";
+        echo "<script>
+                        alert('Error en el envío del formulario.');
+                        window.location='crear.php';
+                    </script>";
 }
 ?>
 

@@ -1,38 +1,34 @@
 <?php
-// Chatbot simple y funcional (sin comentarios multilínea para evitar corrupciones)
+
+/**
+ * ChatbotSordos - versión limpia y compacta
+ * Provee detección sencilla de intención por palabras clave y respuestas predefinidas.
+ */
+
 class ChatbotSordos {
     private $contexto = [];
     private $ultimo_tema = null;
     private $contador = 0;
 
-    private $palabras = [
-        'causas_principales' => ['causas','causa','por qué','origen','genética','congénito','hereditario','infecciones','ruido','medicamentos','traumatismo','meningitis','otitis','ototóxicos'],
+    private $palabras_clave = [
+        'causas_principales' => ['causas','causa','por que','origen','genet','congenit','heredit','infeccion','ruido','medicamento','traumatismo','meningitis','otitis','ototox'],
         'definicion' => ['qué es','definición','concepto','tipos','sordera','pérdida auditiva','hipoacusia','anacusia','deficiencia auditiva'],
-        'lengua_senas_colombiana' => ['lsc','lengua de señas','señas','lenguaje de señas','gestos','comunicación visual','señas colombianas'],
+        'lengua_senas_colombiana' => ['lsc','lengua de senas','senas','lenguaje de senas','gestos','comunicacion visual','senas colombianas'],
         'cultura_sorda' => ['cultura sorda','comunidad sorda','identidad sorda','valores','tradiciones','arte sordo','teatro sordo'],
-        'tecnologias_apoyo' => ['audífonos','implante coclear','tecnología','dispositivos','apps','aplicaciones','ayudas técnicas','sistemas fm']
+        'tecnologias_apoyo' => ['audifonos','implante coclear','tecnolog','dispositivos','apps','aplicaciones','ayudas tecnicas','sistemas fm']
     ];
 
     private $respuestas = [
-        'causas_principales' => "📊 Principales causas de sordera:\n\n".
-            "🧬 Congénitas (desde nacimiento):\n".
-            "• Genéticas: 50-60%\n".
-            "• Infecciones maternas (rubéola, CMV): 15-20%\n".
-            "• Complicaciones perinatales: 10-15%\n\n".
-            "⚡ Adquiridas (después del nacimiento):\n".
-            "• Exposición a ruido intenso\n".
-            "• Infecciones (meningitis, otitis crónica)\n".
-            "• Medicamentos ototóxicos\n".
-            "• Traumatismos craneales\n".
-            "• Envejecimiento (presbiacusia)\n\n".
-            "¿Quieres detalles de alguna causa?",
-        'definicion' => "🔍 ¿Qué es la sordera?\n\nLa sordera es la pérdida total o parcial de la audición.\n\n".
-            "Tipos por intensidad: leve (20-40 dB), moderada (40-70), severa (70-90), profunda (90+).\n".
-            "Tipos por localización: conductiva, neurosensorial y mixta.",
-        'lengua_senas_colombiana' => "🤟 Lengua de Señas Colombiana (LSC)\n\nReconocida por leyes 324/1996 y 982/2005. Lengua visual-espacial con gramática propia.\nDónde aprender: INSOR, FENASCOL, universidades, comunidades locales.",
-        'cultura_sorda' => "🎭 Cultura sorda: identidad visual, lengua de señas como base, valores comunitarios, arte y teatro en señas. Organizaciones: FENASCOL y asociaciones regionales.",
-        'tecnologias_apoyo' => "🔧 Tecnologías de apoyo: audífonos (BTE, ITE, ITC, CIC), implantes cocleares, apps de transcripción, videollamadas LSC, alertas visuales."
+        'causas_principales' => "Principales causas de sordera:\n- Congenitas (geneticas, infecciones maternas)\n- Adquiridas (ruido, infecciones, medicamentos ototoxicos, traumatismos, envejecimiento).\n¿Quieres detalles de alguna causa?",
+        'definicion' => "🔍 ¿Qué es la sordera?\nLa sordera es la pérdida total o parcial de la audición.\nTipos por intensidad: leve (20-40 dB), moderada (40-70), severa (70-90), profunda (90+).\nTipos por localización: conductiva, neurosensorial y mixta.",
+        'lengua_senas_colombiana' => "Lengua de Senas Colombiana (LSC): lengua visual-espacial con gramática propia. Organizaciones: INSOR, FENASCOL.",
+        'cultura_sorda' => "Cultura sorda: identidad visual, lengua de senas como base, valores comunitarios, expresiones artísticas y eventos comunitarios.",
+        'tecnologias_apoyo' => "Tecnologias de apoyo: audifonos, implantes cocleares, apps de transcripcion, videollamadas LSC y alertas visuales."
     ];
+
+    public function __construct() {
+        $this->debug_log('ChatbotSordos iniciado');
+    }
 
     public function procesarMensaje($mensaje, $usuario_id = null) {
         $this->contador++;
@@ -40,431 +36,80 @@ class ChatbotSordos {
         if ($this->esSaludo($msg)) return $this->saludo();
         if ($this->esDespedida($msg)) return $this->despedida();
         if ($this->esAgradecimiento($msg)) return $this->agradecimiento();
+
         $sec = $this->detectarSeccion($msg);
         if ($sec && isset($this->respuestas[$sec])) {
             $this->ultimo_tema = $sec;
             $this->contexto[] = ['m'=>$msg,'t'=>$sec,'ts'=>time()];
             return $this->respuestas[$sec];
         }
+
         return $this->fallback();
     }
 
-    private function esSaludo($m){$m=mb_strtolower($m,'UTF-8');foreach(['hola','buenos días','buenas tardes','buenas noches','hey','hi'] as $w){if(mb_strpos($m,$w)!==false)return true;}return false;}
-    private function esDespedida($m){$m=mb_strtolower($m,'UTF-8');foreach(['adiós','hasta luego','nos vemos','chao','bye'] as $w){if(mb_strpos($m,$w)!==false)return true;}return false;}
-    private function esAgradecimiento($m){$m=mb_strtolower($m,'UTF-8');foreach(['gracias','muchas gracias','te agradezco','thanks'] as $w){if(mb_strpos($m,$w)!==false)return true;}return false;}
-    private function detectarSeccion($m){$m=mb_strtolower($m,'UTF-8');$scores=[];foreach($this->palabras as $sec=>$pal){$s=0;foreach($pal as $p){if(mb_strpos($m,mb_strtolower($p,'UTF-8'))!==false){$s+=mb_strlen($p,'UTF-8');}}if($s>0)$scores[$sec]=$s;}if($scores){$best=array_keys($scores,max($scores))[0];return $best;}return null;}
-    private function saludo(){return "¡Hola! 👋 Puedo ayudarte con: causas de sordera, LSC, cultura sorda, tecnologías de apoyo y educación inclusiva. ¿Sobre qué te gustaría aprender?";}
-    private function despedida(){return "¡Hasta luego! 👋 Vuelve cuando quieras para saber más sobre sordera o LSC.";}
-    private function agradecimiento(){return "¡De nada! 😊 ¿Quieres profundizar en algún tema?";}
-    private function fallback(){return "No estoy seguro de entender tu pregunta. Puedo ayudarte con: causas de sordera, LSC, cultura sorda, tecnologías de apoyo y educación inclusiva. ¿Podrías ser más específico?";}
-    public function obtenerSugerencias(){return ["¿Qué es la sordera?","¿Cuáles son las causas de la sordera?","¿Qué es la LSC?","¿Cómo comunicarse con personas sordas?","Tecnologías de apoyo auditivo"];}
-}
-<?php<?php<?php<?php<?php
-
-class ChatbotSordos {
-
-    public function procesarMensaje($mensaje, $usuario_id = null) {// Chatbot simple y funcional para información sobre sordera y LSC
-
-        return "Chatbot operativo";
-
-    }/**
-
-    public function obtenerSugerencias(){return ["¿Qué es la sordera?", "¿Cuáles son las causas?"];}
-
-}class ChatbotSordos {
-
-
-    private $contexto_conversacion = []; * Chatbot especializado en información sobre sordera y LSC/**// Chatbot inteligente con información sobre sordera
-
-    private $ultimo_tema = null;
-
-    private $contador_preguntas = 0; * Sistema limpio y funcional
-
-
-
-    private $palabras_clave = [ */ * Chatbot inteligente especializado en información sobre sordera// Integración con info_sordos_api.php
-
-        'causas_principales' => ['causas','causa','por qué','origen','genética','congénito','hereditario','infecciones','ruido','medicamentos','traumatismo','meningitis','otitis','ototóxicos'],
-
-        'definicion' => ['qué es','definición','concepto','tipos','sordera','pérdida auditiva','hipoacusia','anacusia','deficiencia auditiva'],
-
-        'lengua_senas_colombiana' => ['lsc','lengua de señas','señas','lenguaje de señas','gestos','comunicación visual','señas colombianas'],
-
-        'cultura_sorda' => ['cultura sorda','comunidad sorda','identidad sorda','valores','tradiciones','arte sordo','teatro sordo'],class ChatbotSordos { * Sistema completo con búsqueda semántica y respuestas contextuales
-
-        'tecnologias_apoyo' => ['audífonos','implante coclear','tecnología','dispositivos','apps','aplicaciones','ayudas técnicas','sistemas fm']
-
-    ];    private $contexto_conversacion = [];
-
-
-
-    private $respuestas_base = [    private $ultimo_tema = null; */class ChatbotSordos {
-
-        'causas_principales' => "📊 Principales causas de sordera:\n\n".
-
-            "🧬 Congénitas (desde nacimiento):\n".    private $contador_preguntas = 0;
-
-            "• Genéticas: 50-60%\n".
-
-            "• Infecciones maternas (rubéola, CMV): 15-20%\n".        private $contexto_conversacion = [];
-
-            "• Complicaciones perinatales: 10-15%\n\n".
-
-            "⚡ Adquiridas (después del nacimiento):\n".    // Palabras clave para detectar temas
-
-            "• Exposición a ruido intenso\n".
-
-            "• Infecciones (meningitis, otitis crónica)\n".    private $palabras_clave = [class ChatbotSordos {    private $ultimo_tema = null;
-
-            "• Medicamentos ototóxicos\n".
-
-            "• Traumatismos craneales\n".        'causas_principales' => [
-
-            "• Envejecimiento (presbiacusia)\n\n".
-
-            "¿Quieres detalles de alguna causa?",            'causas', 'causa', 'por qué', 'origen', 'produce', 'provoca',     private $contexto_conversacion = [];    private $contador_preguntas = 0;
-
-        'definicion' => "🔍 ¿Qué es la sordera?\n\nLa sordera es la pérdida total o parcial de la audición.\n\n".
-
-            "Tipos por intensidad: leve (20-40 dB), moderada (40-70), severa (70-90), profunda (90+).\n".            'genética', 'congénito', 'hereditario', 'infecciones', 'ruido', 
-
-            "Tipos por localización: conductiva, neurosensorial y mixta.",
-
-        'lengua_senas_colombiana' => "🤟 Lengua de Señas Colombiana (LSC)\n\nReconocida por leyes 324/1996 y 982/2005. Lengua visual-espacial con gramática propia.\nDónde aprender: INSOR, FENASCOL, universidades, comunidades locales.",            'medicamentos', 'traumatismo', 'meningitis', 'otitis', 'ototóxicos'    private $ultimo_tema = null;    private $palabras_clave = [
-
-        'cultura_sorda' => "🎭 Cultura sorda: identidad visual, lengua de señas como base, valores comunitarios, arte y teatro en señas. Organizaciones: FENASCOL y asociaciones regionales.",
-
-        'tecnologias_apoyo' => "🔧 Tecnologías de apoyo: audífonos (BTE, ITE, ITC, CIC), implantes cocleares, apps de transcripción, videollamadas LSC, alertas visuales."        ],
-
-    ];
-
-        'definicion' => [    private $contador_preguntas = 0;        'definicion' => [
-
-    public function __construct() {
-
-        $this->debug_log('Chatbot iniciado');            'qué es', 'definición', 'concepto', 'tipos', 'sordera', 
-
+    private function esSaludo($m){
+        $m = mb_strtolower($m,'UTF-8');
+        foreach(['hola','buenos dias','buenas tardes','buenas noches','hey','hi'] as $w){
+            if(mb_strpos($m,$w)!==false) return true;
+        }
+        return false;
     }
 
-            'pérdida auditiva', 'hipoacusia', 'anacusia', 'deficiencia auditiva'                'qué es sordera', 'definición sordera', 'tipos sordera', 'sordo', 'sorda', 
+    private function esDespedida($m){
+        $m = mb_strtolower($m,'UTF-8');
+        foreach(['adios','hasta luego','nos vemos','chao','bye'] as $w){
+            if(mb_strpos($m,$w)!==false) return true;
+        }
+        return false;
+    }
 
-    public function procesarMensaje($mensaje, $usuario_id = null) {
+    private function esAgradecimiento($m){
+        $m = mb_strtolower($m,'UTF-8');
+        foreach(['gracias','muchas gracias','te agradezco','thanks'] as $w){
+            if(mb_strpos($m,$w)!==false) return true;
+        }
+        return false;
+    }
 
-        $this->contador_preguntas++;        ],
+    private function detectarSeccion($m){
+        $m = mb_strtolower($m,'UTF-8');
+        $scores = [];
+        foreach($this->palabras_clave as $sec=>$pal){
+            $s = 0;
+            foreach($pal as $p){
+                if(mb_strpos($m, mb_strtolower($p,'UTF-8')) !== false) {
+                    $s += mb_strlen($p,'UTF-8');
+                }
+            }
+            if($s>0) $scores[$sec] = $s;
+        }
+        if($scores){
+            arsort($scores);
+            reset($scores);
+            return key($scores);
+        }
+        return null;
+    }
 
-        $mensaje = trim((string)$mensaje);
+    private function saludo(){
+        return "¡Hola! 👋 Puedo ayudarte con: causas de sordera, LSC, cultura sorda, tecnologías de apoyo y educación inclusiva. ¿Sobre qué te gustaría aprender?";
+    }
 
-        $this->debug_log("Msg #{$this->contador_preguntas}: $mensaje");        'lengua_señas_colombiana' => [    // Palabras clave organizadas por secciones            'pérdida auditiva', 'deficiencia auditiva', 'hipoacusia', 'anacusia', 
+    private function despedida(){ return "¡Hasta luego! 👋 Vuelve cuando quieras para saber más sobre sordera o LSC."; }
+    private function agradecimiento(){ return "¡De nada! 😊 ¿Quieres profundizar en algún tema?"; }
+    private function fallback(){ return "No estoy seguro de entender tu pregunta. Puedo ayudarte con: causas de sordera, LSC, cultura sorda, tecnologías de apoyo y educación inclusiva. ¿Podrías ser más específico?"; }
 
-
-
-        if ($this->esSaludo($mensaje)) return $this->saludo();            'lsc', 'lengua de señas', 'señas', 'lenguaje de señas', 
-
-        if ($this->esDespedida($mensaje)) return $this->despedida();
-
-        if ($this->esAgradecimiento($mensaje)) return $this->agradecimiento();            'gestos', 'comunicación visual', 'señas colombianas'    private $palabras_clave = [            'discapacidad auditiva', 'problema auditivo', 'no escucho', 'no oigo',
-
-
-
-        $seccion = $this->detectarSeccion($mensaje);        ],
-
-        $this->debug_log('Sección: '.($seccion ?: 'ninguna'));
-
-        if ($seccion && isset($this->respuestas_base[$seccion])) {        'cultura_sorda' => [        'causas_principales' => [            'explicar sordera', 'concepto sordera', 'clases de sordera'
-
-            $this->ultimo_tema = $seccion;
-
-            $this->contexto_conversacion[] = ['mensaje'=>$mensaje,'tema'=>$seccion,'ts'=>time()];            'cultura sorda', 'comunidad sorda', 'identidad sorda', 
-
-            return $this->respuestas_base[$seccion];
-
-        }            'valores', 'tradiciones', 'arte sordo', 'teatro sordo'            'causas', 'causa', 'por qué', 'origen', 'produce', 'provoca', 'genética',         ],
-
-        return $this->fallback();
-
-    }        ],
-
-
-
-    private function esSaludo($m){$m=strtolower($m);foreach(['hola','buenos días','buenas tardes','buenas noches','hey','hi'] as $w){if(strpos($m,$w)!==false)return true;}return false;}        'tecnologias_apoyo' => [            'congénito', 'hereditario', 'infecciones', 'ruido', 'medicamentos',         'causas_principales' => [
-
-    private function esDespedida($m){$m=strtolower($m);foreach(['adiós','hasta luego','nos vemos','chao','bye'] as $w){if(strpos($m,$w)!==false)return true;}return false;}
-
-    private function esAgradecimiento($m){$m=strtolower($m);foreach(['gracias','muchas gracias','te agradezco','thanks'] as $w){if(strpos($m,$w)!==false)return true;}return false;}            'audífonos', 'implante coclear', 'tecnología', 'dispositivos', 
-
-
-
-    private function detectarSeccion($mensaje){            'apps', 'aplicaciones', 'ayudas técnicas', 'sistemas fm'            'traumatismo', 'meningitis', 'otitis', 'ototóxicos'            'causas sordera', 'por qué sordera', 'cómo se produce', 'origen sordera', 
-
-        $m=strtolower($mensaje);$scores=[];
-
-        foreach($this->palabras_clave as $sec=>$pal){$s=0;foreach($pal as $p){if(strpos($m,strtolower($p))!==false){$s+=strlen($p);}}if($s>0){$scores[$sec]=$s;}}        ]
-
-        if($scores){$best=array_keys($scores,max($scores))[0];$this->debug_log("Best: $best (".$scores[$best].")");return $best;}return null;
-
-    }    ];        ],            'genética', 'congénito', 'hereditario', 'factores sordera', 'razones sordera',
-
-
-
-    private function saludo(){return "¡Hola! 👋 Puedo ayudarte con: causas de sordera, LSC, cultura sorda, tecnologías de apoyo y educación inclusiva. ¿Sobre qué te gustaría aprender?";}    
-
-    private function despedida(){return "¡Hasta luego! 👋 Vuelve cuando quieras para saber más sobre sordera o LSC.";}
-
-    private function agradecimiento(){return "¡De nada! 😊 ¿Quieres profundizar en algún tema?";}    // Respuestas base del sistema        'definicion' => [            'debido qué sordera', 'provoca sordera', 'produce pérdida auditiva',
-
-    private function fallback(){return "No estoy seguro de entender tu pregunta. Puedo ayudarte con: causas de sordera, LSC, cultura sorda, tecnologías de apoyo y educación inclusiva. ¿Podrías ser más específico?";}
-
-    private $respuestas_base = [
-
-    public function obtenerSugerencias(){return [
-
-        "¿Qué es la sordera?",        'causas_principales' => "📊 **Principales causas de sordera:**\n\n" .            'qué es', 'definición', 'concepto', 'tipos', 'sordera', 'pérdida auditiva',             'infecciones oído', 'ruido fuerte', 'medicamentos ototóxicos', 'traumatismo',
-
-        "¿Cuáles son las causas de la sordera?",
-
-        "¿Qué es la LSC?",                              "**🧬 Congénitas (desde nacimiento):**\n" .
-
-        "¿Cómo comunicarse con personas sordas?",
-
-        "Tecnologías de apoyo auditivo"                              "• Genéticas: 50-60% de los casos\n" .            'hipoacusia', 'anacusia', 'deficiencia auditiva', 'discapacidad auditiva'            'meningitis', 'otitis', 'presbiacusia', 'envejecimiento auditivo'
-
-    ];}
-
-                              "• Infecciones maternas (rubéola, CMV): 15-20%\n" .
+    public function obtenerSugerencias(){
+        return ["¿Qué es la sordera?","¿Cuáles son las causas de la sordera?","¿Qué es la LSC?","¿Cómo comunicarse con personas sordas?","Tecnologías de apoyo auditivo"];
+    }
 
     private function debug_log($mensaje){
-
-        $ts=date('Y-m-d H:i:s');                              "• Complicaciones perinatales: 10-15%\n\n" .        ],        ],
-
-        @file_put_contents(__DIR__.DIRECTORY_SEPARATOR.'chatbot_debug.log',"[$ts] $mensaje".PHP_EOL,FILE_APPEND|LOCK_EX);
-
-    }                              "**⚡ Adquiridas (después del nacimiento):**\n" .
-
+        $ts = date('Y-m-d H:i:s');
+        @file_put_contents(__DIR__.DIRECTORY_SEPARATOR.'chatbot_debug.log', "[$ts] $mensaje".PHP_EOL, FILE_APPEND | LOCK_EX);
+    }
 }
 
-                              "• Exposición prolongada a ruido intenso\n" .        'lengua_señas_colombiana' => [        'grados_perdida' => [
-
-                              "• Infecciones (meningitis, otitis crónica)\n" .
-
-                              "• Medicamentos ototóxicos\n" .            'lsc', 'lengua de señas', 'señas', 'lenguaje de señas', 'gestos',             'grados', 'niveles', 'decibeles', 'leve', 'moderada', 'severa', 'profunda',
-
-                              "• Traumatismos craneales\n" .
-
-                              "• Envejecimiento (presbiacusia)\n\n" .            'comunicación visual', 'señas colombianas'            'clasificación sordera', 'tipos pérdida', 'cuánto escucho', 'nivel audición',
-
-                              "¿Te interesa información específica sobre alguna causa?",
-
-                                      ],            'umbral auditivo', 'audiometría', 'dB HL', 'pérdida ligera', 'pérdida grave'
-
-        'definicion' => "🔍 **¿Qué es la sordera?**\n\n" .
-
-                       "La sordera es la pérdida total o parcial de la capacidad auditiva.\n\n" .        'cultura_sorda' => [        ],
-
-                       "**📊 Tipos por intensidad:**\n" .
-
-                       "• **Leve:** 20-40 dB (dificultad con susurros)\n" .            'cultura sorda', 'comunidad sorda', 'identidad sorda', 'valores',         'cultura_sorda' => [
-
-                       "• **Moderada:** 40-70 dB (conversación normal afectada)\n" .
-
-                       "• **Severa:** 70-90 dB (solo sonidos muy fuertes)\n" .            'tradiciones', 'arte sordo', 'teatro sordo'            'cultura sorda', 'comunidad sorda', 'identidad sorda', 'valores sordos',
-
-                       "• **Profunda:** +90 dB (pérdida casi total)\n\n" .
-
-                       "**🔧 Tipos por localización:**\n" .        ],            'tradiciones sordas', 'eventos sordos', 'arte sordo', 'teatro sordo',
-
-                       "• **Conductiva:** Problema en oído externo/medio\n" .
-
-                       "• **Neurosensorial:** Daño en oído interno/nervio\n" .        'tecnologias_apoyo' => [            'poesía señas', 'organizaciones sordas', 'FENASCOL', 'INSOR',
-
-                       "• **Mixta:** Combinación de ambas\n\n" .
-
-                       "¿Quieres saber más sobre algún tipo específico?",            'audífonos', 'implante coclear', 'tecnología', 'dispositivos', 'apps',             'orgullo sordo', 'historia sorda', 'experiencia visual'
-
-                       
-
-        'lengua_señas_colombiana' => "🤟 **Lengua de Señas Colombiana (LSC)**\n\n" .            'aplicaciones', 'ayudas técnicas', 'sistemas fm'        ],
-
-                                   "• **📜 Reconocimiento:** Oficial por leyes 324/1996 y 982/2005\n" .
-
-                                   "• **👥 Usuarios:** Aproximadamente 450,000 personas\n" .        ]        'lengua_señas_colombiana' => [
-
-                                   "• **🌍 Características:** Lengua visual-espacial completa\n" .
-
-                                   "• **📚 Estructura:** Gramática y sintaxis propias\n" .    ];            'LSC', 'lengua de señas', 'señas colombiana', 'lenguaje señas', 'colombiano',
-
-                                   "• **🏫 Educación:** Enseñada en instituciones especializadas\n\n" .
-
-                                   "**🎯 ¿Dónde aprender?**\n" .                'lengua señas colombia', 'idioma señas', 'comunicación visual', 'señas',
-
-                                   "• INSOR (Instituto Nacional para Sordos)\n" .
-
-                                   "• FENASCOL (Federación Nacional de Sordos)\n" .    // Respuestas predefinidas            'gestos comunicativos', 'manos hablan', 'visual espacial', 'gramática señas',
-
-                                   "• Universidades con programas de LSC\n" .
-
-                                   "• Comunidades sordas locales\n\n" .    private $respuestas_base = [            'aprender señas', 'enseñar LSC', 'curso señas', 'diccionario señas'
-
-                                   "¿Te interesa información sobre cursos específicos?",
-
-                                           'causas_principales' => "📊 **Principales causas de sordera:**\n\n" .        ],
-
-        'cultura_sorda' => "🎭 **Cultura de la Comunidad Sorda**\n\n" .
-
-                         "**🌟 Características principales:**\n" .                              "**🧬 Congénitas (desde nacimiento):**\n" .        'tecnologias_apoyo' => [
-
-                         "• **Identidad visual:** El mundo se percibe principalmente por la vista\n" .
-
-                         "• **Lengua de señas:** Base fundamental de la comunicación\n" .                              "• Genéticas: 50-60% de los casos\n" .            'audífono', 'implante coclear', 'tecnología', 'ayuda auditiva', 'dispositivos',
-
-                         "• **Valores comunitarios:** Solidaridad y apoyo mutuo\n" .
-
-                         "• **Arte y expresión:** Teatro, poesía visual, narrativa en señas\n\n" .                              "• Infecciones maternas (rubéola, CMV): 15-20%\n" .            'aparatos audición', 'prótesis auditiva', 'amplificación', 'sistemas FM',
-
-                         "**🎨 Manifestaciones culturales:**\n" .
-
-                         "• Festivales de arte sordo\n" .                              "• Complicaciones perinatales: 10-15%\n\n" .            'aplicaciones móviles', 'apps sordos', 'herramientas tecnológicas',
-
-                         "• Competencias deportivas (Sordolimpicos)\n" .
-
-                         "• Literatura y poesía en LSC\n" .                              "**⚡ Adquiridas (después del nacimiento):**\n" .            'subtítulos', 'alertas visuales', 'vibración', 'accesibilidad tecnológica'
-
-                         "• Teatro y performance visual\n\n" .
-
-                         "**🏛️ Organizaciones importantes:**\n" .                              "• Exposición prolongada a ruido intenso\n" .        ],
-
-                         "• FENASCOL a nivel nacional\n" .
-
-                         "• Asociaciones regionales\n" .                              "• Infecciones (meningitis, otitis crónica)\n" .        'inclusion_educativa' => [
-
-                         "• Clubes deportivos y culturales\n\n" .
-
-                         "¿Quieres conocer eventos o actividades específicas?",                              "• Medicamentos ototóxicos\n" .            'educación', 'inclusión', 'escuela', 'aprendizaje', 'bilingüe',
-
-                         
-
-        'tecnologias_apoyo' => "🔧 **Tecnologías de Apoyo Auditivo**\n\n" .                              "• Traumatismos craneales\n" .            'educación inclusiva', 'aula regular', 'intérprete', 'material adaptado',
-
-                             "**🦻 Audífonos:**\n" .
-
-                             "• Retroauriculares (BTE)\n" .                              "• Envejecimiento (presbiacusia)\n\n" .            'metodología visual', 'evaluación diferencial', 'apoyo educativo',
-
-                             "• Intraauriculares (ITE, ITC, CIC)\n" .
-
-                             "• Con conexión Bluetooth\n" .                              "¿Te interesa información específica sobre alguna causa?",            'colegio sordos', 'universidad', 'estudios superiores', 'capacitación'
-
-                             "• Costo: $800,000 - $8,000,000 COP\n\n" .
-
-                             "**🧠 Implantes Cocleares:**\n" .                                      ],
-
-                             "• Para sorderas severas/profundas\n" .
-
-                             "• Estimulación directa del nervio auditivo\n" .        'definicion' => "🔍 **¿Qué es la sordera?**\n\n" .        'mitos_realidades' => [
-
-                             "• Proceso quirúrgico + rehabilitación\n" .
-
-                             "• Cubierto por sistema de salud en casos elegibles\n\n" .                       "La sordera es la pérdida total o parcial de la capacidad auditiva.\n\n" .            'mito', 'verdad', 'realidad', 'falso', 'cierto', 'estereotipo',
-
-                             "**📱 Apps y Tecnología:**\n" .
-
-                             "• Transcripción en tiempo real\n" .                       "**📊 Tipos por intensidad:**\n" .            'prejuicio', 'malentendido', 'creencia errónea', 'ideas falsas',
-
-                             "• Videollamadas para LSC\n" .
-
-                             "• Alertas visuales y vibratorias\n" .                       "• **Leve:** 20-40 dB (dificultad con susurros)\n" .            'sordos pueden', 'sordos no pueden', 'limitaciones sordos', 'capacidades sordos'
-
-                             "• Amplificadores de sonido portátiles\n\n" .
-
-                             "¿Necesitas información específica sobre alguna tecnología?"                       "• **Moderada:** 40-70 dB (conversación normal afectada)\n" .        ],
-
-    ];
-
-                       "• **Severa:** 70-90 dB (solo sonidos muy fuertes)\n" .        'datos_estadisticos' => [
-
-    /**
-
-     * Constructor                       "• **Profunda:** +90 dB (pérdida casi total)\n\n" .            'estadísticas', 'números', 'cuántos', 'población', 'datos', 'cifras',
-
-     */
-
-    public function __construct() {                       "**🔧 Tipos por localización:**\n" .            'porcentajes', 'prevalencia', 'incidencia', 'distribución',
-
-        $this->debug_log("ChatbotSordos iniciado correctamente");
-
-    }                       "• **Conductiva:** Problema en oído externo/medio\n" .            'investigación', 'estudios', 'reportes', 'censo sordos'
-
-
-
-    /**                       "• **Neurosensorial:** Daño en oído interno/nervio\n" .        ],
-
-     * Procesar mensaje principal
-
-     */                       "• **Mixta:** Combinación de ambas\n\n" .        'como_comunicarse' => [
-
-    public function procesarMensaje($mensaje, $usuario_id = null) {
-
-        $this->contador_preguntas++;                       "¿Quieres saber más sobre algún tipo específico?",            'cómo comunicar', 'hablar con', 'comunicación', 'consejos', 'tips',
-
-        $mensaje = trim($mensaje);
-
-                                           'interactuar sordos', 'relacionarse', 'conversar', 'diálogo',
-
-        $this->debug_log("Procesando mensaje #{$this->contador_preguntas}: '$mensaje'");
-
-                'lengua_señas_colombiana' => "🤟 **Lengua de Señas Colombiana (LSC)**\n\n" .            'contact visual', 'lenguaje corporal', 'gestos naturales', 'paciencia',
-
-        // Casos especiales
-
-        if ($this->esSaludo($mensaje)) {                                   "• **📜 Reconocimiento:** Oficial por leyes 324/1996 y 982/2005\n" .            'respeto comunicativo', 'barreras comunicación', 'estrategias comunicación'
-
-            return $this->obtenerSaludo();
-
-        }                                   "• **👥 Usuarios:** Aproximadamente 450,000 personas\n" .        ],
-
-        
-
-        if ($this->esDespedida($mensaje)) {                                   "• **🌍 Características:** Lengua visual-espacial completa\n" .        'prevencion_salud' => [
-
-            return $this->obtenerDespedida();
-
-        }                                   "• **📚 Estructura:** Gramática y sintaxis propias\n" .            'prevenir sordera', 'cuidar oídos', 'salud auditiva', 'protección auditiva',
-
-        
-
-        if ($this->esAgradecimiento($mensaje)) {                                   "• **🏫 Educación:** Enseñada en instituciones especializadas\n\n" .            'evitar pérdida auditiva', 'tamizaje neonatal', 'chequeo auditivo',
-
-            return $this->obtenerAgradecimiento();
-
-        }                                   "**🎯 ¿Dónde aprender?**\n" .            'ruido peligroso', 'protección laboral', 'cuidados embarazo',
-
-        
-
-        // Detectar tema específico                                   "• INSOR (Instituto Nacional para Sordos)\n" .            'vacunación', 'higiene oído', 'señales alerta', 'síntomas pérdida'
-
-        $seccion = $this->detectarSeccion($mensaje);
-
-        $this->debug_log("Sección detectada: " . ($seccion ?: 'ninguna'));                                   "• FENASCOL (Federación Nacional de Sordos)\n" .        ],
-
-        
-
-        if ($seccion && isset($this->respuestas_base[$seccion])) {                                   "• Universidades con programas de LSC\n" .        'investigacion_avances' => [
-
-            $this->ultimo_tema = $seccion;
-
-            $this->contexto_conversacion[] = [                                   "• Comunidades sordas locales\n\n" .            'investigación', 'avances', 'terapias nuevas', 'medicina regenerativa',
-
-                'mensaje' => $mensaje,
-
-                'tema' => $seccion,                                   "¿Te interesa información sobre cursos específicos?",            'células madre', 'terapia génica', 'futuro sordera', 'tratamientos nuevos',
-
-                'timestamp' => time()
-
-            ];                                               'ciencia audiología', 'innovación tecnológica', 'desarrollo científico'
-
-            
-
-            $this->debug_log("Devolviendo respuesta para: $seccion");        'cultura_sorda' => "🎭 **Cultura de la Comunidad Sorda**\n\n" .        ]
-
-            return $this->respuestas_base[$seccion];
+?>
 
         }                         "**🌟 Características principales:**\n" .    ];
 
@@ -835,202 +480,118 @@ class ChatbotSordos {
 
         return $this->respuestas_conversacion['no_entiendo'];                          "• Patrón de herencia familiar\n" .
 
-    }                          "• Genes específicos involucrados\n\n" .
-
-                          "**Dato importante:**\n" .
-
-    /**                          "• 90% de niños sordos nacen de padres oyentes\n" .
-
-     * Detecta si el mensaje es un saludo                          "• La mayoría de sordera genética es recesiva\n\n" .
-
-     */                          "**Asesoramiento genético:**\n" .
-
-    private function esSaludo($mensaje) {                          "Disponible para parejas que deseen conocer probabilidades específicas según su historial familiar.\n\n" .
-
-        $saludos = ['hola', 'buenos días', 'buenas tardes', 'buenas noches', 'hey', 'hi'];                          "**💭 Perspectiva cultural sorda:**\n" .
-
-        $mensaje_lower = strtolower($mensaje);                          "Muchas familias sordas ven la sordera como una diferencia cultural enriquecedora, no como un problema.",
-
-                    'tags' => ['genética', 'hijos', 'herencia', 'familia', 'embarazo']
-
-        foreach ($saludos as $saludo) {        ],
-
-            if (strpos($mensaje_lower, $saludo) !== false) {        
-
-                return true;        'diferencia entre sordo y hipoacúsico' => [
-
-            }            'respuesta' => "📊 **Diferencias entre sordo e hipoacúsico:**\n\n" .
-
-        }                          "**🔊 HIPOACÚSICO:**\n" .
-
-        return false;                          "• Pérdida auditiva leve-moderada\n" .
-
-    }                          "• Conserva audición residual útil\n" .
-
-                          "• Se beneficia significativamente de audífonos\n" .
-
-    /**                          "• Puede desarrollar habla oral naturalmente\n" .
-
-     * Detecta si el mensaje es una despedida                          "• Identidad principalmente oyente\n\n" .
-
-     */                          "**🤟 SORDO:**\n" .
-
-    private function esDespedida($mensaje) {                          "• Pérdida severa-profunda\n" .
-
-        $despedidas = ['adiós', 'hasta luego', 'nos vemos', 'chao', 'bye', 'gracias y adiós'];                          "• Audición residual limitada o nula\n" .
-
-        $mensaje_lower = strtolower($mensaje);                          "• Beneficio limitado de audífonos\n" .
-
-                                  "• Lengua de señas como idioma natural\n" .
-
-        foreach ($despedidas as $despedida) {                          "• Identidad cultural sorda\n\n" .
-
-            if (strpos($mensaje_lower, $despedida) !== false) {                          "**⚖️ Aspectos médicos vs culturales:**\n" .
-
-                return true;                          "• **Médico:** Se enfoca en grado de pérdida (dB)\n" .
-
-            }                          "• **Cultural:** Se enfoca en identidad y comunidad\n\n" .
-
-        }                          "**💡 Importante:**\n" .
-
-        return false;                          "La persona decide cómo identificarse, independientemente del grado audiológico.",
-
-    }            'tags' => ['hipoacusia', 'diferencia', 'nivel', 'grado']
-
-        ]
-
-    /**    ];
-
-     * Detecta si el mensaje es un agradecimiento    
-
-     */    public function procesarMensaje($mensaje, $usuario_id = null) {
-
-    private function esAgradecimiento($mensaje) {        $mensaje = strtolower(trim($mensaje));
-
-        $agradecimientos = ['gracias', 'muchas gracias', 'te agradezco', 'thanks'];        $this->contador_preguntas++;
-
-        $mensaje_lower = strtolower($mensaje);        
-
-                // Guardar contexto de la conversación
-
-        foreach ($agradecimientos as $agradecimiento) {        $this->contexto_conversacion[] = [
-
-            if (strpos($mensaje_lower, $agradecimiento) !== false) {            'mensaje' => $mensaje,
-
-                return true;            'timestamp' => time(),
-
-            }            'numero' => $this->contador_preguntas
-
-        }        ];
-
-        return false;        
-
-    }        // Limpiar contexto viejo (mantener últimas 5 interacciones)
-
-        if (count($this->contexto_conversacion) > 5) {
-
-    /**            $this->contexto_conversacion = array_slice($this->contexto_conversacion, -5);
-
-     * Detecta la sección del mensaje usando palabras clave        }
-
-     */        
-
-    private function detectarSeccion($mensaje) {        $this->debug_log("Procesando mensaje #{$this->contador_preguntas}: $mensaje");
-
-        $mensaje_lower = strtolower($mensaje);        $this->debug_log("Contexto actual: " . json_encode($this->contexto_conversacion));
-
-        $coincidencias = [];        
-
-                // Detectar seguimiento de conversación
-
-        foreach ($this->palabras_clave as $seccion => $palabras) {        if ($this->esSeguimientoConversacion($mensaje)) {
-
-            $score = 0;            return $this->manejarSeguimiento($mensaje);
-
-            foreach ($palabras as $palabra) {        }
-
-                if (strpos($mensaje_lower, strtolower($palabra)) !== false) {        
-
-                    $score += strlen($palabra); // Palabras más largas tienen más peso        // Detectar tipo de mensaje
-
-                }        if ($this->esSaludo($mensaje)) {
-
-            }            return $this->respuestas_generales['saludo'] . $this->sugerirTemasPopulares();
-
-            if ($score > 0) {        }
-
-                $coincidencias[$seccion] = $score;        
-
-            }        if ($this->esDespedida($mensaje)) {
-
-        }            $this->contexto_conversacion = []; // Limpiar contexto
-
-                    return $this->respuestas_generales['despedida'];
-
-        if (!empty($coincidencias)) {        }
-
-            $mejor_seccion = array_keys($coincidencias, max($coincidencias))[0];        
-
-            $this->debug_log("Mejor coincidencia: $mejor_seccion (score: {$coincidencias[$mejor_seccion]})");        if ($this->esAgradecimiento($mensaje)) {
-
-            return $mejor_seccion;            return $this->respuestas_generales['agradecimiento'] . $this->sugerirContinuacion();
-
-        }        }
-
-                
-
-        return null;        // Buscar información específica
-
-    }        $seccion = $this->detectarSeccion($mensaje);
-
-        if ($seccion) {
-
-    /**            $this->ultimo_tema = $seccion;
-
-     * Obtiene sugerencias de preguntas            return $this->obtenerInformacion($seccion, $mensaje);
-
-     */        }
-
-    public function obtenerSugerencias() {        
-
-        return [        // Buscar en preguntas frecuentes
-
-            "¿Qué es la sordera?",        $respuesta_faq = $this->buscarEnPreguntasFrecuentes($mensaje);
-
-            "¿Cuáles son las causas de la sordera?",        if ($respuesta_faq) {
-
-            "¿Qué es la LSC?",            return $respuesta_faq;
-
-            "¿Cómo comunicarse con personas sordas?",        }
-
-            "¿Los sordos pueden conducir?",        
-
-            "¿Cuánto cuesta un audífono?",        // Si no se detecta intención específica, buscar en contenido
-
-            "¿Cómo aprender lengua de señas?",        $resultados = $this->buscarEnContenido($mensaje);
-
-            "¿Qué es un implante coclear?",        if ($resultados) {
-
-            "Cultura de la comunidad sorda",            return $resultados;
-
-            "Tecnologías de apoyo auditivo"        }
-
-        ];        
-
-    }        return $this->respuestas_generales['no_entiendo'];
-
+    <?php
+
+    /**
+     * ChatbotSordos - versión limpia y compacta
+     * Provee detección sencilla de intención por palabras clave y respuestas predefinidas.
+     */
+
+    class ChatbotSordos {
+        private $contexto = [];
+        private $ultimo_tema = null;
+        private $contador = 0;
+
+        private $palabras_clave = [
+            'causas_principales' => ['causas','causa','por que','origen','genet','congenit','heredit','infeccion','ruido','medicamento','traumatismo','meningitis','otitis','ototox'],
+            'definicion' => ['que es','definicion','concepto','tipos','sordera','perdida auditiva','hipoacusia','anacusia'],
+            'lengua_senas_colombiana' => ['lsc','lengua de senas','senas','lenguaje de senas','gestos','comunicacion visual','senas colombianas'],
+            'cultura_sorda' => ['cultura sorda','comunidad sorda','identidad sorda','valores','tradiciones','arte sordo','teatro sordo'],
+            'tecnologias_apoyo' => ['audifonos','implante coclear','tecnolog','dispositivos','apps','aplicaciones','ayudas tecnicas','sistemas fm']
+        ];
+
+        private $respuestas = [
+            'causas_principales' => "Principales causas de sordera:\n- Congenitas (geneticas, infecciones maternas)\n- Adquiridas (ruido, infecciones, medicamentos ototoxicos, traumatismos, envejecimiento).\n¿Quieres detalles de alguna causa?",
+            'definicion' => "¿Qué es la sordera?\nLa sordera es la perdida total o parcial de la audicion. Tipos por intensidad: leve, moderada, severa, profunda. Tipos por localizacion: conductiva, neurosensorial, mixta.",
+            'lengua_senas_colombiana' => "Lengua de Senas Colombiana (LSC): lengua visual-espacial con gramática propia. Organizaciones: INSOR, FENASCOL.",
+            'cultura_sorda' => "Cultura sorda: identidad visual, lengua de senas como base, valores comunitarios, expresiones artísticas y eventos comunitarios.",
+            'tecnologias_apoyo' => "Tecnologias de apoyo: audifonos, implantes cocleares, apps de transcripcion, videollamadas LSC y alertas visuales."
+        ];
+
+        public function __construct() {
+            $this->debug_log('ChatbotSordos iniciado');
+        }
+
+        public function procesarMensaje($mensaje, $usuario_id = null) {
+            $this->contador++;
+            $msg = trim((string)$mensaje);
+            if ($this->esSaludo($msg)) return $this->saludo();
+            if ($this->esDespedida($msg)) return $this->despedida();
+            if ($this->esAgradecimiento($msg)) return $this->agradecimiento();
+
+            $sec = $this->detectarSeccion($msg);
+            if ($sec && isset($this->respuestas[$sec])) {
+                $this->ultimo_tema = $sec;
+                $this->contexto[] = ['m'=>$msg,'t'=>$sec,'ts'=>time()];
+                return $this->respuestas[$sec];
+            }
+
+            return $this->fallback();
+        }
+
+        private function esSaludo($m){
+            $m = mb_strtolower($m,'UTF-8');
+            foreach(['hola','buenos dias','buenas tardes','buenas noches','hey','hi'] as $w){
+                if(mb_strpos($m,$w)!==false) return true;
+            }
+            return false;
+        }
+
+        private function esDespedida($m){
+            $m = mb_strtolower($m,'UTF-8');
+            foreach(['adios','hasta luego','nos vemos','chao','bye'] as $w){
+                if(mb_strpos($m,$w)!==false) return true;
+            }
+            return false;
+        }
+
+        private function esAgradecimiento($m){
+            $m = mb_strtolower($m,'UTF-8');
+            foreach(['gracias','muchas gracias','te agradezco','thanks'] as $w){
+                if(mb_strpos($m,$w)!==false) return true;
+            }
+            return false;
+        }
+
+        private function detectarSeccion($m){
+            $m = mb_strtolower($m,'UTF-8');
+            $scores = [];
+            foreach($this->palabras_clave as $sec=>$pal){
+                $s = 0;
+                foreach($pal as $p){
+                    if(mb_strpos($m, mb_strtolower($p,'UTF-8')) !== false) {
+                        $s += mb_strlen($p,'UTF-8');
+                    }
+                }
+                if($s>0) $scores[$sec] = $s;
+            }
+            if($scores){
+                arsort($scores);
+                reset($scores);
+                return key($scores);
+            }
+            return null;
+        }
+
+        private function saludo(){
+            return "¡Hola! 👋 Puedo ayudarte con: causas de sordera, LSC, cultura sorda, tecnologías de apoyo y educación inclusiva. ¿Sobre qué te gustaría aprender?";
+        }
+
+        private function despedida(){ return "¡Hasta luego! 👋 Vuelve cuando quieras para saber más sobre sordera o LSC."; }
+        private function agradecimiento(){ return "¡De nada! 😊 ¿Quieres profundizar en algún tema?"; }
+        private function fallback(){ return "No estoy seguro de entender tu pregunta. Puedo ayudarte con: causas de sordera, LSC, cultura sorda, tecnologías de apoyo y educación inclusiva. ¿Podrías ser más específico?"; }
+
+        public function obtenerSugerencias(){
+            return ["¿Qué es la sordera?","¿Cuáles son las causas de la sordera?","¿Qué es la LSC?","¿Cómo comunicarse con personas sordas?","Tecnologías de apoyo auditivo"];
+        }
+
+        private function debug_log($mensaje){
+            $ts = date('Y-m-d H:i:s');
+            @file_put_contents(__DIR__.DIRECTORY_SEPARATOR.'chatbot_debug.log', "[$ts] $mensaje".PHP_EOL, FILE_APPEND | LOCK_EX);
+        }
     }
 
-    /**    
-
-     * Función de logging para debug    private function esSeguimientoConversacion($mensaje) {
-
-     */        $palabras_seguimiento = [
-
-    private function debug_log($mensaje) {            'más información', 'cuéntame más', 'ampliar', 'detalles', 'continúa',
-
-        $timestamp = date('Y-m-d H:i:s');            'y qué más', 'algo más', 'también', 'además', 'profundizar',
-
+    ?>
         $log_entry = "[$timestamp] $mensaje" . PHP_EOL;            'más detalles', 'explicar mejor', 'más sobre', 'continuar'
 
         file_put_contents('chatbot_debug.log', $log_entry, FILE_APPEND | LOCK_EX);        ];

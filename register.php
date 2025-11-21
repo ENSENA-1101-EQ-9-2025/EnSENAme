@@ -49,6 +49,7 @@
         
         <div class="card my-5">
           <div class="card-body"> <form action="admin/dashboard/codigo.php" method="post" onsubmit="return validarFormulario()">
+            <input type="hidden" name="public_register" value="1">
             <div class="d-flex justify-content-between align-items-end mb-4">
               <h3 class="mb-0"><b>Registro</b></h3>
               <a href="login.php" class="link-primary">Tienes Cuenta?</a>
