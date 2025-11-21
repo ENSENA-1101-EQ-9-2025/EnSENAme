@@ -195,8 +195,9 @@ $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !=
       'https://raw.githubusercontent.com/DanielPedraza023/InterpretacionLSC/main/datos_entrenamiento_senas.json',
       'https://raw.githubusercontent.com/DanielPedraza023/InterpretacionLSC/main/base%20de%20datos/datos_entrenamiento_senas%20(3).json'
     ];
-    // Usar explícitamente entrenamiento 4 como predeterminado
-    const LOCAL_DEFAULT_URL = '../base%20de%20datos/datos_entrenamiento_senas%20(4).json';
+  // Usar explícitamente el archivo de la carpeta "base de datos" como predeterminado
+  // (el archivo (3) existe en el repo; (4) no estaba presente)
+  const LOCAL_DEFAULT_URL = '../base%20de%20datos/datos_entrenamiento_senas%20(3).json';
     const LOCAL_FALLBACKS = [
       './lsc_service/assets/models/default_training.json',
       '../base%20de%20datos/datos_entrenamiento_senas%20(3).json',
@@ -276,11 +277,17 @@ $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !=
       }
 
       async function fetchWithFallback(urls){
-        for(const u of urls){
-          try{ const r=await fetch(u,{cache:'no-store'}); if(r.ok) return await r.json(); }catch(_){ }
+          for(const u of urls){
+            try{
+              const r = await fetch(u, { cache: 'no-store' });
+              if(r.ok) return await r.json();
+              console.warn('fetchWithFallback: recurso no OK', u, r.status);
+            }catch(e){
+              console.warn('fetchWithFallback: error al solicitar', u, e);
+            }
+          }
+          throw new Error('No se pudo cargar ningún modelo');
         }
-        throw new Error('No se pudo cargar ningún modelo');
-      }
 
       window.loadDefault = async function(){
         try{
@@ -295,7 +302,10 @@ $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !=
           }
           const total = trainingData.classNames.reduce((acc,cn)=>acc+(trainingData.examples[cn]?.length||0),0);
           showStatus('Modelo por defecto cargado: '+total+' ejemplos');
-        }catch(e){ showStatus('No se pudo cargar el modelo por defecto'); }
+        }catch(e){
+          console.error('loadDefault: fallo al cargar modelo por defecto', e);
+          showStatus('No se pudo cargar el modelo por defecto');
+        }
       }
       window.predictOnce = ()=>{ predictOnceImpl(); };
       window.startStreaming = ()=>startStreamingImpl();
