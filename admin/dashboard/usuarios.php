@@ -373,10 +373,12 @@ $result = mysqli_query($conexion, $query);
                 <tr>
                     <th>#</th>
                     <th>Tipo de Documento</th>
-              <th>Nombre</th>
+                    <th>Nombre</th>
                     <th>Clave (Encriptada)</th>
                     <th>Rol</th>
-                    <th>Acciones</th>
+                    <th>Acciones<br>
+                      <input id="searchId" type="search" class="form-control form-control-sm" placeholder="Buscar ID" style="width:120px; display:inline-block; margin-top:6px;" />
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -521,6 +523,31 @@ $result = mysqli_query($conexion, $query);
     }
   </script>
   <!-- [Page Specific JS] end -->
+  <script>
+    // Búsqueda rápida por ID en la tabla de usuarios
+    (function(){
+      const input = document.getElementById('searchId');
+      if(!input) return;
+      const tbody = document.querySelector('table.table tbody');
+      if(!tbody) return;
+      input.addEventListener('input', function(){
+        const val = this.value.trim();
+        const rows = tbody.querySelectorAll('tr');
+        if(val === ''){
+          rows.forEach(r => r.style.display = '');
+          return;
+        }
+        rows.forEach(r => {
+          const idCell = r.querySelector('td:first-child');
+          if(!idCell) return;
+          const idText = idCell.textContent.trim();
+          // Mostrar si contiene el texto buscado (coincidencia parcial)
+          if(idText.indexOf(val) !== -1) r.style.display = '';
+          else r.style.display = 'none';
+        });
+      });
+    })();
+  </script>
   <div class="offcanvas pct-offcanvas offcanvas-end" tabindex="-1" id="offcanvas_pc_layout">
     <div class="offcanvas-header bg-primary">
       <h5 class="offcanvas-title text-white">Mantis Customizer</h5>
