@@ -1,13 +1,14 @@
 <?php
 require_once __DIR__ . '/../includes/session.php';
 if (empty($_SESSION['txtdoc'])) {
-    header('Location: ../login.php');
-    exit();
+  header('Location: ../login.php');
+  exit();
 }
 $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !== '' ? $_SESSION['display_name'] : 'Usuario';
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
@@ -25,21 +26,106 @@ $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !=
   <!-- Bootstrap adicional (opcional). Si usas el paquete de la plantilla, este puede omitirse -->
   <!-- <link rel="stylesheet" href="../css/bootstrap.min.css" /> -->
   <style>
-    body { background:#f8f9fa; color:#333; }
-    .main-container { max-width:1200px; margin: 1.5rem auto; padding: 0 20px; }
-    .main-content { display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-    .card { border-radius: 12px; overflow: hidden; }
-    .video-container { grid-column:1; }
-    #video { width:100%; background:#000; min-height:280px; max-height:320px; object-fit:cover; }
-    .result { grid-column:2; }
-    .training-quick { grid-column:3; }
-    .mode-badge { display:inline-block; margin-left:8px; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:600; background:#e6f7ff; color:#0050b3; border:1px solid #91d5ff; vertical-align:middle; }
-    #confidenceBar{ width:100%; height:8px; background:#e5e7eb; border-radius:4px; margin:15px 0; overflow:hidden; }
-    #confidenceLevel{ height:100%; width:0%; background:linear-gradient(to right, #1890ff, #40a9ff); transition: width .5s ease; }
-    .accum-box { margin-top: 12px; text-align:left; }
-    .accum-text { width:100%; resize:vertical; }
-    @media (max-width: 1024px){ .main-content{ grid-template-columns: 1fr 1fr; } .training-quick{ grid-column:2; } }
-    @media (max-width: 768px){ .main-content{ grid-template-columns: 1fr; } .training-quick{ grid-column:1; } }
+    body {
+      background: #f8f9fa;
+      color: #333;
+    }
+
+    .main-container {
+      max-width: 1200px;
+      margin: 1.5rem auto;
+      padding: 0 20px;
+    }
+
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+
+    .card {
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .video-container {
+      grid-column: 1;
+    }
+
+    #video {
+      width: 100%;
+      background: #000;
+      min-height: 280px;
+      max-height: 320px;
+      object-fit: cover;
+    }
+
+    .result {
+      grid-column: 2;
+    }
+
+    .training-quick {
+      grid-column: 3;
+    }
+
+    .mode-badge {
+      display: inline-block;
+      margin-left: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      background: #e6f7ff;
+      color: #0050b3;
+      border: 1px solid #91d5ff;
+      vertical-align: middle;
+    }
+
+    #confidenceBar {
+      width: 100%;
+      height: 8px;
+      background: #e5e7eb;
+      border-radius: 4px;
+      margin: 15px 0;
+      overflow: hidden;
+    }
+
+    #confidenceLevel {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(to right, #1890ff, #40a9ff);
+      transition: width .5s ease;
+    }
+
+    .accum-box {
+      margin-top: 12px;
+      text-align: left;
+    }
+
+    .accum-text {
+      width: 100%;
+      resize: vertical;
+    }
+
+    @media (max-width: 1024px) {
+      .main-content {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .training-quick {
+        grid-column: 2;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-content {
+        grid-template-columns: 1fr;
+      }
+
+      .training-quick {
+        grid-column: 1;
+      }
+    }
 
     /*
      | Botones custom desactivados para dejar Bootstrap por defecto (visible a pedido)
@@ -51,9 +137,14 @@ $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !=
     */
   </style>
 </head>
+
 <body data-pc-preset="preset-1" data-pc-direction="ltr" data-pc-theme="light">
   <!-- Preloader -->
-  <div class="loader-bg"><div class="loader-track"><div class="loader-fill"></div></div></div>
+  <div class="loader-bg">
+    <div class="loader-track">
+      <div class="loader-fill"></div>
+    </div>
+  </div>
 
   <!-- Sidebar (como en user/) -->
   <nav class="pc-sidebar">
@@ -95,7 +186,9 @@ $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !=
               <div class="dropdown-header">
                 <div class="d-flex mb-1">
                   <div class="flex-shrink-0"><img src="../admin/assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35"></div>
-                  <div class="flex-grow-1 ms-3"><h6 class="mb-1"><?php echo htmlspecialchars($display_name); ?></h6><span><?php echo htmlspecialchars($display_name); ?></span></div>
+                  <div class="flex-grow-1 ms-3">
+                    <h6 class="mb-1"><?php echo htmlspecialchars($display_name); ?></h6><span><?php echo htmlspecialchars($display_name); ?></span>
+                  </div>
                 </div>
               </div>
               <ul class="nav drp-tabs nav-fill nav-tabs" role="tablist">
@@ -123,13 +216,26 @@ $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !=
 
   <div class="pc-container">
     <div class="pc-content">
-      <div class="page-header"><div class="page-block"><div class="row align-items-center"><div class="col-md-12"><ul class="breadcrumb"><li class="breadcrumb-item"><a href="../user/index.php">Home</a></li><li class="breadcrumb-item">IA</li></ul></div></div></div></div>
+      <div class="page-header">
+        <div class="page-block">
+          <div class="row align-items-center">
+            <div class="col-md-12">
+              <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="../user/index.php">Home</a></li>
+                <li class="breadcrumb-item">IA</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- Contenido IA (idéntico al index.html actual excepto head/header) -->
       <div class="main-container">
         <div class="main-content">
-            <div class="card video-container">
-            <div class="card-header"><h3 class="mb-0"><i class="ti ti-video"></i> Cámara en Vivo <span class="mode-badge"><i class="ti ti-wand"></i> Modo: Traducción</span></h3></div>
+          <div class="card video-container">
+            <div class="card-header">
+              <h3 class="mb-0"><i class="ti ti-video"></i> Cámara en Vivo <span class="mode-badge"><i class="ti ti-wand"></i> Modo: Traducción</span></h3>
+            </div>
             <div class="card-body" style="padding:0;">
               <video id="video" autoplay playsinline></video>
               <canvas id="canvas" style="display:none;"></canvas>
@@ -137,10 +243,14 @@ $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !=
           </div>
 
           <div class="card result">
-            <div class="card-header"><h3 class="mb-0"><i class="ti ti-eye"></i> Resultado</h3></div>
+            <div class="card-header">
+              <h3 class="mb-0"><i class="ti ti-eye"></i> Resultado</h3>
+            </div>
             <div class="card-body">
               <p id="predictionText">Modelo cargado. Usa los botones de arriba para interactuar.</p>
-              <div id="confidenceBar"><div id="confidenceLevel"></div></div>
+              <div id="confidenceBar">
+                <div id="confidenceLevel"></div>
+              </div>
               <p id="confidenceValue">0%</p>
               <div class="accum-box">
                 <label class="form-label"><strong>Texto</strong></label>
@@ -155,7 +265,9 @@ $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !=
           </div>
 
           <div class="card training-quick">
-            <div class="card-header"><h3 class="mb-0">Uso de IA</h3></div>
+            <div class="card-header">
+              <h3 class="mb-0">Uso de IA</h3>
+            </div>
             <div class="card-body">
               <div class="d-flex flex-wrap gap-2 justify-content-center mb-3">
                 <button type="button" class="btn btn-warning btn-sm" onclick="predictOnce()" title="Realiza una sola predicción"><i class="ti ti-bolt"></i> Predecir (1 captura)</button>
@@ -171,7 +283,14 @@ $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !=
         </div>
       </div>
 
-      <footer class="pc-footer"><div class="footer-wrapper container-fluid"><div class="row"><div class="col-sm my-1"></div><div class="col-auto my-1"></div></div></div></footer>
+      <footer class="pc-footer">
+        <div class="footer-wrapper container-fluid">
+          <div class="row">
+            <div class="col-sm my-1"></div>
+            <div class="col-auto my-1"></div>
+          </div>
+        </div>
+      </footer>
     </div>
   </div>
 
@@ -180,10 +299,20 @@ $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !=
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/knn-classifier@1.2.2"></script>
   <script>
     // Variables y configuración
-    let video, classifier, mobilenet; let isModelReady=false, isVideoReady=false; let streamTimer=null;
-    let trainingData = { examples:{}, classNames:[] };
-    let currentLabel='';
-    let lastPrediction = { label:'', confidence:0, ts:0 };
+    let video, classifier, mobilenet;
+    let isModelReady = false,
+      isVideoReady = false;
+    let streamTimer = null;
+    let trainingData = {
+      examples: {},
+      classNames: []
+    };
+    let currentLabel = '';
+    let lastPrediction = {
+      label: '',
+      confidence: 0,
+      ts: 0
+    };
     let lastEnterAt = 0;
     const MIN_CONFIDENCE = 0.5; // 50%
 
@@ -195,13 +324,13 @@ $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !=
       'https://raw.githubusercontent.com/DanielPedraza023/InterpretacionLSC/main/datos_entrenamiento_senas.json',
       'https://raw.githubusercontent.com/DanielPedraza023/InterpretacionLSC/main/base%20de%20datos/datos_entrenamiento_senas%20(3).json'
     ];
-  // Usar el endpoint get_model.php (sirve modelo desde BD) como predeterminado principal
-  const LOCAL_DEFAULT_URL = '../IA/get_model.php?id=1';
+    // Usar el endpoint get_model.php (sirve modelo desde BD) como predeterminado principal
+    const LOCAL_DEFAULT_URL = '../base de datos/datos_entrenamiento_senas (3).json';
     const LOCAL_FALLBACKS = [
-      './lsc_service/assets/models/default_training.json'
+      '../base de datos/datos_entrenamiento_senas (3).json'
     ];
 
-    document.addEventListener('DOMContentLoaded', async ()=>{
+    document.addEventListener('DOMContentLoaded', async () => {
       video = document.getElementById('video');
       const predictionText = document.getElementById('predictionText');
       const confidenceLevel = document.getElementById('confidenceLevel');
@@ -209,142 +338,272 @@ $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !=
 
       classifier = knnClassifier.create();
       mobilenet = await tf.loadLayersModel('https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json');
-      isModelReady=true; predictionText.textContent='Modelo cargado. Usa los botones de arriba para interactuar.';
-      try { const stream = await navigator.mediaDevices.getUserMedia({ video:{ width:640, height:480 } }); video.srcObject=stream; await video.play(); isVideoReady=true; }
-      catch(_) { predictionText.textContent='Error: No se pudo acceder a la cámara.'; }
-
-      function showStatus(msg){ predictionText.textContent = msg; setTimeout(()=>{ predictionText.textContent='Listo para usar'; }, 3000); }
-      function getActivation(){ const img=tf.browser.fromPixels(video); const processed=tf.image.resizeBilinear(img,[224,224]); const batched=processed.expandDims(0); const act=mobilenet.predict(batched); img.dispose(); processed.dispose(); return act; }
-
-      async function predictOnceImpl(){
-        if (classifier.getNumClasses()===0){ predictionText.textContent='Primero carga un modelo por defecto'; return null; }
-        const act=getActivation();
-        const res=await classifier.predictClass(act);
-        currentLabel=res.label||'';
-        const conf=(res.confidences[res.label]||0);
-        const confPct=Math.round(conf*100);
-        confidenceLevel.style.width=confPct+'%';
-        confidenceValue.textContent=confPct+'%';
-        lastPrediction = { label: currentLabel, confidence: conf, ts: Date.now() };
-        return { label: currentLabel, confidence: conf };
+      isModelReady = true;
+      predictionText.textContent = 'Modelo cargado. Usa los botones de arriba para interactuar.';
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            width: 640,
+            height: 480
+          }
+        });
+        video.srcObject = stream;
+        await video.play();
+        isVideoReady = true;
+      } catch (_) {
+        predictionText.textContent = 'Error: No se pudo acceder a la cámara.';
       }
 
-      async function predictBurst(frames=3, gapMs=120){
-        const results=[];
-        for(let i=0;i<frames;i++){
-          const r = await predictOnceImpl();
-          if(r) results.push(r);
-          if(i<frames-1) await new Promise(res=>setTimeout(res,gapMs));
+      function showStatus(msg) {
+        predictionText.textContent = msg;
+        setTimeout(() => {
+          predictionText.textContent = 'Listo para usar';
+        }, 3000);
+      }
+
+      function getActivation() {
+        const img = tf.browser.fromPixels(video);
+        const processed = tf.image.resizeBilinear(img, [224, 224]);
+        const batched = processed.expandDims(0);
+        const act = mobilenet.predict(batched);
+        img.dispose();
+        processed.dispose();
+        return act;
+      }
+
+      async function predictOnceImpl() {
+        if (classifier.getNumClasses() === 0) {
+          predictionText.textContent = 'Primero carga un modelo por defecto';
+          return null;
         }
-        if(results.length===0) return null;
-        const agg={};
-        for(const r of results){
-          if(!r.label) continue;
-          if(!agg[r.label]) agg[r.label]={sum:0,count:0};
+        const act = getActivation();
+        const res = await classifier.predictClass(act);
+        currentLabel = res.label || '';
+        const conf = (res.confidences[res.label] || 0);
+        const confPct = Math.round(conf * 100);
+        confidenceLevel.style.width = confPct + '%';
+        confidenceValue.textContent = confPct + '%';
+        lastPrediction = {
+          label: currentLabel,
+          confidence: conf,
+          ts: Date.now()
+        };
+        return {
+          label: currentLabel,
+          confidence: conf
+        };
+      }
+
+      async function predictBurst(frames = 3, gapMs = 120) {
+        const results = [];
+        for (let i = 0; i < frames; i++) {
+          const r = await predictOnceImpl();
+          if (r) results.push(r);
+          if (i < frames - 1) await new Promise(res => setTimeout(res, gapMs));
+        }
+        if (results.length === 0) return null;
+        const agg = {};
+        for (const r of results) {
+          if (!r.label) continue;
+          if (!agg[r.label]) agg[r.label] = {
+            sum: 0,
+            count: 0
+          };
           agg[r.label].sum += r.confidence;
           agg[r.label].count += 1;
         }
-        let bestLabel=''; let bestScore=-1;
-        for(const [lab,v] of Object.entries(agg)){
-          const avg=v.sum/Math.max(1,v.count);
-          if(avg>bestScore){ bestScore=avg; bestLabel=lab; }
+        let bestLabel = '';
+        let bestScore = -1;
+        for (const [lab, v] of Object.entries(agg)) {
+          const avg = v.sum / Math.max(1, v.count);
+          if (avg > bestScore) {
+            bestScore = avg;
+            bestLabel = lab;
+          }
         }
-        if(!bestLabel) return null;
-        return { label: bestLabel, confidence: bestScore };
+        if (!bestLabel) return null;
+        return {
+          label: bestLabel,
+          confidence: bestScore
+        };
       }
 
-      function startStreamingImpl(){ if(streamTimer) return; streamTimer=setInterval(predictOnceImpl,1000); showStatus('Reconocimiento continuo iniciado'); }
-      function stopStreamingImpl(){ if(streamTimer){ clearInterval(streamTimer); streamTimer=null; showStatus('Reconocimiento continuo detenido'); } }
+      function startStreamingImpl() {
+        if (streamTimer) return;
+        streamTimer = setInterval(predictOnceImpl, 1000);
+        showStatus('Reconocimiento continuo iniciado');
+      }
 
-      function unique(a){ return Array.from(new Set(a)); }
-      function normalizeTrainingData(loaded){
-        if(loaded && Array.isArray(loaded.classNames) && loaded.examples && typeof loaded.examples==='object') return loaded;
-        if(loaded && Array.isArray(loaded.labels) && Array.isArray(loaded.vectors)){
-          const ex={}; const names=unique(loaded.labels);
-          for(let i=0;i<loaded.labels.length;i++){ const lab=String(loaded.labels[i]||''); const vec=loaded.vectors[i]; if(!Array.isArray(vec)) continue; (ex[lab] ||= []).push(vec); }
-          return { classNames:names, examples:ex };
+      function stopStreamingImpl() {
+        if (streamTimer) {
+          clearInterval(streamTimer);
+          streamTimer = null;
+          showStatus('Reconocimiento continuo detenido');
         }
-        if(loaded && Array.isArray(loaded.classes) && loaded.data && typeof loaded.data==='object') return { classNames:loaded.classes, examples:loaded.data };
-        if(loaded && Array.isArray(loaded.examples)){
-          const ex={}; const names=[];
-          for(const item of loaded.examples){ if(!item) continue; const lab=String(item.label||''); const vec=item.vector; if(!Array.isArray(vec)) continue; (ex[lab] ||= []).push(vec); names.push(lab); }
-          return { classNames:unique(loaded.classNames||names), examples:ex };
+      }
+
+      function unique(a) {
+        return Array.from(new Set(a));
+      }
+
+      function normalizeTrainingData(loaded) {
+        if (loaded && Array.isArray(loaded.classNames) && loaded.examples && typeof loaded.examples === 'object') return loaded;
+        if (loaded && Array.isArray(loaded.labels) && Array.isArray(loaded.vectors)) {
+          const ex = {};
+          const names = unique(loaded.labels);
+          for (let i = 0; i < loaded.labels.length; i++) {
+            const lab = String(loaded.labels[i] || '');
+            const vec = loaded.vectors[i];
+            if (!Array.isArray(vec)) continue;
+            (ex[lab] ||= []).push(vec);
+          }
+          return {
+            classNames: names,
+            examples: ex
+          };
+        }
+        if (loaded && Array.isArray(loaded.classes) && loaded.data && typeof loaded.data === 'object') return {
+          classNames: loaded.classes,
+          examples: loaded.data
+        };
+        if (loaded && Array.isArray(loaded.examples)) {
+          const ex = {};
+          const names = [];
+          for (const item of loaded.examples) {
+            if (!item) continue;
+            const lab = String(item.label || '');
+            const vec = item.vector;
+            if (!Array.isArray(vec)) continue;
+            (ex[lab] ||= []).push(vec);
+            names.push(lab);
+          }
+          return {
+            classNames: unique(loaded.classNames || names),
+            examples: ex
+          };
         }
         throw new Error('Formato de modelo inválido');
       }
 
-      async function fetchWithFallback(urls){
-          for(const u of urls){
-            try{
-              const r = await fetch(u, { cache: 'no-store' });
-              if(r.ok) return await r.json();
-              console.warn('fetchWithFallback: recurso no OK', u, r.status);
-            }catch(e){
-              console.warn('fetchWithFallback: error al solicitar', u, e);
-            }
+      async function fetchWithFallback(urls) {
+        for (const u of urls) {
+          try {
+            const r = await fetch(u, {
+              cache: 'no-store'
+            });
+            if (r.ok) return await r.json();
+            console.warn('fetchWithFallback: recurso no OK', u, r.status);
+          } catch (e) {
+            console.warn('fetchWithFallback: error al solicitar', u, e);
           }
-          throw new Error('No se pudo cargar ningún modelo');
         }
+        throw new Error('No se pudo cargar ningún modelo');
+      }
 
-      window.loadDefault = async function(){
-        try{
+      window.loadDefault = async function() {
+        try {
           const ordered = [LOCAL_DEFAULT_URL, ...LOCAL_FALLBACKS, ...REMOTE_CANDIDATES];
           const raw = await fetchWithFallback(ordered);
           const norm = normalizeTrainingData(raw);
           trainingData = norm;
           const total = trainingData.classNames.length;
-          if(total === 0) { showStatus('⚠️ Modelo vacío (0 clases). Carga datos válidos en la BD.'); return; }
+          if (total === 0) {
+            showStatus('⚠️ Modelo vacío (0 clases). Carga datos válidos en la BD.');
+            return;
+          }
           classifier.clearAllClasses();
           let examplesLoaded = 0;
-          for(const cls of trainingData.classNames){
-            const list = trainingData.examples[cls]||[];
-            for(const ex of list){ 
-              if(!Array.isArray(ex)) { console.warn('Ejemplo no es array:', ex); continue; }
-              const t=tf.tensor(ex); 
-              classifier.addExample(t, cls); 
+          for (const cls of trainingData.classNames) {
+            const list = trainingData.examples[cls] || [];
+            for (const ex of list) {
+              if (!Array.isArray(ex)) {
+                console.warn('Ejemplo no es array:', ex);
+                continue;
+              }
+              const t = tf.tensor(ex);
+              classifier.addExample(t, cls);
               examplesLoaded++;
             }
           }
-          if(examplesLoaded === 0) { showStatus('⚠️ Modelo cargado pero sin ejemplos. Verifica BD.'); return; }
-          showStatus('✓ Modelo cargado: '+total+' clases, '+examplesLoaded+' ejemplos');
-        }catch(e){
+          if (examplesLoaded === 0) {
+            showStatus('⚠️ Modelo cargado pero sin ejemplos. Verifica BD.');
+            return;
+          }
+          showStatus('✓ Modelo cargado: ' + total + ' clases, ' + examplesLoaded + ' ejemplos');
+        } catch (e) {
           console.error('loadDefault: fallo al cargar modelo por defecto', e);
-          showStatus('❌ Error: '+e.message);
+          showStatus('❌ Error: ' + e.message);
         }
       }
-      window.predictOnce = ()=>{ predictOnceImpl(); };
-      window.startStreaming = ()=>startStreamingImpl();
-      window.stopStreaming = ()=>stopStreamingImpl();
+      window.predictOnce = () => {
+        predictOnceImpl();
+      };
+      window.startStreaming = () => startStreamingImpl();
+      window.stopStreaming = () => stopStreamingImpl();
 
       // Manejo de texto acumulado y teclado (Enter/Espacio) con debounce y umbral de confianza
       const accum = document.getElementById('accumulatedText');
-      document.getElementById('btnClearAccum').addEventListener('click', ()=>{ accum.value=''; showStatus('Texto borrado'); });
-      document.getElementById('btnCopyAccum').addEventListener('click', async ()=>{ const txt=accum.value||''; try{ if(navigator.clipboard && window.isSecureContext){ await navigator.clipboard.writeText(txt);} else { const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);} showStatus('Texto copiado'); }catch(e){ showStatus('No se pudo copiar'); } });
+      document.getElementById('btnClearAccum').addEventListener('click', () => {
+        accum.value = '';
+        showStatus('Texto borrado');
+      });
+      document.getElementById('btnCopyAccum').addEventListener('click', async () => {
+        const txt = accum.value || '';
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(txt);
+          } else {
+            const ta = document.createElement('textarea');
+            ta.value = txt;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+          }
+          showStatus('Texto copiado');
+        } catch (e) {
+          showStatus('No se pudo copiar');
+        }
+      });
 
-      document.addEventListener('keydown', async (e)=>{
-        const tag=(e.target && e.target.tagName)?e.target.tagName.toUpperCase():'';
-        if(tag==='INPUT'||tag==='TEXTAREA'||(e.target&&e.target.isContentEditable)) return;
-        const isEnter=(e.key==='Enter'||e.code==='NumpadEnter');
-        const isSpace=(e.key===' '||e.code==='Space');
-        if(!(isEnter||isSpace)) return;
+      document.addEventListener('keydown', async (e) => {
+        const tag = (e.target && e.target.tagName) ? e.target.tagName.toUpperCase() : '';
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || (e.target && e.target.isContentEditable)) return;
+        const isEnter = (e.key === 'Enter' || e.code === 'NumpadEnter');
+        const isSpace = (e.key === ' ' || e.code === 'Space');
+        if (!(isEnter || isSpace)) return;
 
-        const now=Date.now();
-        if(now-lastEnterAt<200){ e.preventDefault(); return; }
-        lastEnterAt=now;
-
-        if(isSpace){ e.preventDefault(); accum.value+=' '; return; }
-        if(isEnter){
+        const now = Date.now();
+        if (now - lastEnterAt < 200) {
           e.preventDefault();
-          const fresh=(now - lastPrediction.ts) <= 1500;
-          if(fresh && lastPrediction.label && lastPrediction.confidence >= MIN_CONFIDENCE){
+          return;
+        }
+        lastEnterAt = now;
+
+        if (isSpace) {
+          e.preventDefault();
+          accum.value += ' ';
+          return;
+        }
+        if (isEnter) {
+          e.preventDefault();
+          const fresh = (now - lastPrediction.ts) <= 1500;
+          if (fresh && lastPrediction.label && lastPrediction.confidence >= MIN_CONFIDENCE) {
             accum.value += lastPrediction.label;
-            showStatus('Agregado: '+lastPrediction.label);
+            showStatus('Agregado: ' + lastPrediction.label);
             return;
           }
-          if(classifier.getNumClasses()===0){ showStatus('Carga un modelo antes de usar Enter'); return; }
-          const res = await predictBurst(3,120);
-          if(res && res.label && res.confidence >= MIN_CONFIDENCE){ accum.value += res.label; showStatus('Agregado: '+res.label); }
-          else { showStatus('Predicción no confiable. Intenta nuevamente.'); }
+          if (classifier.getNumClasses() === 0) {
+            showStatus('Carga un modelo antes de usar Enter');
+            return;
+          }
+          const res = await predictBurst(3, 120);
+          if (res && res.label && res.confidence >= MIN_CONFIDENCE) {
+            accum.value += res.label;
+            showStatus('Agregado: ' + res.label);
+          } else {
+            showStatus('Predicción no confiable. Intenta nuevamente.');
+          }
         }
       });
     });
@@ -356,6 +615,13 @@ $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !=
   <script src="../admin/assets/js/fonts/custom-font.js"></script>
   <script src="../admin/assets/js/pcoded.js"></script>
   <script src="../admin/assets/js/plugins/feather.min.js"></script>
-  <script>layout_change('light'); change_box_container('false'); layout_rtl_change('false'); preset_change('preset-1'); font_change('Public-Sans');</script>
+  <script>
+    layout_change('light');
+    change_box_container('false');
+    layout_rtl_change('false');
+    preset_change('preset-1');
+    font_change('Public-Sans');
+  </script>
 </body>
+
 </html>
