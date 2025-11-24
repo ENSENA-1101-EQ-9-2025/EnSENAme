@@ -7,14 +7,14 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Verificar si el usuario está logueado
 if (empty($_SESSION['txtdoc'])) {
-    header('Location: ../../login.php');
-    exit();
+  header('Location: ../../login.php');
+  exit();
 }
 
 // Verificar si necesita cambiar contraseña ANTES de mostrar el dashboard
 if (!empty($_SESSION['force_pw_change'])) {
-    header('Location: change_password.php');
-    exit();
+  header('Location: change_password.php');
+  exit();
 }
 
 include '../../conexion.php';
@@ -23,26 +23,27 @@ include '../../conexion.php';
 $doc = mysqli_real_escape_string($conexion, $_SESSION['txtdoc']);
 $res = mysqli_query($conexion, "SELECT p_nombre, needs_pw_change FROM tb_usuarios WHERE ID = '$doc' LIMIT 1");
 if ($row = mysqli_fetch_assoc($res)) {
-    $nombre = $row['p_nombre'];
-    // Si la base de datos indica que necesita cambio, redirigir
-    if (!empty($row['needs_pw_change']) && $row['needs_pw_change'] == 1) {
-        $_SESSION['force_pw_change'] = true;
-        header('Location: change_password.php');
-        exit();
-    }
-} else {
-    // Usuario no encontrado, redirigir al login
-    session_destroy();
-    header('Location: ../../login.php');
+  $nombre = $row['p_nombre'];
+  // Si la base de datos indica que necesita cambio, redirigir
+  if (!empty($row['needs_pw_change']) && $row['needs_pw_change'] == 1) {
+    $_SESSION['force_pw_change'] = true;
+    header('Location: change_password.php');
     exit();
+  }
+} else {
+  // Usuario no encontrado, redirigir al login
+  session_destroy();
+  header('Location: ../../login.php');
+  exit();
 }
 
 if (empty($nombre)) {
-    $nombre = 'Usuario';
+  $nombre = 'Usuario';
 }
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <title>EnSEÑAme</title>
   <meta charset="utf-8">
@@ -53,20 +54,21 @@ if (empty($nombre)) {
   <meta name="author" content="CodedThemes">
   <!-- [Favicon] icon -->
   <link rel="icon" href="../assets/images/favisena.png" type="image/x-icon"> <!-- [Google Font] Family -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
-<!-- [Tabler Icons] https://tablericons.com -->
-<link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css" >
-<!-- [Feather Icons] https://feathericons.com -->
-<link rel="stylesheet" href="../assets/fonts/feather.css" >
-<!-- [Font Awesome Icons] https://fontawesome.com/icons -->
-<link rel="stylesheet" href="../assets/fonts/fontawesome.css" >
-<!-- [Material Icons] https://fonts.google.com/icons -->
-<link rel="stylesheet" href="../assets/fonts/material.css" >
-<!-- [Template CSS Files] -->
-<link rel="stylesheet" href="../assets/css/style.css" id="main-style-link" >
-<link rel="stylesheet" href="../assets/css/style-preset.css" >
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
+  <!-- [Tabler Icons] https://tablericons.com -->
+  <link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css">
+  <!-- [Feather Icons] https://feathericons.com -->
+  <link rel="stylesheet" href="../assets/fonts/feather.css">
+  <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+  <link rel="stylesheet" href="../assets/fonts/fontawesome.css">
+  <!-- [Material Icons] https://fonts.google.com/icons -->
+  <link rel="stylesheet" href="../assets/fonts/material.css">
+  <!-- [Template CSS Files] -->
+  <link rel="stylesheet" href="../assets/css/style.css" id="main-style-link">
+  <link rel="stylesheet" href="../assets/css/style-preset.css">
 
 </head>
+
 <body data-pc-preset="preset-1" data-pc-direction="ltr" data-pc-theme="light">
   <div class="loader-bg">
     <div class="loader-track">
@@ -130,12 +132,12 @@ if (empty($nombre)) {
             </a>
           </li>
           <li class="pc-item">
-            <a href="../../IA/index.html" class="pc-link" target="_blank">
+            <a href="../../IA/index.php" class="pc-link" target="_blank">
               <span class="pc-micon"><i class="ti ti-brain"></i></span>
               <span class="pc-mtext">Sistema IA</span>
             </a>
           </li>
-          
+
         </ul>
       </div>
     </div>
@@ -200,7 +202,7 @@ if (empty($nombre)) {
         </div>
       </div>
       <h1>Bienvenido al Sistema</h1>
-      
+
       <!-- Botones de Acceso Rápido -->
       <div class="row mb-4">
         <div class="col-12">
@@ -212,7 +214,7 @@ if (empty($nombre)) {
               <p class="card-text text-muted">
                 Accede al sistema de inteligencia artificial para traducción de lenguaje de señas
               </p>
-              <a href="../../IA/index.html" class="btn btn-primary btn-lg">
+              <a href="../../IA/index.php" class="btn btn-primary btn-lg">
                 <i class="ti ti-brain me-2"></i>Abrir Sistema de IA
               </a>
               <a href="../../IA/" class="btn btn-outline-secondary ms-2">
@@ -227,7 +229,7 @@ if (empty($nombre)) {
           </div>
         </div>
       </div>
-      
+
       <br><br>
       <!-- Carrusel -->
       <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -272,15 +274,15 @@ if (empty($nombre)) {
         <div class="container">
           <div class="text-center">
             <h2 class="h3 mb-1 text-gray-800">¿Quienes somos?</h2>
-            <h4> <small  class="section-subheading text-muted">Somos un equipo multidisciplinario comprometido con la inclusión y la accesibilidad.
-              Nuestro objetivo principal es desarrollar una app innovadora que traduzca en tiempo real el lenguaje 
-              de señas colombiano (LSC) a texto y voz, facilitando la comunicación entre personas sordas y oyentes. 
-              Contamos con desarrolladores, diseñadores, lingüistas especializados en LSC y asesores de la comunidad sorda. 
-              Trabajamos con enfoque humano, basados en la empatía y el respeto por la diversidad. 
-              Utilizamos inteligencia artificial y visión por computadora para interpretar con precisión las señas. 
-              Mantenemos una colaboración constante con usuarios reales para validar y mejorar la aplicación. Nuestro sueño es derribar barreras
-              comunicativas en Colombia.
-              Creemos que la tecnología debe estar al servicio de todos.</small></h4>
+            <h4> <small class="section-subheading text-muted">Somos un equipo multidisciplinario comprometido con la inclusión y la accesibilidad.
+                Nuestro objetivo principal es desarrollar una app innovadora que traduzca en tiempo real el lenguaje
+                de señas colombiano (LSC) a texto y voz, facilitando la comunicación entre personas sordas y oyentes.
+                Contamos con desarrolladores, diseñadores, lingüistas especializados en LSC y asesores de la comunidad sorda.
+                Trabajamos con enfoque humano, basados en la empatía y el respeto por la diversidad.
+                Utilizamos inteligencia artificial y visión por computadora para interpretar con precisión las señas.
+                Mantenemos una colaboración constante con usuarios reales para validar y mejorar la aplicación. Nuestro sueño es derribar barreras
+                comunicativas en Colombia.
+                Creemos que la tecnología debe estar al servicio de todos.</small></h4>
             <br><br>
             <div class="row text-center">
               <div class="col-md-4">
@@ -317,26 +319,28 @@ if (empty($nombre)) {
                 </div>
                 <br>
                 <h5><small>En la actualidad, la comunicación efectiva sigue siendo uno de los principales desafíos para las personas con discapacidades auditivas, especialmente aquellas que utilizan el lenguaje de señas como su principal medio de expresión. Esta forma de comunicación, aunque rica y compleja, no es comprendida por la mayoría de la población oyente, lo que genera una barrera significativa para la inclusión social, educativa y laboral de las personas sordas.
-                  <br><br>
-                  Este proyecto surge de la necesidad urgente de reducir la brecha comunicativa entre personas sordas y oyentes, promoviendo la igualdad de oportunidades y el ejercicio pleno de los derechos de comunicación e interacción. En particular, se busca diseñar una herramienta tecnológica que permita la traducción en tiempo real del lenguaje de señas a texto escrito, facilitando así una interacción más fluida, accesible y comprensible para ambas partes.
-                  <br><br>
-                  La implementación de una solución de este tipo tiene un gran potencial transformador en diferentes ámbitos:
-                  <br>
-                  En la educación, facilita la participación de estudiantes sordos en entornos inclusivos.
-                  <br>
-                  En el entorno laboral, contribuiría a una mayor integración de personas sordas en equipos de trabajo diversos.
-                </small></h5>
+                    <br><br>
+                    Este proyecto surge de la necesidad urgente de reducir la brecha comunicativa entre personas sordas y oyentes, promoviendo la igualdad de oportunidades y el ejercicio pleno de los derechos de comunicación e interacción. En particular, se busca diseñar una herramienta tecnológica que permita la traducción en tiempo real del lenguaje de señas a texto escrito, facilitando así una interacción más fluida, accesible y comprensible para ambas partes.
+                    <br><br>
+                    La implementación de una solución de este tipo tiene un gran potencial transformador en diferentes ámbitos:
+                    <br>
+                    En la educación, facilita la participación de estudiantes sordos en entornos inclusivos.
+                    <br>
+                    En el entorno laboral, contribuiría a una mayor integración de personas sordas en equipos de trabajo diversos.
+                  </small></h5>
                 <br><br>
                 <div class="card mb-4">
                   <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">% de Progreso de los avances</h6>
                   </div>
                   <div class="card-body">
-                    <div class="mb-1 small">IA traductora <h4>25%</h4></div>
+                    <div class="mb-1 small">IA traductora <h4>25%</h4>
+                    </div>
                     <div class="progress mb-4">
                       <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <div class="mb-1 small">Desarrollo general <h4>42%</h4></div>
+                    <div class="mb-1 small">Desarrollo general <h4>42%</h4>
+                    </div>
                     <div class="progress progress-sm mb-2">
                       <div class="progress-bar" role="progressbar" style="width: 42%" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
@@ -365,10 +369,21 @@ if (empty($nombre)) {
   <script src="../assets/js/fonts/custom-font.js"></script>
   <script src="../assets/js/pcoded.js"></script>
   <script src="../assets/js/plugins/feather.min.js"></script>
-  <script>layout_change('light');</script>
-  <script>change_box_container('false');</script>
-  <script>layout_rtl_change('false');</script>
-  <script>preset_change("preset-1");</script>
-  <script>font_change("Public-Sans");</script>
+  <script>
+    layout_change('light');
+  </script>
+  <script>
+    change_box_container('false');
+  </script>
+  <script>
+    layout_rtl_change('false');
+  </script>
+  <script>
+    preset_change("preset-1");
+  </script>
+  <script>
+    font_change("Public-Sans");
+  </script>
 </body>
+
 </html>
