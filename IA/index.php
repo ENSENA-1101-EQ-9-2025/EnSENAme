@@ -192,17 +192,13 @@ $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !=
     // Fuentes remotas opcionales
     const REMOTE_CANDIDATES = [
       ...(PARAM_MODEL_URL ? [PARAM_MODEL_URL] : []),
-      '../IA/get_model.php?id=1',
       'https://raw.githubusercontent.com/DanielPedraza023/InterpretacionLSC/main/datos_entrenamiento_senas.json',
       'https://raw.githubusercontent.com/DanielPedraza023/InterpretacionLSC/main/base%20de%20datos/datos_entrenamiento_senas%20(3).json'
     ];
-  // Usar explícitamente el archivo de la carpeta "base de datos" como predeterminado
-  // (el archivo (3) existe en el repo; (4) no estaba presente)
-  const LOCAL_DEFAULT_URL = '../base%20de%20datos/datos_entrenamiento_senas%20(3).json';
+  // Usar el endpoint get_model.php (sirve modelo desde BD) como predeterminado principal
+  const LOCAL_DEFAULT_URL = '../IA/get_model.php?id=1';
     const LOCAL_FALLBACKS = [
-      './lsc_service/assets/models/default_training.json',
-      '../base%20de%20datos/datos_entrenamiento_senas%20(3).json',
-      '../base%20de%20datos/datos_entrenamiento_senas.json'
+      './lsc_service/assets/models/default_training.json'
     ];
 
     document.addEventListener('DOMContentLoaded', async ()=>{
@@ -296,16 +292,24 @@ $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !=
           const raw = await fetchWithFallback(ordered);
           const norm = normalizeTrainingData(raw);
           trainingData = norm;
+          const total = trainingData.classNames.length;
+          if(total === 0) { showStatus('⚠️ Modelo vacío (0 clases). Carga datos válidos en la BD.'); return; }
           classifier.clearAllClasses();
+          let examplesLoaded = 0;
           for(const cls of trainingData.classNames){
             const list = trainingData.examples[cls]||[];
-            for(const ex of list){ const t=tf.tensor(ex,[1,1000]); classifier.addExample(t, cls); }
+            for(const ex of list){ 
+              if(!Array.isArray(ex)) { console.warn('Ejemplo no es array:', ex); continue; }
+              const t=tf.tensor(ex); 
+              classifier.addExample(t, cls); 
+              examplesLoaded++;
+            }
           }
-          const total = trainingData.classNames.reduce((acc,cn)=>acc+(trainingData.examples[cn]?.length||0),0);
-          showStatus('Modelo por defecto cargado: '+total+' ejemplos');
+          if(examplesLoaded === 0) { showStatus('⚠️ Modelo cargado pero sin ejemplos. Verifica BD.'); return; }
+          showStatus('✓ Modelo cargado: '+total+' clases, '+examplesLoaded+' ejemplos');
         }catch(e){
           console.error('loadDefault: fallo al cargar modelo por defecto', e);
-          showStatus('No se pudo cargar el modelo por defecto');
+          showStatus('❌ Error: '+e.message);
         }
       }
       window.predictOnce = ()=>{ predictOnceImpl(); };
