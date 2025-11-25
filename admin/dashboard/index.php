@@ -334,15 +334,15 @@ if (empty($nombre)) {
                     <h6 class="m-0 font-weight-bold text-primary">% de Progreso de los avances</h6>
                   </div>
                   <div class="card-body">
-                    <div class="mb-1 small">IA traductora <h4>25%</h4>
+                    <div class="mb-1 small">IA traductora <h4>60%</h4>
                     </div>
                     <div class="progress mb-4">
-                      <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <div class="mb-1 small">Desarrollo general <h4>42%</h4>
+                    <div class="mb-1 small">Desarrollo general <h4>75%</h4>
                     </div>
                     <div class="progress progress-sm mb-2">
-                      <div class="progress-bar" role="progressbar" style="width: 42%" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
+                      <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="42" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                   </div>
                 </div>
