@@ -283,6 +283,7 @@ if (empty($nombre_completo)) {
                   <p class="card-text flex-grow-1">
                     Aprende los conceptos básicos del Lenguaje de Señas Colombiano (LSC), incluyendo su historia,
                     estructura y la importancia de la comunicación visual en la comunidad sorda.
+                
                   </p>
                   <div class="mt-auto">
                     <div class="d-grid">
@@ -448,7 +449,7 @@ if (empty($nombre_completo)) {
             </div>
             <div class="modal-body text-center">
               <div class="mb-3">
-                <p class="text-muted">Conceptos básicos e historia del Lenguaje de Señas Colombiano</p>
+                <p class="text-muted">Conceptos básicos e historia del Lenguaje de Señas Colombiano "SEÑANTES en YT"</p>
               </div>
               <video width="100%" height="400" controls preload="metadata">
                 <source src="../admin/assets/videos/VideoGuia1.mp4" type="video/mp4">
@@ -475,7 +476,7 @@ if (empty($nombre_completo)) {
             </div>
             <div class="modal-body text-center">
               <div class="mb-3">
-                <p class="text-muted">Aprende el abecedario dactilológico y números básicos</p>
+                <p class="text-muted">Aprende el abecedario dactilológico y números básicos "SEÑANTES en YT"</p>
               </div>
           <video width="100%" height="400" controls preload="metadata">
                 <source src="../admin/assets/videos/VideoGuia2.mp4" type="video/mp4">
@@ -502,7 +503,7 @@ if (empty($nombre_completo)) {
             </div>
             <div class="modal-body text-center">
               <div class="mb-3">
-                <p class="text-muted">Aprende verbos esenciales y mantén conversaciones básicas en LSC</p>
+                <p class="text-muted">Aprende verbos esenciales y mantén conversaciones básicas en LSC "Kethleen G en YT"</p>
               </div>
              <video width="100%" height="400" controls preload="metadata">
                 <source src="../admin/assets/videos/VideoGuia3.mp4" type="video/mp4">
@@ -529,7 +530,7 @@ if (empty($nombre_completo)) {
             </div>
             <div class="modal-body text-center">
               <div class="mb-3">
-                <p class="text-muted">Señas para familia, relaciones y descripciones de personas</p>
+                <p class="text-muted">Señas para familia, relaciones y descripciones de personas "SEÑANTES en YT"</p>
               </div>
             <video width="100%" height="400" controls preload="metadata">
                 <source src="../admin/assets/videos/VideoGuia4.mp4" type="video/mp4">
@@ -556,7 +557,7 @@ if (empty($nombre_completo)) {
             </div>
             <div class="modal-body text-center">
               <div class="mb-3">
-                <p class="text-muted">Expresa emociones y sentimientos en LSC</p>
+                <p class="text-muted">Expresa emociones y sentimientos en LSC "SEÑANTES en YT"</p>
               </div>
               <!-- AGREGAR VIDEO GUIA 5 DE MENOR TAMAÑO MB -->
               <video width="100%" height="400" controls preload="metadata">
@@ -584,7 +585,7 @@ if (empty($nombre_completo)) {
             </div>
             <div class="modal-body text-center">
               <div class="mb-3">
-                <p class="text-muted">Aprende señas para tiempo, fechas y expresiones temporales</p>
+                <p class="text-muted">Aprende señas para tiempo, fechas y expresiones temporales "SEÑANTES en YT"</p>
               </div>
         <video width="100%" height="400" controls preload="metadata">
                 <source src="../admin/assets/videos/VideoGuia6.mp4" type="video/mp4">
@@ -610,8 +611,7 @@ if (empty($nombre_completo)) {
   <script src="../admin/assets/js/plugins/feather.min.js"></script>
 
   <script>
-    // Configuración del tema
-    layout_change('light');
+   layout_change('light');
     change_box_container('false');
     layout_rtl_change('false');
     preset_change("preset-1");

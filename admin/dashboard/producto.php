@@ -482,7 +482,7 @@ $nombre = '';
             </div>
             <div class="modal-body text-center">
               <div class="mb-3">
-                <p class="text-muted">Conceptos básicos e historia del Lenguaje de Señas Colombiano</p>
+                <p class="text-muted">Conceptos básicos e historia del Lenguaje de Señas Colombiano SEÑANTES en YT</p>
               </div>
               <video width="100%" height="400" controls preload="metadata">
                 <source src="../admin/assets/videos/VideoGuia1.mp4" type="video/mp4">
