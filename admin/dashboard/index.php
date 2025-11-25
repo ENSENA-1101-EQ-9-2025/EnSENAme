@@ -240,7 +240,7 @@ if (empty($nombre)) {
         </ol>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="../assets/images/car1.png" style="width:800px; height:400px; object-fit:cover;" class="d-block w-100" alt="Primer slide">
+            <img src="../assets/images/car1.PNG" style="width:800px; height:400px; object-fit:cover;" class="d-block w-100" alt="Primer slide">
             <div class="carousel-caption d-none d-md-block">
               <p>Un ejemplo de una IA de reconocimiento por parte de ultralytics.</p>
             </div>
