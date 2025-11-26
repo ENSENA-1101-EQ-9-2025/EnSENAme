@@ -3,8 +3,8 @@ require_once __DIR__ . '/../includes/session.php';
 
 // Verificar si el usuario está logueado
 if (empty($_SESSION['txtdoc'])) {
-    header('Location: ../login.php');
-    exit();
+  header('Location: ../login.php');
+  exit();
 }
 
 include '../conexion.php';
@@ -14,18 +14,18 @@ include '../codigo.php';
 $doc = mysqli_real_escape_string($conexion, $_SESSION['txtdoc']);
 $res = mysqli_query($conexion, "SELECT p_nombre, s_nombre, p_apellido, s_apellido FROM tb_usuarios WHERE ID = '$doc' LIMIT 1");
 if ($row = mysqli_fetch_assoc($res)) {
-    $nombre = $row['p_nombre'];
-    $nombre_completo = trim($row['p_nombre'] . ' ' . $row['s_nombre'] . ' ' . $row['p_apellido'] . ' ' . $row['s_apellido']);
+  $nombre = $row['p_nombre'];
+  $nombre_completo = trim($row['p_nombre'] . ' ' . $row['s_nombre'] . ' ' . $row['p_apellido'] . ' ' . $row['s_apellido']);
 } else {
-    $nombre = 'Usuario';
-    $nombre_completo = 'Usuario';
+  $nombre = 'Usuario';
+  $nombre_completo = 'Usuario';
 }
 
 if (empty($nombre)) {
-    $nombre = 'Usuario';
+  $nombre = 'Usuario';
 }
 if (empty($nombre_completo)) {
-    $nombre_completo = 'Usuario';
+  $nombre_completo = 'Usuario';
 }
 
 // Obtener lista de usuarios para el chat
@@ -33,6 +33,7 @@ $usuarios = obtenerUsuarios();
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <title>EnSEÑAme - Chat</title>
   <meta charset="utf-8">
@@ -42,7 +43,7 @@ $usuarios = obtenerUsuarios();
   <meta name="keywords" content="Chat, EnSEÑAme, Comunicación, LSC, Lenguaje de Señas">
   <meta name="author" content="EnSEÑAme Team">
 
-  <link rel="icon" href="../admin/assets/images/favisena.png" type="image/x-icon"> 
+  <link rel="icon" href="../admin/assets/images/favisena.png" type="image/x-icon">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
   <link rel="stylesheet" href="../admin/assets/fonts/tabler-icons.min.css">
   <link rel="stylesheet" href="../admin/assets/fonts/feather.css">
@@ -50,40 +51,40 @@ $usuarios = obtenerUsuarios();
   <link rel="stylesheet" href="../admin/assets/fonts/material.css">
   <link rel="stylesheet" href="../admin/assets/css/style.css" id="main-style-link">
   <link rel="stylesheet" href="../admin/assets/css/style-preset.css">
-  
+
   <style>
     .chatbot-item {
       background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
       border-left: 4px solid #4CAF50;
     }
-    
+
     .chatbot-item:hover {
       background: linear-gradient(135deg, #dff0df 0%, #e8f5e8 100%);
       transform: translateX(2px);
       transition: all 0.3s ease;
     }
-    
+
     .sugerencia-btn {
       font-size: 0.8rem;
       padding: 0.25rem 0.5rem;
       margin: 0.1rem;
       transition: all 0.2s ease;
     }
-    
+
     .sugerencia-btn:hover {
       background-color: #4CAF50;
       border-color: #4CAF50;
       color: white;
       transform: scale(1.05);
     }
-    
+
     .message-in .msg-content {
       background-color: #f8f9fa;
       border: 1px solid #e9ecef;
       border-radius: 15px;
       padding: 10px 15px;
     }
-    
+
     .message-out .msg-content {
       background-color: #4CAF50;
       color: white;
@@ -92,51 +93,64 @@ $usuarios = obtenerUsuarios();
       margin-left: auto;
       max-width: fit-content;
     }
-    
+
     .chat-avtar img[src*="avatar-10"] {
       border: 2px solid #4CAF50 !important;
       box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
     }
-    
+
     .chat-message {
       background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%);
     }
-    
+
     .typing-indicator {
       display: none;
       padding: 10px;
       font-style: italic;
       color: #6c757d;
     }
-    
+
     .typing-indicator .dots {
       display: inline-block;
       width: 20px;
     }
-    
+
     .typing-indicator .dots::after {
       content: '...';
       animation: typing 1.5s infinite;
     }
-    
+
     @keyframes typing {
-      0%, 60% { content: ''; }
-      20% { content: '.'; }
-      40% { content: '..'; }
-      60% { content: '...'; }
+
+      0%,
+      60% {
+        content: '';
+      }
+
+      20% {
+        content: '.';
+      }
+
+      40% {
+        content: '..';
+      }
+
+      60% {
+        content: '...';
+      }
     }
-    
+
     .user-count-badge {
       background: linear-gradient(45deg, #4CAF50, #45a049);
       color: white;
     }
-    
+
     .chat-icon-container {
       position: relative;
       display: inline-block;
       margin: 1rem 0;
     }
-    
+
     .chat-icon-container::before {
       content: '';
       position: absolute;
@@ -150,18 +164,18 @@ $usuarios = obtenerUsuarios();
       opacity: 0.1;
       z-index: 0;
     }
-    
+
     .chat-icon-container i {
       position: relative;
       z-index: 1;
     }
-    
+
     #pantalla-inicial {
       background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
       border-radius: 15px;
       margin: 2rem;
       padding: 3rem 2rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     }
   </style>
 </head>
@@ -238,7 +252,7 @@ $usuarios = obtenerUsuarios();
           </li>
         </ul>
       </div>
-      
+
       <div class="ms-auto">
         <ul class="list-unstyled">
           <li class="dropdown pc-h-item header-user-profile">
@@ -362,31 +376,40 @@ $usuarios = obtenerUsuarios();
                               </div>
                             </a>
                             <!-- Usuarios normales -->
-                            <?php foreach($usuarios as $usuario): ?>
-                            <?php if($usuario['ID'] != $_SESSION['txtdoc']): // No mostrar el usuario actual ?>
-                            <a href="#" class="list-group-item list-group-item-action p-3 usuario-item" data-user-id="<?php echo $usuario['ID']; ?>" data-user-name="<?php echo htmlspecialchars($usuario['p_nombre'] . ' ' . $usuario['p_apellido']); ?>">
-                              <div class="media align-items-center">
-                                <div class="chat-avtar">
-                                  <img class="rounded-circle img-fluid wid-40" src="../admin/assets/images/user/avatar-1.jpg" alt="User image">
-                                  <i class="ti ti-circle-check chat-badge bg-success"></i>
-                                </div>
-                                <div class="media-body mx-2">
-                                  <h5 class="mb-0"><?php echo htmlspecialchars($usuario['p_nombre'] . ' ' . $usuario['p_apellido']); ?></h5>
-                                  <span class="text-sm text-muted">
-                                    <?php 
-                                    $rol = isset($usuario['id_rol']) ? $usuario['id_rol'] : 3;
-                                    switch($rol) {
-                                        case 1: echo 'Administrador'; break;
-                                        case 2: echo 'Moderador'; break;
-                                        case 3: echo 'Disponible'; break;
-                                        default: echo 'Disponible'; break;
-                                    }
-                                    ?>
-                                  </span>
-                                </div>
-                              </div>
-                            </a>
-                            <?php endif; ?>
+                            <?php foreach ($usuarios as $usuario): ?>
+                              <?php if ($usuario['ID'] != $_SESSION['txtdoc']): // No mostrar el usuario actual 
+                              ?>
+                                <a href="#" class="list-group-item list-group-item-action p-3 usuario-item" data-user-id="<?php echo $usuario['ID']; ?>" data-user-name="<?php echo htmlspecialchars($usuario['p_nombre'] . ' ' . $usuario['p_apellido']); ?>">
+                                  <div class="media align-items-center">
+                                    <div class="chat-avtar">
+                                      <img class="rounded-circle img-fluid wid-40" src="../admin/assets/images/user/avatar-1.jpg" alt="User image">
+                                      <i class="ti ti-circle-check chat-badge bg-success"></i>
+                                    </div>
+                                    <div class="media-body mx-2">
+                                      <h5 class="mb-0"><?php echo htmlspecialchars($usuario['p_nombre'] . ' ' . $usuario['p_apellido']); ?></h5>
+                                      <span class="text-sm text-muted">
+                                        <?php
+                                        $rol = isset($usuario['id_rol']) ? $usuario['id_rol'] : 3;
+                                        switch ($rol) {
+                                          case 1:
+                                            echo 'Administrador';
+                                            break;
+                                          case 2:
+                                            echo 'Moderador';
+                                            break;
+                                          case 3:
+                                            echo 'Disponible';
+                                            break;
+                                          default:
+                                            echo 'Disponible';
+                                            break;
+                                        }
+                                        ?>
+                                      </span>
+                                    </div>
+                                  </div>
+                                </a>
+                              <?php endif; ?>
                             <?php endforeach; ?>
                           </div>
                         </div>
@@ -492,7 +515,7 @@ $usuarios = obtenerUsuarios();
   <!-- Required Js -->
   <script src="../admin/assets/js/plugins/popper.min.js"></script>
   <script src="../admin/assets/js/plugins/simplebar.min.js"></script>
-  <script src="../js/bootstrap.min.js"></script>
+  <script src="../admin/assets/js/plugins/bootstrap.min.js"></script>
   <script src="../admin/assets/js/fonts/custom-font.js"></script>
   <script src="../admin/assets/js/pcoded.js"></script>
   <script src="../admin/assets/js/plugins/feather.min.js"></script>
@@ -506,14 +529,14 @@ $usuarios = obtenerUsuarios();
     function seleccionarUsuario(userId, userName) {
       usuarioActivo = userId;
       esChatbot = (userId === 'chatbot');
-      
+
       // Actualizar UI
       document.getElementById('chat-user-name').textContent = userName;
       document.getElementById('pantalla-inicial').style.display = 'none';
       document.getElementById('chat-header').style.display = 'block';
       document.getElementById('chat-messages').style.display = 'block';
       document.getElementById('chat-input').style.display = 'block';
-      
+
       if (esChatbot) {
         // Mostrar mensaje de bienvenida del chatbot
         mostrarMensajeChatbot();
@@ -525,7 +548,7 @@ $usuarios = obtenerUsuarios();
       } else {
         // Cargar mensajes normales
         cargarMensajes();
-        
+
         // Configurar recarga automática
         if (intervaloCarga) {
           clearInterval(intervaloCarga);
@@ -561,7 +584,7 @@ $usuarios = obtenerUsuarios();
           </div>
         </div>
       `;
-      
+
       // Scroll al final
       const scrollArea = document.querySelector('#chat-messages');
       scrollArea.scrollTop = scrollArea.scrollHeight;
@@ -574,7 +597,7 @@ $usuarios = obtenerUsuarios();
 
     function cargarMensajes() {
       if (!usuarioActivo || esChatbot) return;
-      
+
       fetch(`../chat_api.php?para=${usuarioActivo}`)
         .then(response => response.json())
         .then(mensajes => {
@@ -586,15 +609,18 @@ $usuarios = obtenerUsuarios();
     function mostrarMensajes(mensajes) {
       const contenedor = document.querySelector('#chat-messages .card-body');
       contenedor.innerHTML = '';
-      
+
       mensajes.forEach(mensaje => {
         const esMio = mensaje.de_usuario == <?php echo $_SESSION['txtdoc']; ?>;
         const messageDiv = document.createElement('div');
         messageDiv.className = esMio ? 'message-out' : 'message-in';
-        
+
         const fecha = new Date(mensaje.fecha);
-        const tiempo = fecha.toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'});
-        
+        const tiempo = fecha.toLocaleTimeString('es-ES', {
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+
         messageDiv.innerHTML = `
           <div class="d-flex">
             ${esMio ? `
@@ -624,10 +650,10 @@ $usuarios = obtenerUsuarios();
             `}
           </div>
         `;
-        
+
         contenedor.appendChild(messageDiv);
       });
-      
+
       // Scroll al final
       const scrollArea = document.querySelector('#chat-messages');
       scrollArea.scrollTop = scrollArea.scrollHeight;
@@ -635,7 +661,7 @@ $usuarios = obtenerUsuarios();
 
     function enviarMensaje(mensaje) {
       if (!usuarioActivo || !mensaje.trim()) return;
-      
+
       if (esChatbot) {
         // Enviar al chatbot
         enviarAChatbot(mensaje);
@@ -644,24 +670,24 @@ $usuarios = obtenerUsuarios();
         const formData = new FormData();
         formData.append('para', usuarioActivo);
         formData.append('mensaje', mensaje);
-        
+
         fetch('../chat_api.php', {
-          method: 'POST',
-          body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            document.getElementById('mensaje-input').value = '';
-            cargarMensajes(); // Recargar mensajes
-          } else {
-            alert('Error al enviar mensaje: ' + (data.error || 'Error desconocido'));
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Error de conexión al enviar mensaje');
-        });
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              document.getElementById('mensaje-input').value = '';
+              cargarMensajes(); // Recargar mensajes
+            } else {
+              alert('Error al enviar mensaje: ' + (data.error || 'Error desconocido'));
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('Error de conexión al enviar mensaje');
+          });
       }
     }
 
@@ -669,40 +695,45 @@ $usuarios = obtenerUsuarios();
       // Mostrar mensaje del usuario
       agregarMensajeUsuario(mensaje);
       document.getElementById('mensaje-input').value = '';
-      
+
       // Mostrar indicador de escritura
       mostrarIndicadorEscritura();
-      
+
       // Llamar al chatbot
-  fetch('../chatbot_api_clean.php?ts=' + Date.now(), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          mensaje: mensaje,
-          usuario_id: <?php echo json_encode($_SESSION['txtdoc'] ?? 0); ?>
+      fetch('../chatbot_api_clean.php?ts=' + Date.now(), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            mensaje: mensaje,
+            usuario_id: <?php echo json_encode($_SESSION['txtdoc'] ?? 0); ?>
+          })
         })
-      })
-      .then(async response => {
-        const text = await response.text();
-        try { return JSON.parse(text); } catch (e) { console.error('Respuesta no JSON:', text); throw e; }
-      })
-      .then(data => {
-        // Ocultar indicador de escritura
-        ocultarIndicadorEscritura();
-        
-        if (data.success) {
-          agregarMensajeChatbot(data.respuesta, data.sugerencias);
-        } else {
-          agregarMensajeChatbot('🤖 Lo siento, no pude procesar tu mensaje. ¿Podrías intentarlo de nuevo?');
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        ocultarIndicadorEscritura();
-        agregarMensajeChatbot('🤖 Error de conexión. Por favor, inténtalo más tarde.');
-      });
+        .then(async response => {
+          const text = await response.text();
+          try {
+            return JSON.parse(text);
+          } catch (e) {
+            console.error('Respuesta no JSON:', text);
+            throw e;
+          }
+        })
+        .then(data => {
+          // Ocultar indicador de escritura
+          ocultarIndicadorEscritura();
+
+          if (data.success) {
+            agregarMensajeChatbot(data.respuesta, data.sugerencias);
+          } else {
+            agregarMensajeChatbot('🤖 Lo siento, no pude procesar tu mensaje. ¿Podrías intentarlo de nuevo?');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          ocultarIndicadorEscritura();
+          agregarMensajeChatbot('🤖 Error de conexión. Por favor, inténtalo más tarde.');
+        });
     }
 
     function mostrarIndicadorEscritura() {
@@ -725,7 +756,7 @@ $usuarios = obtenerUsuarios();
         </div>
       `;
       contenedor.appendChild(indicador);
-      
+
       // Scroll al final
       const scrollArea = document.querySelector('#chat-messages');
       scrollArea.scrollTop = scrollArea.scrollHeight;
@@ -740,8 +771,11 @@ $usuarios = obtenerUsuarios();
 
     function agregarMensajeUsuario(mensaje) {
       const contenedor = document.querySelector('#chat-messages .card-body');
-      const tiempo = new Date().toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'});
-      
+      const tiempo = new Date().toLocaleTimeString('es-ES', {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
       const messageDiv = document.createElement('div');
       messageDiv.className = 'message-out mb-3';
       messageDiv.innerHTML = `
@@ -759,9 +793,9 @@ $usuarios = obtenerUsuarios();
           </div>
         </div>
       `;
-      
+
       contenedor.appendChild(messageDiv);
-      
+
       // Scroll al final
       const scrollArea = document.querySelector('#chat-messages');
       scrollArea.scrollTop = scrollArea.scrollHeight;
@@ -769,11 +803,14 @@ $usuarios = obtenerUsuarios();
 
     function agregarMensajeChatbot(respuesta, sugerencias = null) {
       const contenedor = document.querySelector('#chat-messages .card-body');
-      const tiempo = new Date().toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'});
-      
+      const tiempo = new Date().toLocaleTimeString('es-ES', {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
       const messageDiv = document.createElement('div');
       messageDiv.className = 'message-in mb-3';
-      
+
       let sugerenciasHtml = '';
       if (sugerencias && sugerencias.length > 0) {
         sugerenciasHtml = `
@@ -787,7 +824,7 @@ $usuarios = obtenerUsuarios();
           </div>
         `;
       }
-      
+
       messageDiv.innerHTML = `
         <div class="d-flex">
           <div class="flex-shrink-0">
@@ -804,9 +841,9 @@ $usuarios = obtenerUsuarios();
           </div>
         </div>
       `;
-      
+
       contenedor.appendChild(messageDiv);
-      
+
       // Scroll al final
       const scrollArea = document.querySelector('#chat-messages');
       scrollArea.scrollTop = scrollArea.scrollHeight;
@@ -821,13 +858,13 @@ $usuarios = obtenerUsuarios();
           const userId = this.dataset.userId;
           const userName = this.dataset.userName;
           seleccionarUsuario(userId, userName);
-          
+
           // Resaltar usuario activo
           document.querySelectorAll('.usuario-item').forEach(u => u.classList.remove('active'));
           this.classList.add('active');
         });
       });
-      
+
       // Envío de mensajes
       document.getElementById('form-enviar-mensaje').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -855,7 +892,7 @@ $usuarios = obtenerUsuarios();
           }
         });
       }
-      
+
       // Buscar usuarios
       document.getElementById('buscarUsuarios').addEventListener('input', function() {
         const filtro = this.value.toLowerCase();
@@ -864,7 +901,7 @@ $usuarios = obtenerUsuarios();
           item.style.display = nombre.includes(filtro) ? 'block' : 'none';
         });
       });
-      
+
       // Enter para enviar mensaje
       document.getElementById('mensaje-input').addEventListener('keypress', function(e) {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -889,7 +926,10 @@ $usuarios = obtenerUsuarios();
       const canvas = document.getElementById('lsc-canvas');
       // Solicitar cámara si no está activa
       if (!video.srcObject) {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: false
+        });
         video.srcObject = stream;
         // Esperar a que el video esté listo
         await new Promise(res => {
@@ -910,8 +950,12 @@ $usuarios = obtenerUsuarios();
       // Enviar al microservicio
       const resp = await fetch('http://127.0.0.1:5001/recognize', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: dataUrl })
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          image: dataUrl
+        })
       });
       const json = await resp.json();
       if (json && json.success && json.texto) {
@@ -929,4 +973,5 @@ $usuarios = obtenerUsuarios();
     }
   </script>
 </body>
+
 </html>
