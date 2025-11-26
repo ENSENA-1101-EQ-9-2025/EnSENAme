@@ -343,9 +343,9 @@ $usuarios = obtenerUsuarios();
       <div class="row">
         <div class="col-sm-12">
           <div class="card">
-            <div class="chat-wrapper">
+            <div class="chat-wrapper" style="display: flex; height: 600px;">
               <!-- Lista de usuarios -->
-              <div class="offcanvas-xxl offcanvas-start chat-offcanvas" tabindex="-1" id="offcanvas_User_list">
+              <div class="chat-user-sidebar" style="width: 300px; border-right: 1px solid #e9ecef; overflow-y: auto;" tabindex="-1" id="offcanvas_User_list">
                 <div class="offcanvas-header">
                   <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvas_User_list" aria-label="Close"></button>
                 </div>
@@ -420,7 +420,7 @@ $usuarios = obtenerUsuarios();
               </div>
 
               <!-- Área de chat -->
-              <div class="chat-content">
+              <div class="chat-content" style="flex-grow: 1; display: flex; flex-direction: column;">
                 <div class="card-header py-3" id="chat-header" style="display: none;">
                   <div class="d-sm-flex align-items-center">
                     <ul class="list-inline me-auto mb-0">
