@@ -3,8 +3,8 @@ require_once __DIR__ . '/../../includes/session.php';
 
 // Verificar si el usuario está logueado
 if (empty($_SESSION['txtdoc'])) {
-    header('Location: ../../login.php');
-    exit();
+  header('Location: ../../login.php');
+  exit();
 }
 
 include '../../conexion.php';
@@ -15,22 +15,22 @@ include '../../includes/helpers.php';
 $doc = mysqli_real_escape_string($conexion, $_SESSION['txtdoc']);
 $res = mysqli_query($conexion, "SELECT p_nombre, s_nombre, p_apellido, s_apellido, id_rol, foto_perfil FROM tb_usuarios WHERE ID = '$doc' LIMIT 1");
 if ($row = mysqli_fetch_assoc($res)) {
-    $nombre = $row['p_nombre'];
-    $nombre_completo = trim($row['p_nombre'] . ' ' . $row['s_nombre'] . ' ' . $row['p_apellido'] . ' ' . $row['s_apellido']);
-    $es_admin = ($row['id_rol'] == 1);
-    $foto_perfil_usuario = obtenerFotoPerfil($row['foto_perfil'], '../../');
+  $nombre = $row['p_nombre'];
+  $nombre_completo = trim($row['p_nombre'] . ' ' . $row['s_nombre'] . ' ' . $row['p_apellido'] . ' ' . $row['s_apellido']);
+  $es_admin = ($row['id_rol'] == 1);
+  $foto_perfil_usuario = obtenerFotoPerfil($row['foto_perfil'], '../../');
 } else {
-    $nombre = 'Usuario';
-    $nombre_completo = 'Usuario';
-    $es_admin = false;
-    $foto_perfil_usuario = '../../admin/assets/images/user/avatar-2.jpg';
+  $nombre = 'Usuario';
+  $nombre_completo = 'Usuario';
+  $es_admin = false;
+  $foto_perfil_usuario = '../../admin/assets/images/user/avatar-2.jpg';
 }
 
 if (empty($nombre)) {
-    $nombre = 'Usuario';
+  $nombre = 'Usuario';
 }
 if (empty($nombre_completo)) {
-    $nombre_completo = 'Usuario';
+  $nombre_completo = 'Usuario';
 }
 
 // Obtener lista de usuarios para el chat
@@ -38,6 +38,7 @@ $usuarios = obtenerUsuarios();
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <title>EnSEÑAme Admin - Chat</title>
   <meta charset="utf-8">
@@ -47,7 +48,7 @@ $usuarios = obtenerUsuarios();
   <meta name="keywords" content="Chat, EnSEÑAme, Administración, Soporte, LSC">
   <meta name="author" content="EnSEÑAme Team">
 
-  <link rel="icon" href="../assets/images/favisena.png" type="image/x-icon"> 
+  <link rel="icon" href="../assets/images/favisena.png" type="image/x-icon">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" id="main-font-link">
   <link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css">
   <link rel="stylesheet" href="../assets/fonts/feather.css">
@@ -55,51 +56,51 @@ $usuarios = obtenerUsuarios();
   <link rel="stylesheet" href="../assets/fonts/material.css">
   <link rel="stylesheet" href="../assets/css/style.css" id="main-style-link">
   <link rel="stylesheet" href="../assets/css/style-preset.css">
-  
+
   <style>
     .chatbot-item {
       background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
       border-left: 4px solid #4CAF50;
     }
-    
+
     .chatbot-item:hover {
       background: linear-gradient(135deg, #dff0df 0%, #e8f5e8 100%);
       transform: translateX(2px);
       transition: all 0.3s ease;
     }
-    
+
     .admin-chat-item {
       background: linear-gradient(135deg, #e3f2fd 0%, #f0f7ff 100%);
       border-left: 4px solid #2196F3;
     }
-    
+
     .admin-chat-item:hover {
       background: linear-gradient(135deg, #d1e7dd 0%, #e3f2fd 100%);
       transform: translateX(2px);
       transition: all 0.3s ease;
     }
-    
+
     .sugerencia-btn {
       font-size: 0.8rem;
       padding: 0.25rem 0.5rem;
       margin: 0.1rem;
       transition: all 0.2s ease;
     }
-    
+
     .sugerencia-btn:hover {
       background-color: #4CAF50;
       border-color: #4CAF50;
       color: white;
       transform: scale(1.05);
     }
-    
+
     .message-in .msg-content {
       background-color: #f8f9fa;
       border: 1px solid #e9ecef;
       border-radius: 15px;
       padding: 10px 15px;
     }
-    
+
     .message-out .msg-content {
       background-color: #4CAF50;
       color: white;
@@ -108,40 +109,53 @@ $usuarios = obtenerUsuarios();
       margin-left: auto;
       max-width: fit-content;
     }
-    
+
     .chat-avtar img[src*="avatar-10"] {
       border: 2px solid #4CAF50 !important;
       box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
     }
-    
+
     .chat-message {
       background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%);
     }
-    
+
     .typing-indicator {
       display: none;
       padding: 10px;
       font-style: italic;
       color: #6c757d;
     }
-    
+
     .typing-indicator .dots {
       display: inline-block;
       width: 20px;
     }
-    
+
     .typing-indicator .dots::after {
       content: '...';
       animation: typing 1.5s infinite;
     }
-    
+
     @keyframes typing {
-      0%, 60% { content: ''; }
-      20% { content: '.'; }
-      40% { content: '..'; }
-      60% { content: '...'; }
+
+      0%,
+      60% {
+        content: '';
+      }
+
+      20% {
+        content: '.';
+      }
+
+      40% {
+        content: '..';
+      }
+
+      60% {
+        content: '...';
+      }
     }
-    
+
     .admin-badge {
       background: linear-gradient(45deg, #FF9800, #F57C00);
       color: white;
@@ -150,7 +164,7 @@ $usuarios = obtenerUsuarios();
       border-radius: 10px;
       margin-left: 5px;
     }
-    
+
     .user-count-badge {
       background: linear-gradient(45deg, #4CAF50, #45a049);
       color: white;
@@ -253,15 +267,15 @@ $usuarios = obtenerUsuarios();
           </li>
         </ul>
       </div>
-      
+
       <div class="ms-auto">
         <ul class="list-unstyled">
           <li class="dropdown pc-h-item header-user-profile">
             <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
               <img src="<?php echo $foto_perfil_usuario; ?>" alt="user-image" class="user-avtar">
               <span><?php echo htmlspecialchars($nombre); ?></span>
-              <?php if($es_admin): ?>
-              <span class="admin-badge">ADMIN</span>
+              <?php if ($es_admin): ?>
+                <span class="admin-badge">ADMIN</span>
               <?php endif; ?>
             </a>
             <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
@@ -314,41 +328,37 @@ $usuarios = obtenerUsuarios();
       <div class="row">
         <div class="col-sm-12">
           <div class="card">
-            <div class="chat-wrapper">
-              <!-- Lista de usuarios -->
-              <div class="offcanvas-xxl offcanvas-start chat-offcanvas" tabindex="-1" id="offcanvas_User_list">
-                <div class="offcanvas-header">
-                  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvas_User_list" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body p-0">
-                  <div id="chat-user_list" class="show collapse collapse-horizontal">
-                    <div class="chat-user_list">
-                      <div class="card-body">
-                        <h5 class="mb-4">Chat Administrativo <span class="badge user-count-badge rounded-circle"><?php echo count($usuarios) + 1; ?></span></h5>
-                        <div class="form-search">
-                          <i class="ti ti-search"></i>
-                          <input type="search" class="form-control" id="buscarUsuarios" placeholder="Buscar usuarios">
-                        </div>
-                      </div>
-                      <div class="scroll-block">
-                        <div class="card-body py-0">
-                          <div class="list-group list-group-flush" id="listaUsuarios">
-                            <!-- Bot EnSEÑAme -->
-                            <a href="#" class="list-group-item list-group-item-action p-3 usuario-item chatbot-item" data-user-id="chatbot" data-user-name="🤖 Asistente EnSEÑAme">
-                              <div class="media align-items-center">
-                                <div class="chat-avtar">
-                                  <img class="rounded-circle img-fluid wid-40" src="../assets/images/user/avatar-10.jpg" alt="Chatbot" style="background: linear-gradient(45deg, #4CAF50, #45a049); padding: 4px; border: 2px solid #4CAF50;">
-                                  <i class="ti ti-robot chat-badge bg-primary"></i>
-                                </div>
-                                <div class="media-body mx-2">
-                                  <h5 class="mb-0">🤖 Asistente EnSEÑAme</h5>
-                                  <span class="text-sm text-success">Siempre disponible</span>
-                                </div>
-                              </div>
-                            </a>
-                            <!-- Usuarios normales -->
-                            <?php foreach($usuarios as $usuario): ?>
-                            <?php if($usuario['ID'] != $_SESSION['txtdoc']): // No mostrar el usuario actual ?>
+            <div class="chat-wrapper" style="display: flex; height: 600px;">
+              <!-- Lista de usuarios - Siempre visible -->
+              <div class="chat-user-sidebar" style="width: 300px; border-right: 1px solid #e9ecef; overflow-y: auto;">
+                <div class="chat-user_list">
+                  <div class="card-body">
+                    <h5 class="mb-4">Chat Administrativo <span class="badge user-count-badge rounded-circle"><?php echo count($usuarios) + 1; ?></span></h5>
+                    <div class="form-search">
+                      <i class="ti ti-search"></i>
+                      <input type="search" class="form-control" id="buscarUsuarios" placeholder="Buscar usuarios">
+                    </div>
+                  </div>
+                  <div class="scroll-block">
+                    <div class="card-body py-0">
+                      <div class="list-group list-group-flush" id="listaUsuarios">
+                        <!-- Bot EnSEÑAme -->
+                        <a href="#" class="list-group-item list-group-item-action p-3 usuario-item chatbot-item" data-user-id="chatbot" data-user-name="🤖 Asistente EnSEÑAme">
+                          <div class="media align-items-center">
+                            <div class="chat-avtar">
+                              <img class="rounded-circle img-fluid wid-40" src="../assets/images/user/avatar-10.jpg" alt="Chatbot" style="background: linear-gradient(45deg, #4CAF50, #45a049); padding: 4px; border: 2px solid #4CAF50;">
+                              <i class="ti ti-robot chat-badge bg-primary"></i>
+                            </div>
+                            <div class="media-body mx-2">
+                              <h5 class="mb-0">🤖 Asistente EnSEÑAme</h5>
+                              <span class="text-sm text-success">Siempre disponible</span>
+                            </div>
+                          </div>
+                        </a>
+                        <!-- Usuarios normales -->
+                        <?php foreach ($usuarios as $usuario): ?>
+                          <?php if ($usuario['ID'] != $_SESSION['txtdoc']): // No mostrar el usuario actual 
+                          ?>
                             <a href="#" class="list-group-item list-group-item-action p-3 usuario-item admin-chat-item" data-user-id="<?php echo $usuario['ID']; ?>" data-user-name="<?php echo htmlspecialchars($usuario['p_nombre'] . ' ' . $usuario['p_apellido']); ?>">
                               <div class="media align-items-center">
                                 <div class="chat-avtar">
@@ -361,23 +371,29 @@ $usuarios = obtenerUsuarios();
                                     <small class="text-muted">(ID: <?php echo $usuario['ID']; ?>)</small>
                                   </h5>
                                   <span class="text-sm text-muted">
-                                    <?php 
+                                    <?php
                                     $rol = isset($usuario['id_rol']) ? $usuario['id_rol'] : 3;
-                                    switch($rol) {
-                                        case 1: echo 'Administrador'; break;
-                                        case 2: echo 'Moderador'; break;
-                                        case 3: echo 'Usuario'; break;
-                                        default: echo 'Usuario'; break;
+                                    switch ($rol) {
+                                      case 1:
+                                        echo 'Administrador';
+                                        break;
+                                      case 2:
+                                        echo 'Moderador';
+                                        break;
+                                      case 3:
+                                        echo 'Usuario';
+                                        break;
+                                      default:
+                                        echo 'Usuario';
+                                        break;
                                     }
                                     ?>
                                   </span>
                                 </div>
                               </div>
                             </a>
-                            <?php endif; ?>
-                            <?php endforeach; ?>
-                          </div>
-                        </div>
+                          <?php endif; ?>
+                        <?php endforeach; ?>
                       </div>
                     </div>
                   </div>
@@ -385,7 +401,7 @@ $usuarios = obtenerUsuarios();
               </div>
 
               <!-- Área de chat -->
-              <div class="chat-content">
+              <div class="chat-content" style="flex-grow: 1; display: flex; flex-direction: column;">
                 <div class="card-header py-3" id="chat-header" style="display: none;">
                   <div class="d-sm-flex align-items-center">
                     <ul class="list-inline me-auto mb-0">
@@ -448,10 +464,10 @@ $usuarios = obtenerUsuarios();
                   </div>
                   <h4>¡Panel de Chat Administrativo!</h4>
                   <p class="text-muted">Selecciona un usuario de la lista para comenzar a chatear.</p>
-                  <?php if($es_admin): ?>
-                  <p class="text-primary mb-0"><i class="ti ti-crown"></i> <strong>Privilegios de Administrador:</strong> Puedes comunicarte con todos los usuarios del sistema y acceder al asistente especializado.</p>
+                  <?php if ($es_admin): ?>
+                    <p class="text-primary mb-0"><i class="ti ti-crown"></i> <strong>Privilegios de Administrador:</strong> Puedes comunicarte con todos los usuarios del sistema y acceder al asistente especializado.</p>
                   <?php else: ?>
-                  <p class="text-muted mb-0">Comunícate con otros usuarios y obtén ayuda del asistente inteligente.</p>
+                    <p class="text-muted mb-0">Comunícate con otros usuarios y obtén ayuda del asistente inteligente.</p>
                   <?php endif; ?>
                 </div>
               </div>
@@ -492,14 +508,14 @@ $usuarios = obtenerUsuarios();
     function seleccionarUsuario(userId, userName) {
       usuarioActivo = userId;
       esChatbot = (userId === 'chatbot');
-      
+
       // Actualizar UI
       document.getElementById('chat-user-name').textContent = userName;
       document.getElementById('pantalla-inicial').style.display = 'none';
       document.getElementById('chat-header').style.display = 'block';
       document.getElementById('chat-messages').style.display = 'block';
       document.getElementById('chat-input').style.display = 'block';
-      
+
       // Actualizar avatar y estado
       if (esChatbot) {
         document.getElementById('chat-user-avatar').src = '../assets/images/user/avatar-10.jpg';
@@ -526,10 +542,10 @@ $usuarios = obtenerUsuarios();
 
     function mostrarMensajeChatbot() {
       const contenedor = document.querySelector('#chat-messages .card-body');
-      const bienvenida = esAdmin ? 
+      const bienvenida = esAdmin ?
         '🤖 ¡Hola Administrador! Soy el asistente de EnSEÑAme. Puedo ayudarte con información sobre sordera, LSC, gestión de usuarios y soporte técnico. ¿En qué te puedo ayudar?' :
         '🤖 ¡Hola! Soy el asistente de EnSEÑAme. Puedo ayudarte con información sobre sordera, LSC y la comunidad sorda. ¿En qué te puedo ayudar?';
-      
+
       contenedor.innerHTML = `
         <div class="message-in">
           <div class="d-flex">
@@ -557,7 +573,7 @@ $usuarios = obtenerUsuarios();
           </div>
         </div>
       `;
-      
+
       const scrollArea = document.querySelector('#chat-messages');
       scrollArea.scrollTop = scrollArea.scrollHeight;
     }
@@ -569,7 +585,7 @@ $usuarios = obtenerUsuarios();
 
     function cargarMensajes() {
       if (!usuarioActivo || esChatbot) return;
-      
+
       fetch(`../../chat_api.php?para=${usuarioActivo}`)
         .then(response => response.json())
         .then(mensajes => {
@@ -581,17 +597,20 @@ $usuarios = obtenerUsuarios();
     function mostrarMensajes(mensajes) {
       const contenedor = document.querySelector('#chat-messages .card-body');
       contenedor.innerHTML = '';
-      
+
       mensajes.forEach(mensaje => {
         const esMio = mensaje.de_usuario == <?php echo $_SESSION['txtdoc']; ?>;
         const messageDiv = document.createElement('div');
         messageDiv.className = esMio ? 'message-out' : 'message-in';
-        
+
         const fecha = new Date(mensaje.fecha);
-        const tiempo = fecha.toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'});
-        
+        const tiempo = fecha.toLocaleTimeString('es-ES', {
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+
         const avatarSrc = esMio ? '<?php echo $foto_perfil_usuario; ?>' : '../assets/images/user/avatar-2.jpg';
-        
+
         messageDiv.innerHTML = `
           <div class="d-flex">
             ${esMio ? `
@@ -621,41 +640,41 @@ $usuarios = obtenerUsuarios();
             `}
           </div>
         `;
-        
+
         contenedor.appendChild(messageDiv);
       });
-      
+
       const scrollArea = document.querySelector('#chat-messages');
       scrollArea.scrollTop = scrollArea.scrollHeight;
     }
 
     function enviarMensaje(mensaje) {
       if (!usuarioActivo || !mensaje.trim()) return;
-      
+
       if (esChatbot) {
         enviarAChatbot(mensaje);
       } else {
         const formData = new FormData();
         formData.append('para', usuarioActivo);
         formData.append('mensaje', mensaje);
-        
+
         fetch('../../chat_api.php', {
-          method: 'POST',
-          body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            document.getElementById('mensaje-input').value = '';
-            cargarMensajes();
-          } else {
-            alert('Error al enviar mensaje: ' + (data.error || 'Error desconocido'));
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Error de conexión al enviar mensaje');
-        });
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              document.getElementById('mensaje-input').value = '';
+              cargarMensajes();
+            } else {
+              alert('Error al enviar mensaje: ' + (data.error || 'Error desconocido'));
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('Error de conexión al enviar mensaje');
+          });
       }
     }
 
@@ -663,35 +682,40 @@ $usuarios = obtenerUsuarios();
       agregarMensajeUsuario(mensaje);
       document.getElementById('mensaje-input').value = '';
       mostrarIndicadorEscritura();
-      
-  fetch('../../chatbot_api_clean.php?ts=' + Date.now(), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          mensaje: mensaje,
-          usuario_id: <?php echo json_encode($_SESSION['txtdoc'] ?? 0); ?>,
-          es_admin: esAdmin
+
+      fetch('../../chatbot_api_clean.php?ts=' + Date.now(), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            mensaje: mensaje,
+            usuario_id: <?php echo json_encode($_SESSION['txtdoc'] ?? 0); ?>,
+            es_admin: esAdmin
+          })
         })
-      })
-      .then(async response => {
-        const text = await response.text();
-        try { return JSON.parse(text); } catch (e) { console.error('Respuesta no JSON:', text); throw e; }
-      })
-      .then(data => {
-        ocultarIndicadorEscritura();
-        if (data.success) {
-          agregarMensajeChatbot(data.respuesta, data.sugerencias);
-        } else {
-          agregarMensajeChatbot('🤖 Lo siento, no pude procesar tu mensaje. ¿Podrías intentarlo de nuevo?');
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        ocultarIndicadorEscritura();
-        agregarMensajeChatbot('🤖 Error de conexión. Por favor, inténtalo más tarde.');
-      });
+        .then(async response => {
+          const text = await response.text();
+          try {
+            return JSON.parse(text);
+          } catch (e) {
+            console.error('Respuesta no JSON:', text);
+            throw e;
+          }
+        })
+        .then(data => {
+          ocultarIndicadorEscritura();
+          if (data.success) {
+            agregarMensajeChatbot(data.respuesta, data.sugerencias);
+          } else {
+            agregarMensajeChatbot('🤖 Lo siento, no pude procesar tu mensaje. ¿Podrías intentarlo de nuevo?');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          ocultarIndicadorEscritura();
+          agregarMensajeChatbot('🤖 Error de conexión. Por favor, inténtalo más tarde.');
+        });
     }
 
     function mostrarIndicadorEscritura() {
@@ -714,7 +738,7 @@ $usuarios = obtenerUsuarios();
         </div>
       `;
       contenedor.appendChild(indicador);
-      
+
       const scrollArea = document.querySelector('#chat-messages');
       scrollArea.scrollTop = scrollArea.scrollHeight;
     }
@@ -728,8 +752,11 @@ $usuarios = obtenerUsuarios();
 
     function agregarMensajeUsuario(mensaje) {
       const contenedor = document.querySelector('#chat-messages .card-body');
-      const tiempo = new Date().toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'});
-      
+      const tiempo = new Date().toLocaleTimeString('es-ES', {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
       const messageDiv = document.createElement('div');
       messageDiv.className = 'message-out mb-3';
       messageDiv.innerHTML = `
@@ -747,20 +774,23 @@ $usuarios = obtenerUsuarios();
           </div>
         </div>
       `;
-      
+
       contenedor.appendChild(messageDiv);
-      
+
       const scrollArea = document.querySelector('#chat-messages');
       scrollArea.scrollTop = scrollArea.scrollHeight;
     }
 
     function agregarMensajeChatbot(respuesta, sugerencias = null) {
       const contenedor = document.querySelector('#chat-messages .card-body');
-      const tiempo = new Date().toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'});
-      
+      const tiempo = new Date().toLocaleTimeString('es-ES', {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
       const messageDiv = document.createElement('div');
       messageDiv.className = 'message-in mb-3';
-      
+
       let sugerenciasHtml = '';
       if (sugerencias && sugerencias.length > 0) {
         sugerenciasHtml = `
@@ -774,7 +804,7 @@ $usuarios = obtenerUsuarios();
           </div>
         `;
       }
-      
+
       messageDiv.innerHTML = `
         <div class="d-flex">
           <div class="flex-shrink-0">
@@ -791,9 +821,9 @@ $usuarios = obtenerUsuarios();
           </div>
         </div>
       `;
-      
+
       contenedor.appendChild(messageDiv);
-      
+
       const scrollArea = document.querySelector('#chat-messages');
       scrollArea.scrollTop = scrollArea.scrollHeight;
     }
@@ -806,18 +836,18 @@ $usuarios = obtenerUsuarios();
           const userId = this.dataset.userId;
           const userName = this.dataset.userName;
           seleccionarUsuario(userId, userName);
-          
+
           document.querySelectorAll('.usuario-item').forEach(u => u.classList.remove('active'));
           this.classList.add('active');
         });
       });
-      
+
       document.getElementById('form-enviar-mensaje').addEventListener('submit', function(e) {
         e.preventDefault();
         const mensaje = document.getElementById('mensaje-input').value;
         enviarMensaje(mensaje);
       });
-      
+
       document.getElementById('buscarUsuarios').addEventListener('input', function() {
         const filtro = this.value.toLowerCase();
         document.querySelectorAll('.usuario-item').forEach(item => {
@@ -825,7 +855,7 @@ $usuarios = obtenerUsuarios();
           item.style.display = nombre.includes(filtro) ? 'block' : 'none';
         });
       });
-      
+
       document.getElementById('mensaje-input').addEventListener('keypress', function(e) {
         if (e.key === 'Enter' && !e.shiftKey) {
           e.preventDefault();
@@ -849,4 +879,5 @@ $usuarios = obtenerUsuarios();
     }
   </script>
 </body>
+
 </html>
