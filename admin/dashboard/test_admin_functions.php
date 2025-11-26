@@ -31,7 +31,7 @@ foreach ($files_to_test as $file => $description) {
 echo "<h3>Testing API files...</h3>";
 
 $api_files = [
-    '../../chatbot_api_clean.php' => 'Chatbot API (clean)',
+    '../../chatbot_api.php' => 'Chatbot API (clean)',
     '../../info_sordos_api.php' => 'Info Sordos API'
 ];
 

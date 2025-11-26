@@ -15,8 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 http_response_code(410); // Gone
 echo json_encode([
     'success' => false,
-    'error' => 'Endpoint unificado. Usa /chatbot_api_clean.php para consultas.',
-    'endpoint_unificado' => 'chatbot_api_clean.php'
+    'error' => 'Endpoint unificado. Usa /chatbot_api.php para consultas.',
+    'endpoint_unificado' => 'chatbot_api.php'
 ], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 
 exit;
@@ -244,7 +244,7 @@ exit;
                 "evento" => "Semana Internacional de las Personas Sordas",
                 "fecha" => "Última semana de septiembre",
                 <?php
-                // Endpoint seguro: archivo marcado como deprecado y unificado en chatbot_api_clean.php
+                // Endpoint seguro: archivo marcado como deprecado y unificado en chatbot_api.php
                 // Este archivo fue corrompido por inclusiones de contenido adicional fuera de PHP. Se mantiene una
                 // respuesta mínima para evitar romper el sitio hasta que se migre o se restaure la versión completa.
 
@@ -261,8 +261,8 @@ exit;
                 http_response_code(410); // Gone
                 echo json_encode([
                     'success' => false,
-                    'error' => 'Este endpoint fue unificado. Usa /chatbot_api_clean.php para consultas y /chatbot_api.php o /chatbot_sordos.php para integración del chatbot.',
-                    'endpoint_unificado' => 'chatbot_api_clean.php'
+                    'error' => 'Este endpoint fue unificado. Usa /chatbot_api.php para consultas y /chatbot_api.php o /chatbot_sordos.php para integración del chatbot.',
+                    'endpoint_unificado' => 'chatbot_api.php'
                 ], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 
                 exit;

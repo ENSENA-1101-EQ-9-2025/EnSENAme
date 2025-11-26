@@ -683,7 +683,7 @@ $usuarios = obtenerUsuarios();
       document.getElementById('mensaje-input').value = '';
       mostrarIndicadorEscritura();
 
-      fetch('../../chatbot_api_clean.php?ts=' + Date.now(), {
+      fetch('../../chatbot_api.php?ts=' + Date.now(), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

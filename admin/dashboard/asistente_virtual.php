@@ -677,7 +677,7 @@ $nombre_admin = $admin['p_nombre'] . ' ' . $admin['p_apellido'];
             mostrarIndicadorEscritura();
             
             // Enviar al chatbot con modo admin
-            fetch('../../chatbot_api_clean.php?ts=' + Date.now(), {
+            fetch('../../chatbot_api.php?ts=' + Date.now(), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
