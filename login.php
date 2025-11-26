@@ -453,7 +453,7 @@ if(isset($_POST['btningresar']) && $_SESSION['login_attempts'] < $max_attempts){
           </div>
           
           <!-- Modal para solicitar contraseña temporal -->
-          <div class="modal fade" id="tempPasswordModal" tabindex="-1" aria-labelledby="tempPasswordModalLabel" aria-hidden="true">
+          <div class="modal fade" id="tempPasswordModal" tabindex="-1" aria-labelledby="tempPasswordModalLabel" aria-hidden="true" data-bs-backdrop="false" data-bs-keyboard="false">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">

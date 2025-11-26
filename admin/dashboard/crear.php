@@ -122,7 +122,7 @@ $nombre = '';
         </a>
       </li>
       <li class="pc-item">
-        <a href="../../IA/index.html" class="pc-link" target="_blank">
+        <a href="../../IA/index.php" class="pc-link" target="_blank">
           <span class="pc-micon"><i class="ti ti-brain"></i></span>
           <span class="pc-mtext">Sistema IA</span>
         </a>

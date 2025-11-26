@@ -4,100 +4,103 @@ include __DIR__ . '/../../conexion.php';
 
 // Asegurarse de que el usuario está autenticado (mínimo tener txtdoc en sesión)
 if (empty($_SESSION['txtdoc'])) {
-    header('Location: ../../login.php');
-    exit();
+  header('Location: ../../login.php');
+  exit();
 }
 
 $usuario = $_SESSION['txtdoc'];
 $message = '';
 
 // Función para validar la política de contraseña
-function password_meets_policy($pw) {
-    if (!is_string($pw)) return false;
-    if (strlen($pw) < 10) return false;
-    if (!preg_match('/[A-Z]/', $pw)) return false;
-    if (!preg_match('/[a-z]/', $pw)) return false;
-    if (!preg_match('/[0-9]/', $pw)) return false;
-    if (!preg_match('/[!@#\$%\^&\*\(\)_\+\-=\[\]{};:"\'|,.<>\/\?]/', $pw)) return false;
-    return true;
+function password_meets_policy($pw)
+{
+  if (!is_string($pw)) return false;
+  if (strlen($pw) < 10) return false;
+  if (!preg_match('/[A-Z]/', $pw)) return false;
+  if (!preg_match('/[a-z]/', $pw)) return false;
+  if (!preg_match('/[0-9]/', $pw)) return false;
+  if (!preg_match('/[!@#\$%\^&\*\(\)_\+\-=\[\]{};:"\'|,.<>\/\?]/', $pw)) return false;
+  return true;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $current = $_POST['current_password'] ?? '';
-    $newpw = $_POST['new_password'] ?? '';
-    $newpw2 = $_POST['new_password_confirm'] ?? '';
+  $current = $_POST['current_password'] ?? '';
+  $newpw = $_POST['new_password'] ?? '';
+  $newpw2 = $_POST['new_password_confirm'] ?? '';
 
-    if ($newpw !== $newpw2) {
-        $message = 'Las nuevas contraseñas no coinciden.';
-    } elseif (!password_meets_policy($newpw)) {
-        $message = 'La nueva contraseña no cumple la política de seguridad.';
-    } else {
-        // Obtener hash actual
-        $q = mysqli_prepare($conexion, "SELECT Clave FROM tb_usuarios WHERE ID = ? LIMIT 1");
-        mysqli_stmt_bind_param($q, 's', $usuario);
-        mysqli_stmt_execute($q);
-        $res = mysqli_stmt_get_result($q);
-        if ($row = mysqli_fetch_assoc($res)) {
-            $stored = $row['Clave'];
-            $verified = false;
-            if (password_verify($current, $stored)) {
-                $verified = true;
-            } elseif ($stored === md5($current)) {
-                $verified = true;
-            }
+  if ($newpw !== $newpw2) {
+    $message = 'Las nuevas contraseñas no coinciden.';
+  } elseif (!password_meets_policy($newpw)) {
+    $message = 'La nueva contraseña no cumple la política de seguridad.';
+  } else {
+    // Obtener hash actual
+    $q = mysqli_prepare($conexion, "SELECT Clave FROM tb_usuarios WHERE ID = ? LIMIT 1");
+    mysqli_stmt_bind_param($q, 's', $usuario);
+    mysqli_stmt_execute($q);
+    $res = mysqli_stmt_get_result($q);
+    if ($row = mysqli_fetch_assoc($res)) {
+      $stored = $row['Clave'];
+      $verified = false;
+      if (password_verify($current, $stored)) {
+        $verified = true;
+      } elseif ($stored === md5($current)) {
+        $verified = true;
+      }
 
-            if (!$verified) {
-                $message = 'La contraseña actual es incorrecta.';
-            } else {
-                // Hashear nueva contraseña
-                $preferredAlgo = defined('PASSWORD_ARGON2ID') ? PASSWORD_ARGON2ID : PASSWORD_DEFAULT;
-                $options = [];
-                if ($preferredAlgo === PASSWORD_ARGON2ID) {
-                    $options = [
-                        'memory_cost' => 1<<17,
-                        'time_cost' => 4,
-                        'threads' => 2,
-                    ];
-                }
-                $newHash = password_hash($newpw, $preferredAlgo, $options);
-                $u = mysqli_prepare($conexion, "UPDATE tb_usuarios SET Clave = ?, needs_pw_change = 0 WHERE ID = ?");
-                mysqli_stmt_bind_param($u, 'ss', $newHash, $usuario);
+      if (!$verified) {
+        $message = 'La contraseña actual es incorrecta.';
+      } else {
+        // Hashear nueva contraseña
+        $preferredAlgo = defined('PASSWORD_ARGON2ID') ? PASSWORD_ARGON2ID : PASSWORD_DEFAULT;
+        $options = [];
+        if (defined('PASSWORD_ARGON2ID') && $preferredAlgo === PASSWORD_ARGON2ID) {
+          $options = [
+            'memory_cost' => 1 << 17,
+            'time_cost' => 4,
+            'threads' => 2,
+          ];
+        }
+        $newHash = password_hash($newpw, $preferredAlgo, $options);
+        $u = mysqli_prepare($conexion, "UPDATE tb_usuarios SET Clave = ?, needs_pw_change = 0 WHERE ID = ?");
+        mysqli_stmt_bind_param($u, 'ss', $newHash, $usuario);
         if (mysqli_stmt_execute($u)) {
           $_SESSION['pw_changed'] = true;
           // Eliminar flag forzado
           unset($_SESSION['force_pw_change']);
-                    // Redirigir según rol: 1 => admin, 2 => user
-                    if (!empty($_SESSION['id_rol']) && intval($_SESSION['id_rol']) === 2) {
-                      header('Location: ../../user/index.php');
-                    } else {
-                      header('Location: index.php');
-                    }
-                    exit();
+          // Redirigir según rol: 1 => admin, 2 => user
+          if (!empty($_SESSION['id_rol']) && intval($_SESSION['id_rol']) === 2) {
+            header('Location: ../../user/index.php');
+          } else {
+            header('Location: index.php');
+          }
+          exit();
         } else {
-                    $message = 'Error al actualizar la contraseña.';
-                }
-            }
-        } else {
-            $message = 'Usuario no encontrado.';
+          $message = 'Error al actualizar la contraseña.';
         }
+      }
+    } else {
+      $message = 'Usuario no encontrado.';
     }
+  }
 }
 
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
   <title>Cambiar contraseña - EnSEÑAme</title>
   <link rel="icon" href="../assets/images/favisena.png" type="image/x-icon">
-  <link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css" >
-  <link rel="stylesheet" href="../assets/fonts/feather.css" >
-  <link rel="stylesheet" href="../assets/fonts/fontawesome.css" >
-  <link rel="stylesheet" href="../assets/fonts/material.css" >
-  <link rel="stylesheet" href="../assets/css/style.css" id="main-style-link" >
-  <link rel="stylesheet" href="../assets/css/style-preset.css" >
+  <link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css">
+  <link rel="stylesheet" href="../assets/fonts/feather.css">
+  <link rel="stylesheet" href="../assets/fonts/fontawesome.css">
+  <link rel="stylesheet" href="../assets/fonts/material.css">
+  <link rel="stylesheet" href="../assets/css/style.css" id="main-style-link">
+  <link rel="stylesheet" href="../assets/css/style-preset.css">
 </head>
+
 <body data-pc-preset="preset-1" data-pc-direction="ltr" data-pc-theme="light">
   <div class="pc-container">
     <div class="pc-content container py-4">
@@ -108,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="alert alert-warning">
               <i class="ti ti-alert-triangle me-2"></i>
               <strong>Cambio de contraseña requerido</strong><br>
-              Tu contraseña actual no cumple con las políticas de seguridad actuales. 
+              Tu contraseña actual no cumple con las políticas de seguridad actuales.
               Debes cambiarla antes de continuar.
             </div>
           <?php else: ?>
@@ -117,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               Cambio de contraseña voluntario
             </p>
           <?php endif; ?>
-          
+
           <?php if (!empty($message)): ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
               <i class="ti ti-alert-circle me-2"></i>
@@ -176,8 +179,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <script src="../assets/js/fonts/custom-font.js"></script>
   <script src="../assets/js/pcoded.js"></script>
   <script src="../assets/js/plugins/feather.min.js"></script>
-  <script>layout_change('light');</script>
-  <script>change_box_container('false');</script>
+  <script>
+    layout_change('light');
+  </script>
+  <script>
+    change_box_container('false');
+  </script>
   <script>
     // Funcionalidad para mostrar/ocultar contraseñas
     document.addEventListener('DOMContentLoaded', function() {
@@ -185,12 +192,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       const toggleCurrentPassword = document.getElementById('toggleCurrentPassword');
       const currentPasswordInput = document.getElementById('current_password');
       const eyeIconCurrent = document.getElementById('eyeIconCurrent');
-      
+
       if (toggleCurrentPassword && currentPasswordInput && eyeIconCurrent) {
         toggleCurrentPassword.addEventListener('click', function() {
           const type = currentPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
           currentPasswordInput.setAttribute('type', type);
-          
+
           if (type === 'text') {
             eyeIconCurrent.className = 'ti ti-eye-off';
           } else {
@@ -198,17 +205,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           }
         });
       }
-      
+
       // Toggle para nueva contraseña
       const toggleNewPassword = document.getElementById('toggleNewPassword');
       const newPasswordInput = document.getElementById('new_password');
       const eyeIconNew = document.getElementById('eyeIconNew');
-      
+
       if (toggleNewPassword && newPasswordInput && eyeIconNew) {
         toggleNewPassword.addEventListener('click', function() {
           const type = newPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
           newPasswordInput.setAttribute('type', type);
-          
+
           if (type === 'text') {
             eyeIconNew.className = 'ti ti-eye-off';
           } else {
@@ -216,17 +223,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           }
         });
       }
-      
+
       // Toggle para confirmar contraseña
       const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
       const confirmPasswordInput = document.getElementById('new_password_confirm');
       const eyeIconConfirm = document.getElementById('eyeIconConfirm');
-      
+
       if (toggleConfirmPassword && confirmPasswordInput && eyeIconConfirm) {
         toggleConfirmPassword.addEventListener('click', function() {
           const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
           confirmPasswordInput.setAttribute('type', type);
-          
+
           if (type === 'text') {
             eyeIconConfirm.className = 'ti ti-eye-off';
           } else {
@@ -235,8 +242,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         });
       }
     });
-    
-    (function(){
+
+    (function() {
       const pw = document.getElementById('new_password');
       const pw2 = document.getElementById('new_password_confirm');
       const reqs = {
@@ -248,7 +255,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       };
       const matchStatus = document.getElementById('match-status');
 
-      function test(s){
+      function test(s) {
         reqs.length.className = s.length >= 10 ? 'text-success' : 'text-muted';
         reqs.upper.className = /[A-Z]/.test(s) ? 'text-success' : 'text-muted';
         reqs.lower.className = /[a-z]/.test(s) ? 'text-success' : 'text-muted';
@@ -257,7 +264,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         updateMatch();
       }
 
-      function updateMatch(){
+      function updateMatch() {
         if (pw2.value === '') {
           matchStatus.className = 'form-text text-muted';
           matchStatus.textContent = 'Las contraseñas deben coincidir.';
@@ -275,7 +282,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       const submitBtn = document.getElementById('submit-btn');
 
-      function allRequirementsOk(){
+      function allRequirementsOk() {
         return (
           reqs.length.classList.contains('text-success') &&
           reqs.upper.classList.contains('text-success') &&
@@ -285,7 +292,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         );
       }
 
-      function toggleSubmit(){
+      function toggleSubmit() {
         if (allRequirementsOk() && pw.value !== '' && pw.value === pw2.value) {
           submitBtn.disabled = false;
         } else {
@@ -293,7 +300,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
       }
 
-      pw.addEventListener('input', function(){ test(pw.value); });
+      pw.addEventListener('input', function() {
+        test(pw.value);
+      });
       pw2.addEventListener('input', updateMatch);
 
       // Initialize button state on load
@@ -303,9 +312,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       // Initialize Bootstrap tooltips for the disabled button
       document.addEventListener('DOMContentLoaded', function() {
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        tooltipTriggerList.map(function (el) { return new bootstrap.Tooltip(el); });
+        tooltipTriggerList.map(function(el) {
+          return new bootstrap.Tooltip(el);
+        });
       });
     })();
   </script>
 </body>
+
 </html>

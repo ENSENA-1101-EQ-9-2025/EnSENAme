@@ -71,7 +71,7 @@ echo "<h3>Enlaces de navegación:</h3>";
 echo '<ul>';
 echo '<li><a href="asistente_virtual.php">Asistente Virtual</a></li>';
 echo '<li><a href="chatbot_stats.php">Estadísticas del Chatbot</a></li>';
-echo '<li><a href="../../IA/index.html" target="_blank">Sistema IA</a></li>';
+echo '<li><a href="../../IA/index.php" target="_blank">Sistema IA</a></li>';
 echo '</ul>';
 
 echo "<p style='margin-top: 20px;'><strong>Prueba completada.</strong></p>";

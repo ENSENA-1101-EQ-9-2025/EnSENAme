@@ -271,10 +271,10 @@ $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !=
             <div class="card-body">
               <div class="d-flex flex-wrap gap-2 justify-content-center mb-3">
                 <button type="button" class="btn btn-warning btn-sm" onclick="predictOnce()" title="Realiza una sola predicción"><i class="ti ti-bolt"></i> Predecir (1 captura)</button>
-                <button type="button" class="btn btn-warning btn-sm" onclick="startStreaming()" title="Inicia predicción continua cada segundo"><i class="ti 
- ti-player-play"></i> Iniciar continuo</button>
+                <button type="button" class="btn btn-warning btn-sm" onclick="startStreaming()" title="Inicia predicción continua cada segundo"><i class="ti ti-player-play"></i> Iniciar continuo</button>
                 <button type="button" class="btn btn-danger btn-sm" onclick="stopStreaming()" title="Detiene la predicción continua"><i class="ti ti-player-pause"></i> Detener continuo</button>
                 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="loadDefault()" title="Cargar modelo de ejemplo del servidor"><i class="ti ti-download"></i> Cargar Modelo (Defecto)</button>
+                <button type="button" class="btn btn-outline-primary btn-sm" onclick="loadFromPC()" title="Cargar modelo personalizado desde tu computadora"><i class="ti ti-upload"></i> Cargar desde PC</button>
                 <a href="lsc_service/index_portable.html" class="btn btn-primary btn-sm" style="text-decoration:none;"><i class="ti ti-cpu"></i> LSC Portable (Web)</a>
               </div>
               <p class="text-muted text-center mb-0">Usa los botones para ejecutar predicciones sin entrenar en esta página.</p>
@@ -535,6 +535,64 @@ $display_name = isset($_SESSION['display_name']) && $_SESSION['display_name'] !=
           showStatus('❌ Error: ' + e.message);
         }
       }
+
+      // Función para cargar modelo desde PC
+      window.loadFromPC = function() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        input.onchange = async (e) => {
+          try {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            showStatus('Cargando modelo desde archivo...');
+            const txt = await file.text();
+            const loaded = JSON.parse(txt);
+            const norm = normalizeTrainingData(loaded);
+
+            if (!norm || !Array.isArray(norm.classNames) || !norm.examples) {
+              throw new Error('Formato de modelo inválido');
+            }
+
+            trainingData = norm;
+            const total = trainingData.classNames.length;
+
+            if (total === 0) {
+              showStatus('⚠️ Modelo vacío (0 clases).');
+              return;
+            }
+
+            classifier.clearAllClasses();
+            let examplesLoaded = 0;
+
+            for (const cls of trainingData.classNames) {
+              const list = trainingData.examples[cls] || [];
+              for (const ex of list) {
+                if (!Array.isArray(ex)) {
+                  console.warn('Ejemplo no es array:', ex);
+                  continue;
+                }
+                const t = tf.tensor(ex);
+                classifier.addExample(t, cls);
+                examplesLoaded++;
+              }
+            }
+
+            if (examplesLoaded === 0) {
+              showStatus('⚠️ Modelo cargado pero sin ejemplos.');
+              return;
+            }
+
+            showStatus('✓ Modelo personalizado cargado: ' + total + ' clases, ' + examplesLoaded + ' ejemplos');
+          } catch (err) {
+            console.error('loadFromPC: error', err);
+            showStatus('❌ Error al cargar: ' + err.message);
+          }
+        };
+        input.click();
+      };
+
       window.predictOnce = () => {
         predictOnceImpl();
       };
